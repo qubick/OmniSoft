@@ -68,7 +68,7 @@
 				<script src="eventHandler.js"></script>
 				<script src="./paramUI.js"></script>
 				<script src="./editor.js"></script>
-
+				<script src="./material.js"></script>
 
 				<!-- #gearbox gallery -->
 				<div id="gallery">
@@ -146,14 +146,11 @@
 				//change gradient type
 				var regtionSelection = parseInt(evt.target.value);
 
-				var newmaterial = new THREE.MeshNormalMaterial({opacity:0.3 });
-
-				// var gradmaterial = new THREE.MeshBasicMaterial( { map: texture, transparent: true } );
 				// var gradientmaterial = generateGradientShaderMaterial(512);
 
 
-				var selectObject= scene.getObjectByName("regionVolume");
-				selectObject.material = newmaterial;
+				var selectObject= scene.getObjectByName("foot_step_volume");
+				selectObject.material = gradientmaterial;
 
 
 				var gradientInput = document.createElement("input");
@@ -169,18 +166,6 @@
 				document.getElementById('sliderlocation').innerHTML = '<br/> Gradient stops: ';
 				document.getElementById('gradientlocation').appendChild(gradientInput);
 
-			}
-
-			function generateGradientShaderMaterial( _resolution ) {
-				var resolution = _resolution || 2; // 512
-				//-
-				var material = new THREE.ShaderMaterial( {
-					uniforms: uniforms,
-					vertexShader: document.getElementById( 'vertexShader' ).textContent,
-					fragmentShader: document.getElementById( 'fragment_shader1' ).textContent
-				} );
-				//-
-				return material;
 			}
 
 

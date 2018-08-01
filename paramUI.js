@@ -27,11 +27,10 @@ function handleFileSelect(evt){
 
   loader.load( targetSTLFile, ( geometry ) => {
     geometry.center()
-    var material = new THREE.MeshPhongMaterial( { color: 0x66ffb3, specular: 0x111111, shininess: 200, opacity:0.0 } );
-    var targetObj = new THREE.Mesh( geometry, material );
+    var targetObj = new THREE.Mesh( geometry, normalMaterial );
 
     targetObj.rotation.set(-Math.PI/2, 0, 0);
-    targetObj.name = "test_name";
+    // targetObj.name = "test_name";
 
     scene.add(targetObj);
     objects.push(targetObj);

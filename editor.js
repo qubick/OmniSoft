@@ -15,14 +15,6 @@ var newPower, curPower = 'rotary', conflict = false; //should be returned by the
 var collisionOccured = false, collidableMeshList = [];
 var directionList = [];
 
-
-var body, arm1, arm2, head;
-
-var gears = [], gearsElement, gearIdx = 0;
-//to animate gear mechanisms
-var swingDelta = 0.01, camDelta = 0.01,
-    crankDelta = 0.15, pulleyDelta = 0.25, sliderDelta = 0.25;
-
 init();
 animate();
 
@@ -92,9 +84,6 @@ function init() {
   if (curPower != newPower)
     conflict = true; //function to prompt conflict
 
-  //geometry operation
-  var materialNormal = new THREE.MeshNormalMaterial();
-
 
   var dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
   dragControls.addEventListener( 'dragstart', function ( event ) { controls.enabled = false; } );
@@ -123,15 +112,14 @@ function ReturnDesiredInteraction(event){
 
 function LoadDesiredInteraction(selectedInterAction) {
 
-  var material = new THREE.MeshPhongMaterial( { color: 0xA9A9A9, specular: 0x111111, shininess: 200, opacity:0.3 } );
-  material.transparent = true
-  var targetPath, targetGeometry; //foot, finger, body, palm;
+  var targetPath, arrowPath, targetGeometry, arrowGeometry; //foot, finger, body, palm;
 
   switch(selectedInterAction){
     case 1: //footpress
       targetPath = './assets/left_foot.stl'
       break;
     case 2: //finger pres
+      targetPath = './assets/finger-new.stl'
       break;
     case 3: //sit
       console.log("sit pose")
@@ -141,41 +129,90 @@ function LoadDesiredInteraction(selectedInterAction) {
       targetPath = './assets/palm.stl'
       break;
     case 5: //squeeze by finger
+    break;
     default:
   }
 
-  console.log(targetPath)
   loader.load( targetPath, ( geometry ) => {
     geometry.center()
 
     targetGeometry = new THREE.Mesh( geometry, material );
     targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
-    
-    if(selectedInterAction == 3){
-      targetGeometry.scale.set(50,50,50);
-      // targetGeometry.rotation.set(-Math.PI/2, 0, 0);
-    }
+
+
+    //after loading push force, load arrow to indicate direction
+    arrowPath = './assets/arrow.stl';
+
+    var xAxis = new THREE.Vector3( 1, 0, 0 );
+    var yAxis = new THREE.Vector3( 0, 1, 0 );
+    var zAxis = new THREE.Vector3( 0, 0, 1 );
+
+    loader.load( arrowPath, (geometry) => {
+      arrowGeometry = new THREE.Mesh( geometry, arrowMaterial);
+
+      switch (selectedInterAction) {
+        case 1: //foot
+          targetGeometry.scale.set(.5,.5,.5);
+          arrowGeometry.rotation.set(-Math.PI/2, 0, 0);
+          arrowGeometry.translateOnAxis(zAxis, -50);
+
+          var geometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
+          var sphereRegion = new THREE.Mesh(geometry, material);
+
+          sphereRegion.name = "foot_step_volume";
+          sphereRegion.translateOnAxis(yAxis, -55);
+
+          scene.add(sphereRegion);
+
+          break;
+        case 2: //finger press
+          // targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI/4);
+          arrowGeometry.rotation.set(-Math.PI/4, 0, 0);
+          // arrowGeometry.position.set(-5, -5, -55);
+          arrowGeometry.translateOnAxis(yAxis, -5);
+          arrowGeometry.translateOnAxis(zAxis, -55);
+          break;
+
+        case 3:
+          targetGeometry.scale.set(50,50,50);
+          targetGeometry.rotateOnAxis(zAxis, Math.PI/2);
+          arrowGeometry.rotation.set(-Math.PI/2, 0, 0);
+          arrowGeometry.position.set(30, -70, 0);
+          break;
+
+        case 4: //palm grasp
+          targetGeometry.scale.set(.7,.7,.7);
+          arrowGeometry.translateOnAxis(zAxis, -25);
+          break;
+        default:
+
+      }
+      scene.add(arrowGeometry);
+      objects.push(arrowGeometry);
+    });
+
+    // mesh.body = targetGeometry;
     scene.add(targetGeometry);
     objects.push(targetGeometry);
-  })
+  });
+
+
 
 }
 
 function ReturnRegionSelection(evt) {
 
     var caseValue = parseInt(evt.target.value)
-    var material = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 1, wireframe: true } );
     switch (caseValue) {
       case 1: //sphere
 
         var geometry = new THREE.SphereGeometry(50, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
-        var cube = new THREE.Mesh(geometry, material);
+        var cube = new THREE.Mesh(geometry, wireframeMaterial);
         // scene.add( sphere );
         break;
       case 2: //cube
         var geometry = new THREE.BoxGeometry( 50, 50, 50 );
-        // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-        var cube = new THREE.Mesh( geometry, material );
+        var cube = new THREE.Mesh( geometry, wireframeMaterial );
         break;
 
       case 3: //level
@@ -193,7 +230,7 @@ function ReturnRegionSelection(evt) {
 
 
 function removeEntity(object){
-  var selectObject= scene.getObjectByName(object.name);
+  var selectObject = scene.getObjectByName(object.name);
   scene.remove( selectObject );
 
   animate();
@@ -233,40 +270,40 @@ function update() {
   // }
 
 
-  if(gears[1] != undefined){ //at least two boxes for collision detection
-    var originObj = gears[0].box;
-    var originPoint = originObj.position.clone();
-
-    // console.log(originPoint)
-    var emptyMeshList = [];
-    var powerList = [];
-
-    for(var i=1; i<gearIdx; i++){
-      powerList.push(gears[i].powerType);
-
-      emptyMeshList.push(gears[i].left);
-      emptyMeshList.push(gears[i].right);
-      if(gears[i].top != undefined)
-          emptyMeshList.push(gears[i].top);
-    }
-
-    //collision detection
-    for (var vertexIndex = 0; vertexIndex < originObj.geometry.vertices.length; vertexIndex++){
-  		var localVertex = originObj.geometry.vertices[vertexIndex].clone();
-  		var globalVertex = localVertex.applyMatrix4( originObj.matrix );
-  		var directionVector = globalVertex.sub( originObj.position );
-
-  		var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
-  		var collisionResults = ray.intersectObjects( emptyMeshList ); //this should exclude self
-  		if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ){
-        powerList.forEach((power) => {
-            if((power != originObj.powerType) && changed) {//&& (collisionOccured === false)){
-  			     window.alert("Gearboxes are not compatible in power direction");
-             changed = false;
-           }
-        })
-      }
-  	}
-
-  }
+  // if(gears[1] != undefined){ //at least two boxes for collision detection
+  //   var originObj = gears[0].box;
+  //   var originPoint = originObj.position.clone();
+  //
+  //   // console.log(originPoint)
+  //   var emptyMeshList = [];
+  //   var powerList = [];
+  //
+  //   for(var i=1; i<gearIdx; i++){
+  //     powerList.push(gears[i].powerType);
+  //
+  //     emptyMeshList.push(gears[i].left);
+  //     emptyMeshList.push(gears[i].right);
+  //     if(gears[i].top != undefined)
+  //         emptyMeshList.push(gears[i].top);
+  //   }
+  //
+  //   //collision detection
+  //   for (var vertexIndex = 0; vertexIndex < originObj.geometry.vertices.length; vertexIndex++){
+  // 		var localVertex = originObj.geometry.vertices[vertexIndex].clone();
+  // 		var globalVertex = localVertex.applyMatrix4( originObj.matrix );
+  // 		var directionVector = globalVertex.sub( originObj.position );
+  //
+  // 		var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
+  // 		var collisionResults = ray.intersectObjects( emptyMeshList ); //this should exclude self
+  // 		if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ){
+  //       powerList.forEach((power) => {
+  //           if((power != originObj.powerType) && changed) {//&& (collisionOccured === false)){
+  // 			     window.alert("Gearboxes are not compatible in power direction");
+  //            changed = false;
+  //          }
+  //       })
+  //     }
+  // 	}
+  //
+  // }
 }
