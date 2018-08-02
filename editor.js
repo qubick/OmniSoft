@@ -133,8 +133,6 @@ function LoadDesiredInteraction(selectedInterAction) {
     default:
   }
 
-  var boxGeometry = new THREE.CubeGeometry( 1, 1, 1 );
-  var box = new THREE.Mesh( boxGeometry, wireframeMaterial );
   var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
   var sphereRegion = new THREE.Mesh(spheregeometry, material);
   var arrowGeometry;
@@ -164,7 +162,6 @@ function LoadDesiredInteraction(selectedInterAction) {
 
           sphereRegion.name = "foot_step_volume";
           sphereRegion.translateOnAxis(yAxis, -55);
-          box.add(sphereRegion);
 
           break;
         case 2: //finger press
@@ -189,12 +186,12 @@ function LoadDesiredInteraction(selectedInterAction) {
         default:
 
       }
-      box.add(arrowGeometry);
+      sphereRegion.add(arrowGeometry)
     });
-    box.add(targetGeometry);
+    sphereRegion.add(targetGeometry)
 
-    scene.add(box);
-    objects.push(box);
+    scene.add(sphereRegion);
+    objects.push(sphereRegion);
   });
 
 
