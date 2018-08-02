@@ -86,7 +86,7 @@ function init() {
 
 
   var dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
-  dragControls.addEventListener( 'dragstart', function ( event ) { controls.enabled = false; } );
+  dragControls.addEventListener( 'dragstart', function ( event ) { console.log("dragging object start"); controls.enabled = false; } );
   dragControls.addEventListener( 'dragend', function ( event ) { controls.enabled = true; } );
 
   stats = new Stats();
@@ -133,6 +133,12 @@ function LoadDesiredInteraction(selectedInterAction) {
     default:
   }
 
+  var boxGeometry = new THREE.CubeGeometry( 1, 1, 1 );
+  var box = new THREE.Mesh( boxGeometry, wireframeMaterial );
+  var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
+  var sphereRegion = new THREE.Mesh(spheregeometry, material);
+  var arrowGeometry;
+
   loader.load( targetPath, ( geometry ) => {
     geometry.center()
 
@@ -156,13 +162,9 @@ function LoadDesiredInteraction(selectedInterAction) {
           arrowGeometry.rotation.set(-Math.PI/2, 0, 0);
           arrowGeometry.translateOnAxis(zAxis, -50);
 
-          var geometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
-          var sphereRegion = new THREE.Mesh(geometry, material);
-
           sphereRegion.name = "foot_step_volume";
           sphereRegion.translateOnAxis(yAxis, -55);
-
-          scene.add(sphereRegion);
+          box.add(sphereRegion);
 
           break;
         case 2: //finger press
@@ -187,13 +189,12 @@ function LoadDesiredInteraction(selectedInterAction) {
         default:
 
       }
-      scene.add(arrowGeometry);
-      objects.push(arrowGeometry);
+      box.add(arrowGeometry);
     });
+    box.add(targetGeometry);
 
-    // mesh.body = targetGeometry;
-    scene.add(targetGeometry);
-    objects.push(targetGeometry);
+    scene.add(box);
+    objects.push(box);
   });
 
 
