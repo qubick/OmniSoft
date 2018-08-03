@@ -49,26 +49,28 @@
 
 		<body>
 			<div id="container" left="150px" top="0px" class="droppable">
-				<script src="./build/three.js"></script>
-				<script src="./build/csg.js"></script>
-				<script src="./build/ThreeCSG.js"></script>
+				<script src="build/three.js"></script>
+				<script src="build/csg.js"></script>
+				<script src="build/ThreeCSG.js"></script>
 
-				<script src="./js/loaders/DDSLoader.js"></script>
-				<script src="./js/loaders/MTLLoader.js"></script>
-				<script src="./js/loaders/OBJLoader.js"></script>
-				<script src="./js/loaders/STLLoader.js"></script>
-				<script src="./js/Detector.js"></script>
-				<script src="./js/controls/OrbitControls.js"></script>
-				<script src="./js/libs/dat.gui.min.js"></script>
-				<script src="./js/libs/stats.min.js"></script>
-				<script src="./js/controls/DragControls.js"></script>
-				<script src="./js/controls/TrackballControls.js"></script>
+				<script src="js/loaders/DDSLoader.js"></script>
+				<script src="js/loaders/MTLLoader.js"></script>
+				<script src="js/loaders/OBJLoader.js"></script>
+				<script src="js/loaders/STLLoader.js"></script>
+				<script src="js/Detector.js"></script>
+				<script src="js/controls/OrbitControls.js"></script>
+				<script src="js/libs/dat.gui.min.js"></script>
+				<script src="js/libs/stats.min.js"></script>
+				<script src="js/controls/DragControls.js"></script>
+				<script src="js/controls/TrackballControls.js"></script>
+				<script src="js/shaders/UnpackDepthRGBAShader.js"></script>
+				<script src="js/utils/ShadowMapViewer.js"></script>
 
-
-				<script src="eventHandler.js"></script>
+				<script src="./eventHandler.js"></script>
 				<script src="./paramUI.js"></script>
 				<script src="./editor.js"></script>
 				<script src="./material.js"></script>
+				<script src="./region-selection.js"></script>
 
 				<!-- #gearbox gallery -->
 				<div id="gallery">
@@ -98,13 +100,13 @@
 
 					<div id="sliderlocation"></div>
 
-					<br/><br/>
-					<select onchange="ReturnRegionSelection(event)">
+					<!-- <br/><br/> -->
+					<!-- <select onchange="ReturnRegionSelection(event)">
 							<option value="0">Select Region</option>
 							<option value="1">By Sphere volume</option>
 							<option value="2">By Cube volume</option>
 							<option value="3">By Slicing in plane</option>
-					</select>
+					</select> -->
 
 					<br/><br/>
 					<select onchange="ReturnTypeofGradient(event)">
@@ -173,9 +175,7 @@
 				$( ".draggable" ).draggable({
 					helper: 'clone',
 					cursor: 'move',
-					// tolerance: 'fit',
-					// stack: '.drag',
-					revert: "invalid",
+					revert: 'invalid',
 					refrecshPositions: true,
 				});
 

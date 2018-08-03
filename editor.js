@@ -2,18 +2,11 @@
 
 var container, stats;
 var camera, controls, scene, renderer;
+var raycaster;
 var objects = [];
 var originObj, originPoint;
 
-var stlModel;
-var selectedGear;
-
-var latestGearRotation = 1, rotationChanged = 0, rotationChangedId; //positive
-
-//variables for rotation direction simulator
-var newPower, curPower = 'rotary', conflict = false; //should be returned by the first gear
-var collisionOccured = false, collidableMeshList = [];
-var directionList = [];
+var target3DObject, decal, sphereRegion;
 
 init();
 animate();
@@ -65,24 +58,26 @@ function init() {
   controls.staticMoving = true;
   controls.dynamicDampingFactor = 0.3;
 
+  raycaster = new THREE.Raycaster();
 
   var changed = false;
-
+  var mouseMoved = false;
   controls.addEventListener( 'change', function() {
-    // moved = true;
+    mouseMoved = true;
   } );
 
   window.addEventListener( 'mousedown', function () {
     changed = false;
-
+    mouseMoved = false;
   }, false );
 
   window.addEventListener( 'mouseup', function() {
-
+    checkIntersection();
   });
 
-  if (curPower != newPower)
-    conflict = true; //function to prompt conflict
+
+  window.addEventListener( 'mousemove', onTouchMove );
+  window.addEventListener( 'touchmove', onTouchMove );
 
 
   var dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
@@ -93,7 +88,32 @@ function init() {
   container.appendChild( stats.dom );
 
   window.addEventListener( 'resize', onWindowResize, false );
-}
+
+
+
+  //see if it's different when in init()
+  window.addEventListener( 'mouseup', function() {
+			checkIntersection();
+			// if ( ! moved && intersection.intersects ) shoot();
+		} );
+		window.addEventListener( 'mousemove', onTouchMove );
+		window.addEventListener( 'touchmove', onTouchMove );
+		function onTouchMove( event ) {
+			var x, y;
+			if ( event.changedTouches ) {
+				x = event.changedTouches[ 0 ].pageX;
+				y = event.changedTouches[ 0 ].pageY;
+			} else {
+				x = event.clientX;
+				y = event.clientY;
+			}
+			mouse.x = ( x / window.innerWidth ) * 2 - 1;
+			mouse.y = - ( y / window.innerHeight ) * 2 + 1;
+			checkIntersection();
+		}
+
+} //end of init
+
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -122,7 +142,6 @@ function LoadDesiredInteraction(selectedInterAction) {
       targetPath = './assets/finger-new.stl'
       break;
     case 3: //sit
-      console.log("sit pose")
       targetPath = './assets/sittingman.stl'
       break;
     case 4: //grash by palm
@@ -133,8 +152,6 @@ function LoadDesiredInteraction(selectedInterAction) {
     default:
   }
 
-  var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
-  var sphereRegion = new THREE.Mesh(spheregeometry, material);
   var arrowGeometry;
 
   loader.load( targetPath, ( geometry ) => {
@@ -160,23 +177,26 @@ function LoadDesiredInteraction(selectedInterAction) {
           arrowGeometry.rotation.set(-Math.PI/2, 0, 0);
           arrowGeometry.translateOnAxis(zAxis, -50);
 
-          sphereRegion.name = "foot_step_volume";
+          sphereRegion.name = "footStep_volume";
           sphereRegion.translateOnAxis(yAxis, -55);
 
           break;
         case 2: //finger press
-          // targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI/4);
           arrowGeometry.rotation.set(-Math.PI/4, 0, 0);
-          // arrowGeometry.position.set(-5, -5, -55);
-          arrowGeometry.translateOnAxis(yAxis, -5);
-          arrowGeometry.translateOnAxis(zAxis, -55);
+          arrowGeometry.position.set(0, -5, -55);
+
+          // spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
+          sphereRegion.name = "fingerPress_volume";
           break;
 
-        case 3:
+        case 3: //sit
           targetGeometry.scale.set(50,50,50);
           targetGeometry.rotateOnAxis(zAxis, Math.PI/2);
           arrowGeometry.rotation.set(-Math.PI/2, 0, 0);
           arrowGeometry.position.set(30, -70, 0);
+
+          // spheregeometry = new THREE.SphereGeometry(50, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
+          sphereRegion.name = "sitPose_volume";
           break;
 
         case 4: //palm grasp
@@ -198,33 +218,33 @@ function LoadDesiredInteraction(selectedInterAction) {
 
 }
 
-function ReturnRegionSelection(evt) {
-
-    var caseValue = parseInt(evt.target.value)
-    switch (caseValue) {
-      case 1: //sphere
-
-        var geometry = new THREE.SphereGeometry(50, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
-        var cube = new THREE.Mesh(geometry, wireframeMaterial);
-        // scene.add( sphere );
-        break;
-      case 2: //cube
-        var geometry = new THREE.BoxGeometry( 50, 50, 50 );
-        var cube = new THREE.Mesh( geometry, wireframeMaterial );
-        break;
-
-      case 3: //level
-
-        break;
-      default:
-
-    }
-    cube.name = "regionVolume";
-
-    scene.add(cube);
-    objects.push(cube);
-
-}
+// function ReturnRegionSelection(evt) {
+//
+//     var caseValue = parseInt(evt.target.value)
+//     switch (caseValue) {
+//       case 1: //sphere
+//
+//         var geometry = new THREE.SphereGeometry(50, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
+//         var cube = new THREE.Mesh(geometry, wireframeMaterial);
+//         // scene.add( sphere );
+//         break;
+//       case 2: //cube
+//         var geometry = new THREE.BoxGeometry( 50, 50, 50 );
+//         var cube = new THREE.Mesh( geometry, wireframeMaterial );
+//         break;
+//
+//       case 3: //level
+//
+//         break;
+//       default:
+//
+//     }
+//     cube.name = "regionVolume";
+//
+//     scene.add(cube);
+//     objects.push(cube);
+//
+// }
 
 
 function removeEntity(object){

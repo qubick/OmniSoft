@@ -25,18 +25,23 @@ function handleFileSelect(evt){
   var files = evt.target.files;
   let targetSTLFile = './assets/' + files[0].name;
 
+  //load selected target 3D objects
   loader.load( targetSTLFile, ( geometry ) => {
     geometry.center()
-    var targetObj = new THREE.Mesh( geometry, normalMaterial );
+    target3DObject = new THREE.Mesh( geometry, normalMaterial );
 
-    targetObj.rotation.set(-Math.PI/2, 0, 0);
-    // targetObj.name = "test_name";
+    target3DObject.rotation.set(-Math.PI/2, 0, 0);
+    target3DObject.name = files[0].name;
 
-    scene.add(targetObj);
-    objects.push(targetObj);
+    scene.add(target3DObject);
+    objects.push(target3DObject);
+
+    //add region object when the target model is loaded
+    scene.add(sphereRegion);
+
 
     panel.add(settings, 'modelScale', -1, 5, 0.1).onChange(function(){
-      targetObj.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
+      target3DObject.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
     });
 
     panel.add(params, 'export').name('Export Model');
