@@ -98,7 +98,8 @@ function init() {
 		} );
 		window.addEventListener( 'mousemove', onTouchMove );
 		window.addEventListener( 'touchmove', onTouchMove );
-		function onTouchMove( event ) {
+
+    function onTouchMove( event ) {
 			var x, y;
 			if ( event.changedTouches ) {
 				x = event.changedTouches[ 0 ].pageX;
@@ -211,7 +212,7 @@ function LoadDesiredInteraction(selectedInterAction) {
     sphereRegion.add(targetGeometry)
 
     scene.add(sphereRegion);
-    objects.push(sphereRegion);
+    // objects.push(sphereRegion);
   });
 
 

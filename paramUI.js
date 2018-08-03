@@ -36,10 +36,6 @@ function handleFileSelect(evt){
     scene.add(target3DObject);
     objects.push(target3DObject);
 
-    //add region object when the target model is loaded
-    scene.add(sphereRegion);
-
-
     panel.add(settings, 'modelScale', -1, 5, 0.1).onChange(function(){
       target3DObject.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
     });
