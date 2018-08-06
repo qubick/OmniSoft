@@ -175,6 +175,7 @@ function LoadDesiredInteraction(selectedInterAction) {
       switch (selectedInterAction) {
         case 1: //foot
           targetGeometry.scale.set(.5,.5,.5);
+          targetGeometry.position.set(0 ,50, 0);
           arrowGeometry.rotation.set(-Math.PI/2, 0, 0);
           arrowGeometry.translateOnAxis(zAxis, -50);
 
@@ -183,18 +184,20 @@ function LoadDesiredInteraction(selectedInterAction) {
 
           break;
         case 2: //finger press
+          targetGeometry.position.set(0, 50,20)
           arrowGeometry.rotation.set(-Math.PI/4, 0, 0);
           arrowGeometry.position.set(0, -5, -55);
 
-          // spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
           sphereRegion.name = "fingerPress_volume";
           break;
 
         case 3: //sit
           targetGeometry.scale.set(50,50,50);
           targetGeometry.rotateOnAxis(zAxis, Math.PI/2);
+          targetGeometry.position.set(-30,60,0);
+
           arrowGeometry.rotation.set(-Math.PI/2, 0, 0);
-          arrowGeometry.position.set(30, -70, 0);
+          arrowGeometry.position.set(0, -70, 0);
 
           // spheregeometry = new THREE.SphereGeometry(50, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
           sphereRegion.name = "sitPose_volume";
