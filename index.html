@@ -1,196 +1,187 @@
 <!doctype html>
 <html lang="en">
-		<head>
-				<meta charset="utf-8">
-				<title>Softness Design UI</title>
+	<head>
+		<meta charset="utf-8">
+		<title>Softness Design UI</title>
 
 
-				<!-- p5.js for UI elements -->
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
-		    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
-		    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.min.js"></script>
+		<!-- p5.js for UI elements -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.min.js"></script>
 
-				<!-- Latest compiled and minified CSS -->
-				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 
-				<!-- jQuery library -->
-				<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-				<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-				<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+		<script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
 
-				<script type="javascript/text" src="server.js"></script>
-		</head>
+		<script type="javascript/text" src="server.js"></script>
+	</head>
 
-		<style>
-					#gallery {
-						position:fixed;
-						width:200px;
-						height: 100%;
-						top:0;
-						left:0;
-						/* background-color: white; */
-						opacity: 1;
-						/*overflow: auto;*/
-    				overflow-y: scroll !important;
-					}
-					#loadSTL {
-						position: fixed;
-						top: 105px;
-						right: 0;
-						width: 300px;
-						height: 60px;
-						background-color: grey;
-						display: none;
-					}
-					.draggable{
-						width: 150px
-					}
-				</style>
+	<style>
+				#sideBar {
+					position:fixed;
+					width:300px;
+					height: 100%;
+					top:0;
+					left:0;
+					/* background-color: white; */
+					opacity: 1;
+					/*overflow: auto;*/
+  				overflow-y: scroll !important;
+				}
+				#loadSTL {
+					position: fixed;
+					top: 105px;
+					right: 0;
+					width: 300px;
+					height: 60px;
+					background-color: grey;
+					display: none;
+				}
+				.draggable{
+					width: 150px
+				}
+			</style>
 
-		<body>
-			<div id="container" left="150px" top="0px" class="droppable">
-				<script src="build/three.js"></script>
-				<script src="build/csg.js"></script>
-				<script src="build/ThreeCSG.js"></script>
+	<body>
+		<div id="container" left="150px" top="0px" class="droppable">
+			<script src="build/three.js"></script>
+			<script src="build/csg.js"></script>
+			<script src="build/ThreeCSG.js"></script>
 
-				<script src="js/loaders/DDSLoader.js"></script>
-				<script src="js/loaders/MTLLoader.js"></script>
-				<script src="js/loaders/OBJLoader.js"></script>
-				<script src="js/loaders/STLLoader.js"></script>
-				<script src="js/Detector.js"></script>
-				<script src="js/controls/OrbitControls.js"></script>
-				<script src="js/libs/dat.gui.min.js"></script>
-				<script src="js/libs/stats.min.js"></script>
-				<script src="js/controls/DragControls.js"></script>
-				<script src="js/controls/TrackballControls.js"></script>
-				<script src="js/shaders/UnpackDepthRGBAShader.js"></script>
-				<script src="js/utils/ShadowMapViewer.js"></script>
+			<script src="js/loaders/DDSLoader.js"></script>
+			<script src="js/loaders/MTLLoader.js"></script>
+			<script src="js/loaders/OBJLoader.js"></script>
+			<script src="js/loaders/STLLoader.js"></script>
+			<script src="js/Detector.js"></script>
+			<script src="js/controls/OrbitControls.js"></script>
+			<script src="js/libs/dat.gui.min.js"></script>
+			<script src="js/libs/stats.min.js"></script>
+			<script src="js/controls/DragControls.js"></script>
+			<script src="js/controls/TrackballControls.js"></script>
+			<script src="js/shaders/UnpackDepthRGBAShader.js"></script>
+			<script src="js/utils/ShadowMapViewer.js"></script>
 
-				<script src="./eventHandler.js"></script>
-				<script src="./paramUI.js"></script>
-				<script src="./editor.js"></script>
-				<script src="./material.js"></script>
-				<script src="./region-selection.js"></script>
+			<script src="./eventHandler.js"></script>
+			<script src="./paramUI.js"></script>
+			<script src="./editor.js"></script>
+			<script src="./material.js"></script>
+			<script src="./region-selection.js"></script>
+			<script src="./refer-material.js"></script>
 
-				<!-- #gearbox gallery -->
-				<div id="gallery">
+			<div id="sideBar">
 
-					<br/><br/><br/>
-					<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
+				<br/><br/><br/>
+				<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
 
-					<br/><br/>
-					<select onchange="ReturnDesiredInteraction(event)">
-							<option value="0">Select Interaction</option>
-							<option value="1">Foot Press</option>
-					    <option value="2">Finger Press</option>
-					    <option value="3">Sit</option>
-					    <option value="4">Palm Grasp</option>
-					    <option value="5">Finger Squeeze</option>
-					</select>
+				<br/><br/>
+				<select onchange="ReturnDesiredInteraction(event)">
+					<option value="0">Select Interaction</option>
+					<option value="1">Foot Press</option>
+			    <option value="2">Finger Press</option>
+			    <option value="3">Sit</option>
+			    <option value="4">Palm Grasp</option>
+			    <option value="5">Finger Squeeze</option>
+				</select>
 
-					<br/><br/>
-					<select onchange="ReturnReferenceMaterial(event)">
-							<option value="0">Select Softness Material</option>
-							<option value="25">Rubber band</option>
-					    <option value="15">Art eraser</option>
-					    <option value="20">Mouse pad</option>
-					    <option value="35">Vinyl toys</option>
-					    <option value="40">Pencil tip eraser</option>
-					</select>
+				<br/><br/>
+				<div id="myDropdown" onchange="ReturnReferenceMaterial(event)"></div>
+				<!-- <select id="myDropdown" onchange="ReturnReferenceMaterial(event)" onkeyup="filterFunction()">
+					<option value="0">Select Softness Material</option>
+					<option value="25" data-imagesrc="assets/imgs/rubber-band.png">Rubber band</option>
+			    <option value="15">Art eraser</option>
+			    <option value="20">Mouse pad</option>
+			    <option value="35">Vinyl toys</option>
+			    <option value="40">Pencil tip eraser</option>
+				</select> -->
 
-					<div id="sliderlocation"></div>
+				<div id="sliderlocation"></div>
 
-					<!-- <br/><br/> -->
-					<!-- <select onchange="ReturnRegionSelection(event)">
-							<option value="0">Select Region</option>
-							<option value="1">By Sphere volume</option>
-							<option value="2">By Cube volume</option>
-							<option value="3">By Slicing in plane</option>
-					</select> -->
+				<!-- <br/><br/> -->
+				<!-- <select onchange="ReturnRegionSelection(event)">
+						<option value="0">Select Region</option>
+						<option value="1">By Sphere volume</option>
+						<option value="2">By Cube volume</option>
+						<option value="3">By Slicing in plane</option>
+				</select> -->
 
-					<br/><br/>
-					<select onchange="ReturnTypeofGradient(event)">
-							<option value="0">Select Gradient Type</option>
-							<option value="1">Binary</option>
-					    <option value="2">Linear</option>
-					    <option value="3">Radial</option>
-					</select>
+				<br/><br/>
+				<select onchange="ReturnTypeofGradient(event)">
+					<option value="0">Select Gradient Type</option>
+					<option value="1">Binary</option>
+			    <option value="2">Linear</option>
+			    <option value="3">Radial</option>
+				</select>
 
-					<div id="gradientlocation"></div>
-			</div>
+				<div id="gradientlocation"></div>
+		</div>
 
-			<script type="text/javascript">
+		<script type="text/javascript">
 
-			function ReturnReferenceMaterial(evt){
+			$('#myDropdown').ddslick({
+				data: reference_material,
+				width: 300,
+				selectText: "Select your preferred soft/hard materials",
+				imagePosition: "right",
+				onSelected: function(event){
+				  // var shoreAScale = event.target.softness;
+					var shoreAScale = parseInt(event.selectedData.softness);
 
-					var shoreAScale = evt.target.value;
-					var input = document.createElement("input");
+						console.log("selected Data: ", shoreAScale);
+				  var input = document.createElement("input");
 
-					input.type = "range"
-					input.min = "10";
-					input.max = "50";
-					input.value = shoreAScale;
-					input.class = "slider"
-					input.id = "softnessRange"
-					input.onChange = "updateValue(this.value)"
+				  input.type = "range"
+				  input.min = ((shoreAScale - 10) > 0) ? shoreAScale-10 : 0;
+				  input.max = shoreAScale + 10;
+				  input.value = shoreAScale;
+				  input.class = "slider"
+				  input.id = "softnessRange"
+				  input.onChange = "updateValue(this.value)"
 
-					var textInput = document.createElement("text");
-					textInput.value = '<br/> Shore A scale: ' + shoreAScale;
-					textInput.id = "shoreAScaleValue"
+				  var textInput = document.createElement("text");
+				  textInput.value = '<br/> Shore A scale: ' + shoreAScale;
+				  textInput.id = "shoreAScaleValue"
 
-					document.getElementById('sliderlocation').appendChild(document.createElement("br"));
-					document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: ' + shoreAScale;
-					document.getElementById('sliderlocation').appendChild(input);
-
-			}
-
-			function ReturnTypeofGradient(evt){
-				//change gradient type
-				var regtionSelection = parseInt(evt.target.value);
-
-				// var gradientmaterial = generateGradientShaderMaterial(512);
-
-
-				var selectObject= scene.getObjectByName("foot_step_volume");
-				selectObject.material = normalMaterial;
-
-
-				var gradientInput = document.createElement("input");
-
-				gradientInput.type = "range"
-				gradientInput.min = "10";
-				gradientInput.max = "50";
-				gradientInput.value = "25";
-				gradientInput.class = "slider"
-				gradientInput.id = "gradientRange"
-				// gradientInput.onChange = "updateValue(this.value)"
-
-				document.getElementById('sliderlocation').innerHTML = '<br/> Gradient stops: ';
-				document.getElementById('gradientlocation').appendChild(gradientInput);
-
-			}
-
-
-			$( function() {
-				$( ".draggable" ).draggable({
-					helper: 'clone',
-					cursor: 'move',
-					revert: 'invalid',
-					refrecshPositions: true,
-				});
-
-				$(".droppable").droppable({
-				  drop: function(event, ui) {
-						console.log(event)
-					}
-				});
+				  document.getElementById('sliderlocation').appendChild(document.createElement("br"));
+				  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: ' + shoreAScale;
+				  document.getElementById('sliderlocation').appendChild(input);
+				}
 			});
+
+			function ReturnReferenceMaterial(data){
+
+				console.log(data);
+			  // var shoreAScale = event.target.softness;
+			  var input = document.createElement("input");
+
+			  input.type = "range"
+			  input.min = ((shoreAScale - 10) > 0) ? shoreAScale-10 : 0;
+			  input.max = shoreAScale + 10;
+			  input.value = shoreAScale;
+			  input.class = "slider"
+			  input.id = "softnessRange"
+			  input.onChange = "updateValue(this.value)"
+
+			  var textInput = document.createElement("text");
+			  textInput.value = '<br/> Shore A scale: ' + shoreAScale;
+			  textInput.id = "shoreAScaleValue"
+
+			  document.getElementById('sliderlocation').appendChild(document.createElement("br"));
+			  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: ' + shoreAScale;
+			  document.getElementById('sliderlocation').appendChild(input);
+
+			}
 
 			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 
-			</script>
+		</script>
 
-			<input id="fileInput" type="file" name="files[]" style="visibility:hidden" />
+		<input id="fileInput" type="file" name="files[]" style="visibility:hidden" />
 
-		</body>
+	</body>
 </html>
