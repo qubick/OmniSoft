@@ -126,14 +126,12 @@
 			$('#myDropdown').ddslick({
 				data: reference_material,
 				width: 300,
-				selectText: "Select your preferred soft/hard materials",
-				imagePosition: "right",
+				selectText: "Select preferred soft/hard materials",
+				imagePosition: "left",
 				onSelected: function(event){
 				  // var shoreAScale = event.target.softness;
 					var shoreAScale = parseInt(event.selectedData.softness);
-
-						console.log("selected Data: ", shoreAScale);
-				  var input = document.createElement("input");
+					var input = document.createElement("input");
 
 				  input.type = "range"
 				  input.min = ((shoreAScale - 10) > 0) ? shoreAScale-10 : 0;
