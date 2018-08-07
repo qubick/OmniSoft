@@ -1,26 +1,23 @@
-$(document).click(function(event) {
+$(document).click( (event) => {
     var text = $(event.target).text();
-    console.log(event.target);
+    console.log("what is event target?: ", event.target);
 });
 
 
-$( function() {
-  $( ".draggable" ).draggable({
-    helper: 'clone',
-    cursor: 'move',
-    revert: 'invalid',
-    refrecshPositions: true,
-  });
-
-  $(".droppable").droppable({
-    drop: function(event, ui) {
-      console.log(event)
-    }
-  });
-});
-
-
-
+// $( function() {
+//   $( ".draggable" ).draggable({
+//     helper: 'clone',
+//     cursor: 'move',
+//     revert: 'invalid',
+//     refrecshPositions: true,
+//   });
+//
+//   $(".droppable").droppable({
+//     drop: function(event, ui) {
+//       console.log(event)
+//     }
+//   });
+// });
 
 
 function ReturnTypeofGradient(evt){

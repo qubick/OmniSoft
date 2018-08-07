@@ -34,6 +34,17 @@
 					/*overflow: auto;*/
   				overflow-y: scroll !important;
 				}
+				.slider {
+			    -webkit-appearance: none;
+			    width: 100%;
+			    height: 15px;
+			    border-radius: 5px;
+			    background: #d3d3d3;
+			    outline: none;
+			    opacity: 0.7;
+			    -webkit-transition: .2s;
+			    transition: opacity .2s;
+			}
 				#loadSTL {
 					position: fixed;
 					top: 105px;
@@ -127,7 +138,7 @@
 				data: reference_material,
 				width: 300,
 				selectText: "Select preferred soft/hard materials",
-				imagePosition: "left",
+				imagePosition: "right",
 				onSelected: function(event){
 				  // var shoreAScale = event.target.softness;
 					var shoreAScale = parseInt(event.selectedData.softness);
@@ -139,17 +150,26 @@
 				  input.value = shoreAScale;
 				  input.class = "slider"
 				  input.id = "softnessRange"
-				  input.onChange = "updateValue(this.value)"
+				  // input.onChange = "UpdateValue(evt)"
 
 				  var textInput = document.createElement("text");
 				  textInput.value = '<br/> Shore A scale: ' + shoreAScale;
 				  textInput.id = "shoreAScaleValue"
 
 				  document.getElementById('sliderlocation').appendChild(document.createElement("br"));
-				  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: ' + shoreAScale;
+				  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: <div id="softnessValue"></div>'
 				  document.getElementById('sliderlocation').appendChild(input);
+
+
+					//update value should be defined when the slider is actullay created
+					var slider = document.getElementById("softnessRange");
+					slider.oninput = function(){
+						var output = document.getElementById("softnessValue")
+						output.innerHTML = this.value;
+					}
 				}
 			});
+
 
 			function ReturnReferenceMaterial(data){
 
