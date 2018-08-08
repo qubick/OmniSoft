@@ -9,8 +9,60 @@ var normalMaterial = new THREE.MeshNormalMaterial({opacity:0.3 });
 // var regionMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 1, wireframe: true } );
 
 
+var texture = new THREE.Texture( generateRadialGradient() );
+texture.needsUpdate = true;
+var gradientMaterial = new THREE.MeshBasicMaterial( {map:texture,  transparent: true});
 
-// generating gradient material is not working yet
+
+function generateLinearGradient() {
+
+	var size = 512;
+
+	// create canvas
+	canvas = document.createElement( 'canvas' );
+	canvas.width = size;
+	canvas.height = size;
+
+	// get context
+	var context = canvas.getContext( '2d' );
+
+	// draw gradient
+	context.rect( 0, 0, size, size );
+	var gradient = context.createLinearGradient( 0, 0, size, size );
+	gradient.addColorStop(0, '#99ddff'); // light blue
+	gradient.addColorStop(1, 'transparent'); // dark blue
+	context.fillStyle = gradient;
+	context.fill();
+
+	return canvas;
+
+}
+
+function generateRadialGradient() {
+
+	var size = 512;
+
+	// create canvas
+	canvas = document.createElement( 'canvas' );
+	canvas.width = size;
+	canvas.height = size;
+
+	// get context
+	var context = canvas.getContext( '2d' );
+
+	// draw gradient
+	context.rect( 0, 0, size, size );
+	var gradient = context.createRadialGradient( 100, 100, 50, 100, 100, 100);
+	gradient.addColorStop(0, '#99ddff'); // light blue
+	gradient.addColorStop(1, 'transparent'); // dark blue
+	context.fillStyle = gradient;
+	context.fill();
+
+	return canvas;
+
+}
+
+// not using this for now
 function generateGradientShaderMaterial( _resolution ) {
 	var resolution = _resolution || 2; // 512
 	//-

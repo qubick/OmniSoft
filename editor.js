@@ -25,6 +25,7 @@ function init() {
 
   scene = new THREE.Scene();
   scene.add( new THREE.AmbientLight( 0x505050 ) );
+
   var light = new THREE.SpotLight( 0xffffff, 1.5 );
   light.position.set( 0, 500, 2000 );
   light.castShadow = true;
@@ -137,7 +138,7 @@ function LoadDesiredInteraction(selectedInterAction) {
 
   switch(selectedInterAction){
     case 1: //footpress
-      targetPath = './assets/left_foot.stl'
+      targetPath = './assets/left-foot.stl'
       break;
     case 2: //finger pres
       targetPath = './assets/finger-new.stl'

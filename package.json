@@ -59,8 +59,10 @@
     "electron": "^1.6.1"
   },
   "dependencies": {
+    "craftml": "^2.0.0-alpha",
     "express": "^4.16.3",
     "nodemon": "^1.18.3",
+    "react": "^16.4.2",
     "react-dropzone": "^4.0.0"
   }
 }

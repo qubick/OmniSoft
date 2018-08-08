@@ -24,12 +24,10 @@ function ReturnTypeofGradient(evt){
   //change gradient type
   var regtionSelection = parseInt(evt.target.value);
 
-  // var gradientmaterial = generateGradientShaderMaterial(512);
 
-
-  var selectObject= scene.getObjectByName("foot_step_volume");
-  selectObject.material = normalMaterial;
-
+  // var selectObject= scene.getObjectByName("foot_step_volume");
+  // selectObject.material = normalMaterial;
+  sphereRegion.material = gradientMaterial;
 
   var gradientInput = document.createElement("input");
 
@@ -69,44 +67,17 @@ function ReturnReferenceMaterial(evt){
 
 }
 
-function ReturnTypeofGradient(evt){
-  //change gradient type
-  var regtionSelection = parseInt(evt.target.value);
-
-  // var gradientmaterial = generateGradientShaderMaterial(512);
-
-
-  var selectObject= scene.getObjectByName("foot_step_volume");
-  selectObject.material = normalMaterial;
-
-
-  var gradientInput = document.createElement("input");
-
-  gradientInput.type = "range"
-  gradientInput.min = "10";
-  gradientInput.max = "50";
-  gradientInput.value = "25";
-  gradientInput.class = "slider"
-  gradientInput.id = "gradientRange"
-  // gradientInput.onChange = "updateValue(this.value)"
-
-  document.getElementById('sliderlocation').innerHTML = '<br/> Gradient stops: ';
-  document.getElementById('gradientlocation').appendChild(gradientInput);
-
-}
-
-
-$( function() {
-  $( ".draggable" ).draggable({
-    helper: 'clone',
-    cursor: 'move',
-    revert: 'invalid',
-    refrecshPositions: true,
-  });
-
-  $(".droppable").droppable({
-    drop: function(event, ui) {
-      console.log(event)
-    }
-  });
-});
+// $( function() {
+//   $( ".draggable" ).draggable({
+//     helper: 'clone',
+//     cursor: 'move',
+//     revert: 'invalid',
+//     refrecshPositions: true,
+//   });
+//
+//   $(".droppable").droppable({
+//     drop: function(event, ui) {
+//       console.log(event)
+//     }
+//   });
+// });

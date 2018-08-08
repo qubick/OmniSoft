@@ -78,8 +78,8 @@
 			<script src="js/shaders/UnpackDepthRGBAShader.js"></script>
 			<script src="js/utils/ShadowMapViewer.js"></script>
 
-			<script src="./eventHandler.js"></script>
-			<script src="./paramUI.js"></script>
+			<script src="./event-handler.js"></script>
+			<script src="./param-interface.js"></script>
 			<script src="./editor.js"></script>
 			<script src="./material.js"></script>
 			<script src="./region-selection.js"></script>
@@ -101,7 +101,7 @@
 				</select>
 
 				<br/><br/>
-				<div id="myDropdown" onchange="ReturnReferenceMaterial(event)"></div>
+				<div id="refer-material" onchange="ReturnReferenceMaterial(event)"></div>
 
 				<div id="sliderlocation"></div>
 
@@ -126,7 +126,7 @@
 
 		<script type="text/javascript">
 
-			$('#myDropdown').ddslick({
+			$('#refer-material').ddslick({
 				data: reference_material,
 				width: 300,
 				selectText: "Select preferred soft/hard materials",
