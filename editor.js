@@ -1,7 +1,7 @@
 // import Dropzone from 'react-dropzone'
 
 var container, stats;
-var camera, controls, scene, renderer;
+var camera, controls, scene, renderer, transformControl;
 var raycaster;
 var objects = [];
 var originObj, originPoint;
@@ -58,6 +58,11 @@ function init() {
   controls.noPan = false;
   controls.staticMoving = true;
   controls.dynamicDampingFactor = 0.3;
+
+  transformControl = new THREE.TransformControls( camera, renderer.domElement );
+  transformControl.addEventListener( 'change', render );
+
+  scene.add( transformControl );
 
   raycaster = new THREE.Raycaster();
 
@@ -216,6 +221,7 @@ function LoadDesiredInteraction(selectedInterAction) {
     sphereRegion.add(targetGeometry)
 
     scene.add(sphereRegion);
+    transformControl.attach(sphereRegion);
     // objects.push(sphereRegion);
   });
 

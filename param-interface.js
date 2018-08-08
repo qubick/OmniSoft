@@ -35,7 +35,8 @@ function handleFileSelect(evt){
     target3DObject.receiveShadow = true;
 
     scene.add(target3DObject);
-    objects.push(target3DObject);
+    objects.push(target3DObject); //add to select & translatable
+    transformControl.attach(target3DObject);
 
     panel.add(settings, 'modelScale', -1, 5, 0.1).onChange(function(){
       target3DObject.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);

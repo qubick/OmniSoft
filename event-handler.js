@@ -3,22 +3,29 @@ $(document).click( (event) => {
     console.log("what is event target?: ", event.target);
 });
 
+window.addEventListener( 'keydown', function( event ){
+  switch(event.keyCode) {
+    case 81: // Q
 
-// $( function() {
-//   $( ".draggable" ).draggable({
-//     helper: 'clone',
-//     cursor: 'move',
-//     revert: 'invalid',
-//     refrecshPositions: true,
-//   });
-//
-//   $(".droppable").droppable({
-//     drop: function(event, ui) {
-//       console.log(event)
-//     }
-//   });
-// });
+      break;
+    case 17: // ctrl
 
+    case 83: //s: scale
+      console.log("scale mode");
+      transformControl.setMode("scale");
+      break;
+
+    case 87: //w: translate
+      console.log("translating mode");
+      transformControl.setMode("translate");
+      break;
+
+    case 82: // r: rotate
+      console.log("rotation mode");
+      transformControl.setMode("rotate");
+      break;
+  }
+});
 
 function ReturnTypeofGradient(evt){
   //change gradient type
