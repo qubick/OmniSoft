@@ -4,7 +4,8 @@ material.transparent = true
 
 var wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 1, wireframe: true } );
 var arrowMaterial = new THREE.MeshPhongMaterial( { color: 0xff0000, specular: 0x111111, shininess: 200, opacity:0.8 } );
-var normalMaterial = new THREE.MeshNormalMaterial({opacity:0.3 });
+var normalMaterial = new THREE.MeshNormalMaterial({opacity:0.3, opacity: 0.5 });
+normalMaterial.transparent = true;
 // var gradmaterial = new THREE.MeshBasicMaterial( { map: texture, transparent: true } );
 // var regionMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 1, wireframe: true } );
 

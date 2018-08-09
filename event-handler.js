@@ -6,10 +6,12 @@ $(document).click( (event) => {
 window.addEventListener( 'keydown', function( event ){
   switch(event.keyCode) {
     case 81: // Q
+      transformControl.setSpace( transformControl.space === "local" ? "world" : "local" );
 
       break;
     case 17: // ctrl
 
+      break;
     case 83: //s: scale
       console.log("scale mode");
       transformControl.setMode("scale");

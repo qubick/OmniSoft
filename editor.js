@@ -24,17 +24,24 @@ function init() {
   camera.position.z = 500;
 
   scene = new THREE.Scene();
-  scene.add( new THREE.AmbientLight( 0x505050 ) );
+  scene.add( new THREE.AmbientLight( 0x505050, 0.2 ) );
 
   var light = new THREE.SpotLight( 0xffffff, 1.5 );
   light.position.set( 0, 500, 2000 );
   light.castShadow = true;
-  light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 50, 1, 200, 10000 ) );
+  light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 50, 1, 200, 2500 ) );
   light.shadow.bias = - 0.00022;
   light.shadow.mapSize.width = 2048;
   light.shadow.mapSize.height = 2048;
   scene.add( light );
 
+  //for shadow Light
+  // var newlight = new THREE.PointLight( 0xfffff, 0.0, 18);
+  // newlight.position.set(-3,6,-3);
+  // newlight.castShadow = true;
+  // newlight.shadow.camera.near = 0.1;
+  // newlight.shadow.camera.far = 25;
+  // scene.add(newlight);
 
   var grid = new THREE.GridHelper( 1000, 100, 0x888888, 0xcccccc );
   grid.position.set(0, -100, 0);
@@ -48,6 +55,7 @@ function init() {
   renderer.sortObjects = false;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
+  // renderer.shadowMap.type = THREE.BasicShadowMap
   container.appendChild( renderer.domElement );
 
   controls = new THREE.TrackballControls( camera, renderer.domElement );
@@ -61,6 +69,7 @@ function init() {
 
   transformControl = new THREE.TransformControls( camera, renderer.domElement );
   transformControl.addEventListener( 'change', render );
+  transformControl.setMode("rotate");
 
   scene.add( transformControl );
 
@@ -77,9 +86,9 @@ function init() {
     mouseMoved = false;
   }, false );
 
-  window.addEventListener( 'mouseup', function() {
-    checkIntersection();
-  });
+  // window.addEventListener( 'mouseup', function() {
+  //   checkIntersection();
+  // });
 
 
   window.addEventListener( 'mousemove', onTouchMove );
@@ -167,7 +176,6 @@ function LoadDesiredInteraction(selectedInterAction) {
     targetGeometry = new THREE.Mesh( geometry, material );
     targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
 
-
     //after loading push force, load arrow to indicate direction
     arrowPath = './assets/arrow.stl';
 
@@ -218,11 +226,11 @@ function LoadDesiredInteraction(selectedInterAction) {
       }
       sphereRegion.add(arrowGeometry)
     });
+    sphereRegion.castShadow = true;
     sphereRegion.add(targetGeometry)
 
     scene.add(sphereRegion);
     transformControl.attach(sphereRegion);
-    // objects.push(sphereRegion);
   });
 
 

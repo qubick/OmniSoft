@@ -28,17 +28,22 @@ var up = new THREE.Vector3( 0, 1, 0 );
 scene.add( mouseHelper );
 
 var moved = false;
+
 controls.addEventListener( 'change', function() {
 	moved = true;
 } );
+
 window.addEventListener( 'mousedown', function () {
-	moved = false;
+	moved = true;
+
+	checkIntersection();
+	if ( ! moved && intersection.intersects )
+		fixPosition();
+
 }, false );
 
 window.addEventListener( 'mouseup', function() {
-		checkIntersection();
-		if ( ! moved && intersection.intersects )
-      fixPosition();
+	moved  = false;
 });
 
 function checkIntersection() {
@@ -60,7 +65,6 @@ function checkIntersection() {
     intersection.normal.copy( intersects[ 0 ].face.normal );
     mouseHelper.lookAt( n );
 
-    console.log(sphereRegion)
     position = sphereRegion.position;
 
 
@@ -68,6 +72,9 @@ function checkIntersection() {
     // setting normal is skiped for now
     position.needsUpdate = true;
     intersection.intersects = true;
+
+		//to access clicked object
+		// intersects[ 0 ].object.callback;
   } else {
     intersection.intersects = false;
   }
@@ -76,4 +83,6 @@ function checkIntersection() {
 function fixPosition(){
   //when clicked at certain point, fix the region at current fixPosition
   //when mouse down, toggle
+
+	sphereRegion.position.needsUpdate = false;
 }
