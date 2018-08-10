@@ -28,6 +28,7 @@ function init() {
 
   var light = new THREE.SpotLight( 0xffffff, 1.5 );
   light.position.set( 0, 500, 2000 );
+  // light.position.set( 0, 1, 0 );
   light.castShadow = true;
   light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 50, 1, 200, 2500 ) );
   light.shadow.bias = - 0.00022;
@@ -36,9 +37,11 @@ function init() {
   scene.add( light );
 
   //for shadow Light
-  // var newlight = new THREE.PointLight( 0xfffff, 0.0, 18);
-  // newlight.position.set(-3,6,-3);
+  // var newlight = new THREE.DirectionalLight( 0xfffff, 1, 100);
+  // newlight.position.set(0,1,0);
   // newlight.castShadow = true;
+  // newlight.shadow.mapSize.width = 1024;
+  // newlight.shadow.mapSize.height = 1024;
   // newlight.shadow.camera.near = 0.1;
   // newlight.shadow.camera.far = 25;
   // scene.add(newlight);
@@ -148,7 +151,7 @@ function ReturnDesiredInteraction(event){
 
 function LoadDesiredInteraction(selectedInterAction) {
 
-  var targetPath, arrowPath, targetGeometry, arrowGeometry; //foot, finger, body, palm;
+  var targetPath, arrowPath, bodyGeometry, arrowGeometry; //foot, finger, body, palm;
 
   switch(selectedInterAction){
     case 1: //footpress
@@ -161,9 +164,13 @@ function LoadDesiredInteraction(selectedInterAction) {
       targetPath = './assets/sittingman.stl'
       break;
     case 4: //grash by palm
+      targetPath = './assets/grasp.stl'
+      break;
+    case 5: //press by palm
       targetPath = './assets/palm.stl'
       break;
-    case 5: //squeeze by finger
+    case 6: //pinch by two fingers
+      break;
     break;
     default:
   }
@@ -173,8 +180,8 @@ function LoadDesiredInteraction(selectedInterAction) {
   loader.load( targetPath, ( geometry ) => {
     geometry.center()
 
-    targetGeometry = new THREE.Mesh( geometry, material );
-    targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
+    bodyGeometry = new THREE.Mesh( geometry, material );
+    bodyGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
 
     //after loading push force, load arrow to indicate direction
     arrowPath = './assets/arrow.stl';
@@ -188,8 +195,8 @@ function LoadDesiredInteraction(selectedInterAction) {
 
       switch (selectedInterAction) {
         case 1: //foot
-          targetGeometry.scale.set(.5,.5,.5);
-          targetGeometry.position.set(0 ,50, 0);
+          bodyGeometry.scale.set(.5,.5,.5);
+          bodyGeometry.position.set(0 ,50, 0);
           arrowGeometry.rotation.set(-Math.PI/2, 0, 0);
           arrowGeometry.translateOnAxis(zAxis, -50);
 
@@ -198,7 +205,7 @@ function LoadDesiredInteraction(selectedInterAction) {
 
           break;
         case 2: //finger press
-          targetGeometry.position.set(0, 50,20)
+          bodyGeometry.position.set(0, 50,20)
           arrowGeometry.rotation.set(-Math.PI/4, 0, 0);
           arrowGeometry.position.set(0, -5, -55);
 
@@ -206,9 +213,9 @@ function LoadDesiredInteraction(selectedInterAction) {
           break;
 
         case 3: //sit
-          targetGeometry.scale.set(50,50,50);
-          targetGeometry.rotateOnAxis(zAxis, Math.PI/2);
-          targetGeometry.position.set(-30,60,0);
+          bodyGeometry.scale.set(50,50,50);
+          bodyGeometry.rotateOnAxis(zAxis, Math.PI/2);
+          bodyGeometry.position.set(-30,60,0);
 
           arrowGeometry.rotation.set(-Math.PI/2, 0, 0);
           arrowGeometry.position.set(0, -70, 0);
@@ -218,7 +225,7 @@ function LoadDesiredInteraction(selectedInterAction) {
           break;
 
         case 4: //palm grasp
-          targetGeometry.scale.set(.7,.7,.7);
+          bodyGeometry.scale.set(.7,.7,.7);
           arrowGeometry.translateOnAxis(zAxis, -25);
           break;
         default:
@@ -226,8 +233,11 @@ function LoadDesiredInteraction(selectedInterAction) {
       }
       sphereRegion.add(arrowGeometry)
     });
+    sphereRegion.add(bodyGeometry)
+
     sphereRegion.castShadow = true;
-    sphereRegion.add(targetGeometry)
+    bodyGeometry.castShadow = true;
+    sphereRegion.receiveShadow = true;
 
     scene.add(sphereRegion);
     transformControl.attach(sphereRegion);
