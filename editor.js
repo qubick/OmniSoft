@@ -1,10 +1,13 @@
 var container, stats;
-var camera, controls, scene, renderer, transformControl;
+var camera, controls, scene, renderer, transformControlTarget, transformControlRegion;
 var raycaster;
 var objects = [];
 var originObj, originPoint;
 
-var target3DObject, decal, targetPath, arrowPath, bodyMesh, arrowMesh;
+var target3DObject, decal, targetPath, arrowPath, arrowMesh, bodyMesh, arrowMesh;
+
+
+var shadowlight = new THREE.DirectionalLight( 0xfffff, 1, 100);
 
 init();
 animate();
@@ -34,9 +37,10 @@ function init() {
   scene.add( light );
 
   //for shadow Light
-  var shadowlight = new THREE.DirectionalLight( 0xfffff, 1, 100);
   shadowlight.position.set(0,1000,0);
   shadowlight.castShadow = true;
+  console.log("shadow light rotation, init: ", shadowlight.rotation);
+
   shadowlight.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 50, 1, 200, 2500 ) );
   shadowlight.shadow.mapSize.width = 2048 ;
   shadowlight.shadow.mapSize.height = 2048;
@@ -66,11 +70,11 @@ function init() {
   controls.staticMoving = true;
   controls.dynamicDampingFactor = 0.3;
 
-  transformControl = new THREE.TransformControls( camera, renderer.domElement );
-  transformControl.addEventListener( 'change', render );
-  transformControl.setMode("rotate");
+  transformControlTarget = new THREE.TransformControls( camera, renderer.domElement );
+  transformControlTarget.addEventListener( 'change', render );
+  transformControlTarget.setMode("rotate");
 
-  scene.add( transformControl );
+  scene.add( transformControlTarget );
 
   raycaster = new THREE.Raycaster();
 
@@ -120,7 +124,7 @@ function init() {
 			}
 			mouse.x = ( x / window.innerWidth ) * 2 - 1;
 			mouse.y = - ( y / window.innerHeight ) * 2 + 1;
-			checkIntersection();
+			// checkIntersection();
 		}
 
 } //end of init
@@ -165,13 +169,11 @@ function LoadDesiredInteraction(selectedInterAction) {
     default:
   }
 
-  var arrowMesh;
-
   loader.load( targetPath, ( geometry ) => {
     geometry.center()
 
     bodyMesh = new THREE.Mesh( geometry, normalMaterial );
-    bodyMesh.rotation.set(-Math.PI/2, 0, Math.PI);
+    // bodyMesh.rotation.set(-Math.PI/2, 0, Math.PI);
 
     //after loading push force, load arrow to indicate direction
     arrowPath = './assets/arrow.stl';
@@ -186,51 +188,46 @@ function LoadDesiredInteraction(selectedInterAction) {
       switch (selectedInterAction) {
         case 1: //foot
           bodyMesh.scale.set(.5,.5,.5);
-          bodyMesh.position.set(0 ,50, 0);
-          arrowMesh.rotation.set(-Math.PI/2, 0, 0);
-          arrowMesh.translateOnAxis(zAxis, -50);
+          arrowMesh.rotateOnAxis(xAxis, -Math.PI/2);
 
-          sphereRegion.name = "footStep_volume";
-          sphereRegion.translateOnAxis(yAxis, -55);
+          bodyMesh.name = "footStep";
 
           break;
         case 2: //finger press
           bodyMesh.position.set(0, 50,20)
-          arrowMesh.rotation.set(-Math.PI/4, 0, 0);
-          arrowMesh.position.set(0, -5, -55);
+          bodyMesh.rotation.set(Math.PI/4, 0, 0);
+          arrowMesh.rotateOnAxis(xAxis, -Math.PI/2);
 
-          sphereRegion.name = "fingerPress_volume";
+          bodyMesh.name = "fingerPress";
           break;
 
         case 3: //sit
           bodyMesh.scale.set(50,50,50);
           bodyMesh.rotateOnAxis(zAxis, Math.PI/2);
-          bodyMesh.position.set(-30,60,0);
+          arrowMesh.rotateOnAxis(xAxis, -Math.PI/2);
 
-          arrowMesh.rotation.set(-Math.PI/2, 0, 0);
-          arrowMesh.position.set(0, -70, 0);
-
-          sphereRegion.name = "sitPose_volume";
+          bodyMesh.name = "sitPose";
           break;
 
         case 4: //palm grasp
           bodyMesh.scale.set(.7,.7,.7);
-          arrowMesh.translateOnAxis(zAxis, -25);
+          bodyMesh.rotation.set(-Math.PI/3, 0, 0);
+          bodyMesh.translateOnAxis(zAxis, 10);
 
-          sphereRegion.name = "palmGrasp_volume";
+          bodyMesh.name = "palmGrasp";
           break;
         default:
-
+          break;
       }
-      sphereRegion.add(arrowMesh)
+      arrowMesh.add(bodyMesh)
+      scene.add(arrowMesh)
     });
-    sphereRegion.add(bodyMesh)
 
     sphereRegion.castShadow = true;
     bodyMesh.castShadow = true;
 
-    scene.add(sphereRegion);
-    transformControl.attach(sphereRegion);
+    //separate transform control of two different target object group
+    // transformControl.attach(sphereRegion);
   });
 
 }

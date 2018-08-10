@@ -2,17 +2,16 @@ $(document).click( (event) => {
     var text = $(event.target).text();
     // console.log("what is event target?: ", event.target);
 
-    if(sphereRegion){
-      var newPos = sphereRegion.position;
-      var newRot = sphereRegion.rotation;
-      console.log(newPos, newRot);
-    }
+    // if(sphereRegion){
+    //   var newPos = sphereRegion.position;
+    //   var newRot = sphereRegion.rotation;
+    // }
 });
 
 window.addEventListener( 'keydown', function( event ){
   switch(event.keyCode) {
     case 81: // Q
-      transformControl.setSpace( transformControl.space === "local" ? "world" : "local" );
+      transformControlTarget.setSpace( transformControl.space === "local" ? "world" : "local" );
 
       break;
     case 17: // ctrl
@@ -20,17 +19,17 @@ window.addEventListener( 'keydown', function( event ){
       break;
     case 83: //s: scale
       console.log("scale mode");
-      transformControl.setMode("scale");
+      transformControlTarget.setMode("scale");
       break;
 
     case 87: //w: translate
       console.log("translating mode");
-      transformControl.setMode("translate");
+      transformControlTarget.setMode("translate");
       break;
 
     case 82: // r: rotate
       console.log("rotation mode");
-      transformControl.setMode("rotate");
+      transformControlTarget.setMode("rotate");
       break;
   }
 });
