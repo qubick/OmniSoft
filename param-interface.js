@@ -33,7 +33,9 @@ function handleFileSelect(evt){
     target3DObject.rotation.set(-Math.PI/2, 0, 0);
     target3DObject.name = files[0].name;
     target3DObject.receiveShadow = true;
+    target3DObject.castShadow = true;
 
+    
     scene.add(target3DObject);
     objects.push(target3DObject); //add to select & translatable
     transformControl.attach(target3DObject);
