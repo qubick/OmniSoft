@@ -28,23 +28,20 @@ function init() {
 
   var light = new THREE.SpotLight( 0xffffff, 1.5 );
   light.position.set( 0, 500, 2000 );
-  // light.position.set( 0, 1, 0 );
-  light.castShadow = true;
-  light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 50, 1, 200, 2500 ) );
-  light.shadow.bias = - 0.00022;
-  light.shadow.mapSize.width = 2048;
-  light.shadow.mapSize.height = 2048;
+  // light.castShadow = true;
+  // light.shadow.bias = - 0.00022;
+  // light.shadow.mapSize.width = 2048;
+  // light.shadow.mapSize.height = 2048;
   scene.add( light );
 
   //for shadow Light
-  // var newlight = new THREE.DirectionalLight( 0xfffff, 1, 100);
-  // newlight.position.set(0,1,0);
-  // newlight.castShadow = true;
-  // newlight.shadow.mapSize.width = 1024;
-  // newlight.shadow.mapSize.height = 1024;
-  // newlight.shadow.camera.near = 0.1;
-  // newlight.shadow.camera.far = 25;
-  // scene.add(newlight);
+  var shadowlight = new THREE.DirectionalLight( 0xfffff, 1, 100);
+  shadowlight.position.set(0,1000,0);
+  shadowlight.castShadow = true;
+  shadowlight.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 50, 1, 200, 2500 ) );
+  shadowlight.shadow.mapSize.width = 2048 ;
+  shadowlight.shadow.mapSize.height = 2048;
+  scene.add(shadowlight);
 
   var grid = new THREE.GridHelper( 1000, 100, 0x888888, 0xcccccc );
   grid.position.set(0, -100, 0);
@@ -180,7 +177,7 @@ function LoadDesiredInteraction(selectedInterAction) {
   loader.load( targetPath, ( geometry ) => {
     geometry.center()
 
-    bodyGeometry = new THREE.Mesh( geometry, material );
+    bodyGeometry = new THREE.Mesh( geometry, normalMaterial );
     bodyGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
 
     //after loading push force, load arrow to indicate direction

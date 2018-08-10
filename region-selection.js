@@ -16,7 +16,7 @@ var intersection = {
 
 var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
 var material = new THREE.MeshPhongMaterial( { color: 0xA9A9A9, specular: 0x111111, shininess: 200, opacity:0.5 } );
-var sphereRegion = new THREE.Mesh(spheregeometry, material);
+var sphereRegion = new THREE.Mesh(spheregeometry, normalMaterial);
 
 
 mouseHelper = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), normalMaterial );
