@@ -28,7 +28,7 @@ function handleFileSelect(evt){
   //load selected target 3D objects
   loader.load( targetSTLFile, ( geometry ) => {
     geometry.center()
-    target3DObject = new THREE.Mesh( geometry, material );
+    target3DObject = new THREE.Mesh( geometry, lambMaterial );
 
     target3DObject.rotation.set(-Math.PI/2, 0, 0);
     target3DObject.name = files[0].name;

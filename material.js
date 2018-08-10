@@ -1,6 +1,9 @@
 
-var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 200, opacity:0.8 } );
+var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 200, opacity:0.5 } );
 material.transparent = true
+
+var lambMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff, alphamap: 0.3, opacity: 0.5});
+lambMaterial.transparent = true;
 
 var wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 1, wireframe: true } );
 var arrowMaterial = new THREE.MeshPhongMaterial( { color: 0xff0000, specular: 0x111111, shininess: 200, opacity:0.8 } );

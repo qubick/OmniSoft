@@ -22,6 +22,7 @@ function init() {
   document.body.appendChild( container );
   camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
   camera.position.z = 500;
+  // camera.position.y = 100;
 
   scene = new THREE.Scene();
   scene.add( new THREE.AmbientLight( 0x505050, 0.2 ) );
