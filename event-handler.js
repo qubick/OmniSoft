@@ -1,6 +1,12 @@
 $(document).click( (event) => {
     var text = $(event.target).text();
-    console.log("what is event target?: ", event.target);
+    // console.log("what is event target?: ", event.target);
+
+    if(sphereRegion){
+      var newPos = sphereRegion.position;
+      var newRot = sphereRegion.rotation;
+      console.log(newPos, newRot);
+    }
 });
 
 window.addEventListener( 'keydown', function( event ){
@@ -75,18 +81,3 @@ function ReturnReferenceMaterial(evt){
   document.getElementById('sliderlocation').appendChild(input);
 
 }
-
-// $( function() {
-//   $( ".draggable" ).draggable({
-//     helper: 'clone',
-//     cursor: 'move',
-//     revert: 'invalid',
-//     refrecshPositions: true,
-//   });
-//
-//   $(".droppable").droppable({
-//     drop: function(event, ui) {
-//       console.log(event)
-//     }
-//   });
-// });
