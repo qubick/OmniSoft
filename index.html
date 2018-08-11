@@ -83,6 +83,7 @@
 			<div id="sideBar">
 
 				<br/><br/><br/>
+				Import 3D object:
 				<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
 
 				<br/><br/>
@@ -96,6 +97,7 @@
 				</select>
 
 				<br/><br/>
+				<input type="text" id="searchBox" onkeyup="searchMaterial()" placeholder="Search for material">
 				<div id="refer-material" onchange="ReturnReferenceMaterial(event)"></div>
 
 				<div id="sliderlocation"></div>
@@ -121,14 +123,35 @@
 
 		<script type="text/javascript">
 
+			function searchMaterial(){
+				var input, filter, ul, li, a, i;
+				input		= document.getElementById('searchBox');
+				filter	= input.value.toUpperCase();
+				ul = document.getElementsByClassName('dd-options')[0];
+				li = ul.getElementsByTagName('li');
+
+
+				for(i = 0; i < li.length; i++){
+					a = li[i].getElementsByTagName("a")[0];
+
+					if( a.innerHTML.toUpperCase().indexOf(filter) > -1){
+						li[i].style.display = "";
+					}
+					else {
+						li[i].style.display = "none";
+					}
+				} // end of for
+			} //end of searchMaterial funcion
+
 			$('#refer-material').ddslick({
 				data: reference_material,
 				width: 300,
 				selectText: "Select preferred soft/hard materials",
 				imagePosition: "right",
 				onSelected: function(event){
-				  // var shoreAScale = event.target.softness;
-					var shoreAScale = parseInt(event.selectedData.softness);
+
+					//these must be changed along the multiple material selection
+				  var shoreAScale = parseInt(event.selectedData.softness);
 					var input = document.createElement("input");
 
 				  input.type = "range"
@@ -137,7 +160,6 @@
 				  input.value = shoreAScale;
 				  input.class = "slider"
 				  input.id = "softnessRange"
-				  // input.onChange = "UpdateValue(evt)"
 
 				  var textInput = document.createElement("text");
 				  textInput.value = '<br/> Shore A scale: ' + shoreAScale;
