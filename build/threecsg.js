@@ -9,6 +9,8 @@ window.ThreeBSP = (function() {
 		SPANNING = 3;
 
 	ThreeBSP = function( geometry ) {
+
+		console.log( "what is geometry in threebsp?: ", geometry );
 		// Convert THREE.Geometry to ThreeBSP
 		var i, _length_i,
 			face, vertex, faceVertexUvs, uvs,

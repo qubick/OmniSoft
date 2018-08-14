@@ -1,3 +1,5 @@
+//all the events related to the region selection to assign soft infills
+
 var controls;
 var mouse = new THREE.Vector2();
 var decals = [];
