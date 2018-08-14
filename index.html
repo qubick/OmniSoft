@@ -97,7 +97,7 @@
 				</select>
 
 				<br/><br/>
-				<input type="text" id="searchBox" onkeyup="searchMaterial()" placeholder="Search for material">
+				<input type="text" id="searchBox" onclick="clickMaterials()" onkeyup="searchMaterial()" placeholder="Search for material">
 				<div id="refer-material" onchange="ReturnReferenceMaterial(event)"></div>
 
 				<div id="sliderlocation"></div>
@@ -123,6 +123,11 @@
 
 		<script type="text/javascript">
 
+			function clickMaterials(){
+				console.log("click material")
+				document.getElementsByClassName('dd-click-off-close')[0].click();
+			}
+			
 			function searchMaterial(){
 				var input, filter, ul, li, a, i;
 				input		= document.getElementById('searchBox');
@@ -180,29 +185,29 @@
 			});
 
 
-			function ReturnReferenceMaterial(data){
-
-				console.log(data);
-			  // var shoreAScale = event.target.softness;
-			  var input = document.createElement("input");
-
-			  input.type = "range"
-			  input.min = ((shoreAScale - 10) > 0) ? shoreAScale-10 : 0;
-			  input.max = shoreAScale + 10;
-			  input.value = shoreAScale;
-			  input.class = "slider"
-			  input.id = "softnessRange"
-			  input.onChange = "updateValue(this.value)"
-
-			  var textInput = document.createElement("text");
-			  textInput.value = '<br/> Shore A scale: ' + shoreAScale;
-			  textInput.id = "shoreAScaleValue"
-
-			  document.getElementById('sliderlocation').appendChild(document.createElement("br"));
-			  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: ' + shoreAScale;
-			  document.getElementById('sliderlocation').appendChild(input);
-
-			}
+			// function ReturnReferenceMaterial(data){
+			//
+			// 	console.log(data);
+			//   // var shoreAScale = event.target.softness;
+			//   var input = document.createElement("input");
+			//
+			//   input.type = "range"
+			//   input.min = ((shoreAScale - 10) > 0) ? shoreAScale-10 : 0;
+			//   input.max = shoreAScale + 10;
+			//   input.value = shoreAScale;
+			//   input.class = "slider"
+			//   input.id = "softnessRange"
+			//   input.onChange = "updateValue(this.value)"
+			//
+			//   var textInput = document.createElement("text");
+			//   textInput.value = '<br/> Shore A scale: ' + shoreAScale;
+			//   textInput.id = "shoreAScaleValue"
+			//
+			//   document.getElementById('sliderlocation').appendChild(document.createElement("br"));
+			//   document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: ' + shoreAScale;
+			//   document.getElementById('sliderlocation').appendChild(input);
+			//
+			// }
 
 			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 
