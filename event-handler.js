@@ -34,10 +34,18 @@ window.addEventListener( 'keydown', function( event ){
   }
 });
 
+function ReturnRegionSelecMethod(evt){
+  var selectionMethod = parseInt(evt.target.value);
+  console.log("Selected region method: ", selectionMethod);
+
+  scene.add(sphereRegion);
+  transformControlTarget.attach(sphereRegion);
+  // objects.push(sphereRegion);
+}
+
 function ReturnTypeofGradient(evt){
   //change gradient type
   var regtionSelection = parseInt(evt.target.value);
-
 
   // var selectObject= scene.getObjectByName("foot_step_volume");
   // selectObject.material = normalMaterial;

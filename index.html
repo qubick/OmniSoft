@@ -87,6 +87,14 @@
 				<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
 
 				<br/><br/>
+				<select onchange="ReturnRegionSelecMethod(event)">
+					<option value="0">Select Region</option>
+					<option value="1">By Volume</option>
+					<option value="2">By Type of Interaction</option>
+					<option value="3">By Slicing in plane</option>
+				</select>
+
+				<br/><br/>
 				<select onchange="ReturnDesiredInteraction(event)">
 					<option value="0">Select Interaction</option>
 					<option value="1">Foot Press</option>
@@ -101,14 +109,6 @@
 				<div id="refer-material" onchange="ReturnReferenceMaterial(event)"></div>
 
 				<div id="sliderlocation"></div>
-
-				<!-- <br/><br/> -->
-				<!-- <select onchange="ReturnRegionSelection(event)">
-						<option value="0">Select Region</option>
-						<option value="1">By Sphere volume</option>
-						<option value="2">By Cube volume</option>
-						<option value="3">By Slicing in plane</option>
-				</select> -->
 
 				<br/><br/>
 				<select onchange="ReturnTypeofGradient(event)">
@@ -127,7 +127,7 @@
 				console.log("click material")
 				document.getElementsByClassName('dd-click-off-close')[0].click();
 			}
-			
+
 			function searchMaterial(){
 				var input, filter, ul, li, a, i;
 				input		= document.getElementById('searchBox');
@@ -183,31 +183,6 @@
 					}
 				}
 			});
-
-
-			// function ReturnReferenceMaterial(data){
-			//
-			// 	console.log(data);
-			//   // var shoreAScale = event.target.softness;
-			//   var input = document.createElement("input");
-			//
-			//   input.type = "range"
-			//   input.min = ((shoreAScale - 10) > 0) ? shoreAScale-10 : 0;
-			//   input.max = shoreAScale + 10;
-			//   input.value = shoreAScale;
-			//   input.class = "slider"
-			//   input.id = "softnessRange"
-			//   input.onChange = "updateValue(this.value)"
-			//
-			//   var textInput = document.createElement("text");
-			//   textInput.value = '<br/> Shore A scale: ' + shoreAScale;
-			//   textInput.id = "shoreAScaleValue"
-			//
-			//   document.getElementById('sliderlocation').appendChild(document.createElement("br"));
-			//   document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: ' + shoreAScale;
-			//   document.getElementById('sliderlocation').appendChild(input);
-			//
-			// }
 
 			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 

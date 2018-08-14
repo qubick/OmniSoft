@@ -124,7 +124,7 @@ function init() {
 			}
 			mouse.x = ( x / window.innerWidth ) * 2 - 1;
 			mouse.y = - ( y / window.innerHeight ) * 2 + 1;
-			// checkIntersection();
+			checkIntersection();
 		}
 
 } //end of init
