@@ -237,7 +237,7 @@ function removeEntity(object){
   var selectObject = scene.getObjectByName(object.name);
   scene.remove( selectObject );
 
-  animate();
+  animate();  
 }
 
 function animate() {

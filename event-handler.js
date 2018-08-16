@@ -58,25 +58,30 @@ function ReturnTypeofGradient(evt){
 
 }
 
-function ReturnReferenceMaterial(evt){
+function ReturnRegionSelecMethod(evt){
 
-  var shoreAScale = evt.target.value;
-  var input = document.createElement("input");
+  var selectionMethod = parseInt(evt.target.value);
+  console.log("Selected region method: ", selectionMethod);
 
-  input.type = "range"
-  input.min = "10";
-  input.max = "50";
-  input.value = shoreAScale;
-  input.class = "slider"
-  input.id = "softnessRange"
-  input.onChange = "updateValue(this.value)"
+  scene.add(sphereRegion);
+  transformControlTarget.attach(sphereRegion);
+  // objects.push(sphereRegion);
 
-  var textInput = document.createElement("text");
-  textInput.value = '<br/> Shore A scale: ' + shoreAScale;
-  textInput.id = "shoreAScaleValue"
+  // example csg operation
+  var sphere_bsp = new ThreeBSP( sphereRegion );
+  var target_bsp = new ThreeBSP( target3DObject );
 
-  document.getElementById('sliderlocation').appendChild(document.createElement("br"));
-  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: ' + shoreAScale;
-  document.getElementById('sliderlocation').appendChild(input);
+  //test
+  // var cube_geometry = new THREE.CubeGeometry( 3, 3, 3 );
+  // var cube_mesh = new THREE.Mesh( cube_geometry );
+  // cube_mesh.position.x = -7;
+  // var cube_bsp = new ThreeBSP( cube_mesh );
 
+
+  var subtract_bsp = target_bsp.subtract( sphere_bsp );
+  var result = subtract_bsp.toMesh( lambMaterial );
+
+  result.geometry.computerVertexNormals();
+  result.position.set(100,100,100);
+  scene.add(result);
 }
