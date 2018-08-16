@@ -12,6 +12,7 @@
 
 		<!-- material search box -->
 		<script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
+		<script src="build/multi-list.js"></script>
 
 		<script type="javascript/text" src="server.js"></script>
 	</head>
@@ -106,7 +107,14 @@
 
 				<br/><br/>
 				<input type="text" id="searchBox" onclick="clickMaterials()" onkeyup="searchMaterial()" placeholder="Search for material">
-				<div id="refer-material" onchange="ReturnReferenceMaterial(event)"></div>
+				<div id="refer-material">
+					<!-- <select id="demo-htmlselect" multiple="multiple">
+						<option value="0">Facebook</option>
+						<option value="1">Twitter</option>
+						<option value="2">LinkedIn</option>
+						<option value="3">Foursquare></option>
+					</select> -->
+				</div>
 
 				<div id="sliderlocation"></div>
 
@@ -122,12 +130,41 @@
 		</div>
 
 		<script type="text/javascript">
+			var softnessArray = [];
+			var materialSelected = false;
+			var softnessIdx = 0;
+			// $(document).bind("keydown", (e) =>{
+			// 	var $prev, $next, $current = $("ul li.height");
+			//
+			// 	if(e.which === 40 && !$current.length){
+			// 		$("ul li:first").addClass("highlight");
+			// 	} else if (e.which === 39){
+			// 		$next = $current.next("li");
+			// 		if($next.length) {
+			// 			$current.removeClass("highlight");
+			// 			$next.addClass("highlight");
+			// 		}
+			// 	} else if (e.which === 37){
+			// 		$prev = $current.prev("li");
+			// 		if ($prev.length){
+			// 			$current.removeClass("highlight");
+			// 			$prev.addClass("highlight");
+			// 		}
+			// 	} else if (e.which === 38){
+			// 		$("ul li").removeClass("highlight")
+			// 	}
+			// });
+			// $('ul.dd-options.dd-click-off-close').multiList();
 
 			function clickMaterials(){
 				console.log("click material")
-				document.getElementsByClassName('dd-click-off-close')[0].click();
+
+				var span = document.getElementsByTagName('span')[0].click()
+				$('#refer-material').ddslick('open')
+				// span.addClass('dd-pointer-up')
 			}
 
+			// enable search box
 			function searchMaterial(){
 				var input, filter, ul, li, a, i;
 				input		= document.getElementById('searchBox');
@@ -148,41 +185,70 @@
 				} // end of for
 			} //end of searchMaterial funcion
 
+			// $('#refer-material').each( (index, element) => {
+			// 	$(element).ddslick({
 			$('#refer-material').ddslick({
-				data: reference_material,
-				width: 300,
-				selectText: "Select preferred soft/hard materials",
-				imagePosition: "right",
-				onSelected: function(event){
+					data: reference_material,
+					width: 300,
+					selectText: "Select preferred soft/hard materials",
+					imagePosition: "right",
+					onSelected: function(event){
 
-					//these must be changed along the multiple material selection
-				  var shoreAScale = parseInt(event.selectedData.softness);
-					var input = document.createElement("input");
+						var minSoft = 100//, maxSoft = 0;
+						softnessArray[softnessIdx] = parseInt(event.selectedData.softness);
+						var softnessLowerBound = ((softnessArray[softnessIdx] - 5) > 0) ? softnessArray[softnessIdx] - 5 : 0;
+						var softnessUpperBound = softnessArray[softnessIdx] + 5;
 
-				  input.type = "range"
-				  input.min = ((shoreAScale - 10) > 0) ? shoreAScale-10 : 0;
-				  input.max = shoreAScale + 10;
-				  input.value = shoreAScale;
-				  input.class = "slider"
-				  input.id = "softnessRange"
+						if( !materialSelected ){
+							var input = document.createElement("input");
 
-				  var textInput = document.createElement("text");
-				  textInput.value = '<br/> Shore A scale: ' + shoreAScale;
-				  textInput.id = "shoreAScaleValue"
+						  input.type = "range"
+						  input.min = ((softnessArray[softnessIdx] - 5) > 0) ? softnessArray[softnessIdx] - 5 : 0; //softnessLowerBound;
+						  input.max = softnessArray[softnessIdx] + 5; //softnessUpperBound;
+						  input.value = softnessArray[softnessIdx];
+						  input.class = "slider"
+						  input.id = "softnessRange"
 
-				  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: <div id="softnessValue"></div>'
-				  document.getElementById('sliderlocation').appendChild(input);
-					var output = document.getElementById("softnessValue")
-					output.innerHTML = shoreAScale;
+							minSoft = input.min;
+							// maxSoft = softnessUpperBound;
 
-					//update value should be defined when the slider is actullay created
-					var slider = document.getElementById("softnessRange");
-					slider.oninput = function(){
-						output = document.getElementById("softnessValue")
-						output.innerHTML = this.value;
+						  var textInput = document.createElement("text");
+						  textInput.value = '<br/> Shore A scale: ' + softnessArray[softnessIdx];
+						  textInput.id = "shoreAScaleValue"
+
+						  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: <div id="softnessValue"></div>'
+						  document.getElementById('sliderlocation').appendChild(input);
+							var output = document.getElementById("softnessValue")
+							output.innerHTML = softnessArray[softnessIdx];
+
+							//update value should be defined when the slider is actullay created
+							var slider = document.getElementById("softnessRange");
+							slider.oninput = function(){
+								output = document.getElementById("softnessValue")
+								output.innerHTML = this.value;
+							}
+
+							materialSelected = true;
+						}
+						else { // already input created and slider exists
+
+							var inputSlider = document.getElementById('softnessRange')
+							var outputText = document.getElementById("softnessValue")
+
+							if (minSoft > Math.min.apply(null, softnessArray) - 5)
+								minSoft = Math.min.apply(null, softnessArray) - 5
+
+							inputSlider.min = minSoft;
+							inputSlider.max = Math.max.apply(null, softnessArray) + 5;
+							inputSlider.value = softnessArray[softnessIdx];
+
+							outputText.innerHTML = softnessArray[softnessIdx];
+
+						}
+						softnessIdx++;
 					}
-				}
-			});
+				}); //eof ddslick
+			// }); //eof foreach
 
 			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 

@@ -49,38 +49,14 @@ function handleFileSelect(evt){
     panel.add(params, 'export').name('Export Model');
 
 
-    targetGeometry = geometry;
+    // geometry.traverse (function (child) {
+    //
+    //   if (child.geometry !== undefined){
+    //     console.log (" found object.geometry")
+    //     geometry = child.geometry;
+    //   }
+    // }); //eof traverse
   });
-}
-
-
-function ReturnRegionSelecMethod(evt){
-  var selectionMethod = parseInt(evt.target.value);
-  console.log("Selected region method: ", selectionMethod);
-
-  scene.add(sphereRegion);
-  transformControlTarget.attach(sphereRegion);
-  // objects.push(sphereRegion);
-
-  // example csg operation
-  console.log( sphereRegion );
-  var sphere_bsp = new ThreeBSP( sphereRegion );
-  console.log(targetGeometry);
-  var target_bsp = new ThreeBSP( targetGeometry );
-
-  //test
-  // var cube_geometry = new THREE.CubeGeometry( 3, 3, 3 );
-  // var cube_mesh = new THREE.Mesh( cube_geometry );
-  // cube_mesh.position.x = -7;
-  // var cube_bsp = new ThreeBSP( cube_mesh );
-
-
-  var subtract_bsp = target_bsp.subtract( sphere_bsp );
-  var result = subtract_bsp.toMesh( lambMaterial );
-
-  result.geometry.computerVertexNormals();
-  result.position.set(100,100,100);
-  scene.add(result);
 }
 
 
