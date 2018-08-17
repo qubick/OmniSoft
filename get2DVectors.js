@@ -39,13 +39,9 @@ function cutInPlaneToGet2DVectors(){
   }));
 
   // transformControlTarget.attach(plane)
-
-<<<<<<< HEAD
   // plane.position.y = -3.14;
   scene.add(plane);
 
-=======
->>>>>>> 38e2521a47f463eb812a3b82fb9b372616c1556e
   plane.localToWorld(planePointA.copy(plane.geometry.vertices[plane.geometry.faces[0].a]));
   plane.localToWorld(planePointB.copy(plane.geometry.vertices[plane.geometry.faces[0].b]));
   plane.localToWorld(planePointC.copy(plane.geometry.vertices[plane.geometry.faces[0].c]));
@@ -53,10 +49,27 @@ function cutInPlaneToGet2DVectors(){
 
 
   // for region selection Vector2D
-  sphereRegion.geometry.faces.forEach( (face) => {
-    sphereRegion.localToWorld(a.copy(sphereRegion.geometry.vertices[face.a]));
-    sphereRegion.localToWorld(b.copy(sphereRegion.geometry.vertices[face.b]));
-    sphereRegion.localToWorld(c.copy(sphereRegion.geometry.vertices[face.c]));
+  // sphereRegion.geometry.faces.forEach( (face) => {
+  //   sphereRegion.localToWorld(a.copy(sphereRegion.geometry.vertices[face.a]));
+  //   sphereRegion.localToWorld(b.copy(sphereRegion.geometry.vertices[face.b]));
+  //   sphereRegion.localToWorld(c.copy(sphereRegion.geometry.vertices[face.c]));
+  //
+  //   // console.log("what's a??", a)
+  //   lineAB = new THREE.Line3(a, b);
+  //   lineBC = new THREE.Line3(b, c);
+  //   lineCA = new THREE.Line3(c, a);
+  //
+  //   setPointOfIntersection('region', lineAB, mathPlane);
+  //   setPointOfIntersection('region', lineBC, mathPlane);
+  //   setPointOfIntersection('region', lineCA, mathPlane);
+  // });
+
+
+  //when we decide to output vectors of segmented walls
+  resultingWalls.geometry.faces.forEach( (face) => {
+    resultingWalls.localToWorld(a.copy(resultingWalls.geometry.vertices[face.a]));
+    resultingWalls.localToWorld(b.copy(resultingWalls.geometry.vertices[face.b]));
+    resultingWalls.localToWorld(c.copy(resultingWalls.geometry.vertices[face.c]));
 
     // console.log("what's a??", a)
     lineAB = new THREE.Line3(a, b);
@@ -93,6 +106,9 @@ function cutInPlaneToGet2DVectors(){
   var linesObject = new THREE.LineSegments(pointsOfIntersectObject, new THREE.LineBasicMaterial({
     color: 0x000000
   }));
+
+  //remove infill wall objects for now to only see 2D vectors
+  removeEntity ( resultingWalls );
 
   scene.add(pointsRegion);
   scene.add(pointsObject);

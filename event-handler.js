@@ -92,14 +92,16 @@ function getIntersectObject(source, target){
   var source_bsp = new ThreeBSP( source );
   var target_bsp = new ThreeBSP( target );
   var intersect_bsp = target_bsp.intersect( source_bsp );
-  var result = intersect_bsp.toMesh( material );
+  resultingWalls = intersect_bsp.toMesh( material );
 
-  result.geometry.computeVertexNormals();
-  result.position.set(-50,0,0); //tentative
+  resultingWalls.geometry.computeVertexNormals();
+  resultingWalls.position.set(0,0,0); //tentative, should be the original object
 
-  console.log("See intersection result: ", result )
 
-  scene.add( result );
+  removeEntity( sphereRegion );
+  removeEntity( walls );
+
+  scene.add( resultingWalls );
 }
 
 function getUnionObject(source, target){
@@ -110,7 +112,7 @@ function getUnionObject(source, target){
   var result = subtract_bsp.toMesh( lambMaterial );
 
   result.geometry.computeVertexNormals();
-  result.position.set(100,100,100);
+  // result.position.set(100,100,100);
 
   return result;
 }

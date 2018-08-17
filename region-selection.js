@@ -2,6 +2,7 @@
 var intervals = 1.2; //currently set to constant. Should be calculated by the model
 const INFILLWALLTHICKESS = 0.5;
 var infillWallArray = [];
+var walls, resultingWalls;
 
 var controls;
 var mouse = new THREE.Vector2();
@@ -109,12 +110,14 @@ function createInfillWalls(){
 		}
 
 		// do this after union all?
-		infillWallArray.forEach( (wall, i) =>{
-			scene.add(wall);
-		})
+		walls = getUnionObject(infillWallArray[0], infillWallArray[1]);
+		for(var i=2; i<infillWallArray.length; i++){
+			walls = getUnionObject(walls, infillWallArray[i]);
+
+		};
+		scene.add(walls);
 
 	}
 
-	getIntersectObject( infillWall, sphereRegion );
-	// getSubtractionObject( infillWall, sphereRegion );
+	getIntersectObject( walls, sphereRegion );
 }
