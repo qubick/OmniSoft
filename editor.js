@@ -19,6 +19,8 @@ function init() {
   // get type of gear and create UI according to it
   createPanel(); //load basic UI
 
+  // scene.add(new THREE.AxisHelper(2));
+
   container = document.createElement( 'div' );
   document.body.appendChild( container );
   camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -237,7 +239,7 @@ function removeEntity(object){
   var selectObject = scene.getObjectByName(object.name);
   scene.remove( selectObject );
 
-  animate();  
+  animate();
 }
 
 function animate() {
