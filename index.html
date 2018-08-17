@@ -80,6 +80,7 @@
 			<script src="./material.js"></script>
 			<script src="./region-selection.js"></script>
 			<script src="./refer-material.js"></script>
+			<script src="./get2DVectors.js"></script>
 
 			<div id="sideBar">
 
@@ -107,15 +108,9 @@
 
 				<br/><br/>
 				<input type="text" id="searchBox" onclick="clickMaterials()" onkeyup="searchMaterial()" placeholder="Search for material">
-				<div id="refer-material">
-					<!-- <select id="demo-htmlselect" multiple="multiple">
-						<option value="0">Facebook</option>
-						<option value="1">Twitter</option>
-						<option value="2">LinkedIn</option>
-						<option value="3">Foursquare></option>
-					</select> -->
-				</div>
+				<div id="refer-material"></div>
 
+				<div id="selectedMaterialImglocation"></div>
 				<div id="sliderlocation"></div>
 
 				<br/><br/>
@@ -133,28 +128,6 @@
 			var softnessArray = [];
 			var materialSelected = false;
 			var softnessIdx = 0;
-			// $(document).bind("keydown", (e) =>{
-			// 	var $prev, $next, $current = $("ul li.height");
-			//
-			// 	if(e.which === 40 && !$current.length){
-			// 		$("ul li:first").addClass("highlight");
-			// 	} else if (e.which === 39){
-			// 		$next = $current.next("li");
-			// 		if($next.length) {
-			// 			$current.removeClass("highlight");
-			// 			$next.addClass("highlight");
-			// 		}
-			// 	} else if (e.which === 37){
-			// 		$prev = $current.prev("li");
-			// 		if ($prev.length){
-			// 			$current.removeClass("highlight");
-			// 			$prev.addClass("highlight");
-			// 		}
-			// 	} else if (e.which === 38){
-			// 		$("ul li").removeClass("highlight")
-			// 	}
-			// });
-			// $('ul.dd-options.dd-click-off-close').multiList();
 
 			function clickMaterials(){
 				console.log("click material")
@@ -195,7 +168,7 @@
 					onSelected: function(event){
 
 						var minSoft = 100//, maxSoft = 0;
-						softnessArray[softnessIdx] = parseInt(event.selectedData.softness);
+						softnessArray.push(parseInt(event.selectedData.softness));
 						var softnessLowerBound = ((softnessArray[softnessIdx] - 5) > 0) ? softnessArray[softnessIdx] - 5 : 0;
 						var softnessUpperBound = softnessArray[softnessIdx] + 5;
 
@@ -244,6 +217,7 @@
 
 							outputText.innerHTML = softnessArray[softnessIdx];
 
+							console.log(softnessArray)
 						}
 						softnessIdx++;
 					}
