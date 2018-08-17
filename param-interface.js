@@ -20,6 +20,9 @@ var params = {
   export: function(){
     console.log("export stl");
 
+    //get softness region information frist
+    createInfillWalls();
+
     //get 2D vectors here
     //when added region volume, add intersection plane
     cutInPlaneToGet2DVectors();

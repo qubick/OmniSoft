@@ -1,8 +1,8 @@
 //all the events related to the region selection to assign soft infills
+var intervals = 1.2; //currently set to constant. Should be calculated by the model
+const INFILLWALLTHICKESS = 0.5;
 
 var controls;
-var mouse = new THREE.Vector2();
-var decals = [];
 var mouse = new THREE.Vector2();
 var mouseHelper;
 var annotPosition = new THREE.Vector3();
@@ -86,4 +86,20 @@ function fixPosition(){
   //when mouse down, toggle
 
 	sphereRegion.position.needsUpdate = false;
+}
+
+function createInfillWalls(){
+	console.log("sphereGeometry size: ", sphereRegion);
+
+	if(sphereRegion) {//only applied to the sphere region
+		let infillSize = sphereRegion.geometry.boundingSphere.radius * 2; //as big as sphere region
+		let repeatN = infillSize / (intervals + INFILLWALLTHICKESS)
+		let geometry = new THREE.BoxGeometry(INFILLWALLTHICKESS, infillSize, infillSize);
+
+		for(let i=0; i<repeatN; i++){
+			var infillWall = new THREE.Mesh( geometry, wireframeMaterial );
+			infillWall.position.set((intervals + INFILLWALLTHICKESS) * i, 0, 0);
+			scene.add(infillWall);
+		}
+	}
 }
