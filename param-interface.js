@@ -17,15 +17,23 @@ var params = {
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
   },
 
-  export: function(){
-    console.log("export stl");
-
+  createInfill: function(){
     //get softness region information frist
     createInfillWalls();
-
     //get 2D vectors here
     //when added region volume, add intersection plane
     cutInPlaneToGet2DVectors();
+
+  },
+  export: function(){
+    console.log("export stl");
+
+
+
+    removeEntity( sphereRegion );
+    infillWallArray.forEach( (wall) => {
+      removeEntity( wall );
+    });
   }
 }
 // var modelUI = panel.addFolder( 'Model Scale' );

@@ -61,24 +61,56 @@ function ReturnRegionSelecMethod(evt){
 
   var selectionMethod = parseInt(evt.target.value);
 
+  sphereRegion.name = 'sphereRegion'
   scene.add(sphereRegion);
   transformControlTarget.attach(sphereRegion);
-  // objects.push(sphereRegion);
+
+
+  //add dat.UI panel to create infill only when region is LoadDesiredInteraction
+  panel.add(params, 'createInfill').name('Create Infill');
 
 }
 
-function getSubtractionObject(){
+function getSubtractionObject(source, target){
   // example csg operation
-  var sphere_bsp = new ThreeBSP( sphereRegion );
+  var source_bsp = new ThreeBSP( source );
   // do this only if gutInPlaceToGet2DVectors() isn't called
   // when target3DObject is just fromBufferGeometry
   //target3DObject.geometry = new THREE.Geometry().fromBufferGeometry(target3DObject.geometry); target3DObject.geometry = new THREE.Geometry().fromBufferGeometry(target3DObject.geometry);
 
-  var target_bsp = new ThreeBSP( target3DObject );
-  var subtract_bsp = target_bsp.subtract( sphere_bsp );
+  var target_bsp = new ThreeBSP( target );
+  var subtract_bsp = target_bsp.subtract( source_bsp );
   var result = subtract_bsp.toMesh( lambMaterial );
 
   result.geometry.computeVertexNormals();
   result.position.set(100,100,100);
-  scene.add(result);
+  scene.add( result );
+}
+
+function getIntersectObject(source, target){
+
+  var source_bsp = new ThreeBSP( source );
+  var target_bsp = new ThreeBSP( target );
+  var intersect_bsp = target_bsp.intersect( source_bsp );
+  var result = intersect_bsp.toMesh( material );
+
+  result.geometry.computeVertexNormals();
+  result.position.set(-50,0,0); //tentative
+
+  console.log("See intersection result: ", result )
+
+  scene.add( result );
+}
+
+function getUnionObject(source, target){
+
+  var source_bsp = new ThreeBSP( source );
+  var target_bsp = new ThreeBSP( target );
+  var subtract_bsp = target_bsp.union( source_bsp );
+  var result = subtract_bsp.toMesh( lambMaterial );
+
+  result.geometry.computeVertexNormals();
+  result.position.set(100,100,100);
+
+  return result;
 }

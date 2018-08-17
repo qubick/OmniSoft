@@ -236,8 +236,8 @@ function LoadDesiredInteraction(selectedInterAction) {
 
 
 function removeEntity(object){
-  var selectObject = scene.getObjectByName(object.name);
-  scene.remove( selectObject );
+  // var selectObject = scene.getObjectByName(object.name);
+  scene.remove( object );
 
   animate();
 }
