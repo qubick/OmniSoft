@@ -1,16 +1,16 @@
-var pointsOfIntersectRegion = new THREE.Geometry(); //it's saving 2D vectors
+var pointsOfIntersectRegion = new THREE.Geometry(); //it's saving 2D vectors of soft region
 var pointOfIntersectRegion = new THREE.Vector3();
 
-var pointsOfIntersectObject = new THREE.Geometry();
+var pointsOfIntersectObject = new THREE.Geometry(); //it's saving 2D vectors of target 3D object
 var pointOfIntersectObject = new THREE.Vector3();
 
 var pointMaterial1 = new THREE.PointsMaterial({
   size:.5,
-  color: "green"
+  color: "white"
 });
 var pointMaterial2 = new THREE.PointsMaterial({
   size:.5,
-  color: "red"
+  color: "green"
 });
 
 var a = new THREE.Vector3()
@@ -22,15 +22,6 @@ var planePointA = new THREE.Vector3()
     ,planePointC = new THREE.Vector3();
 
 var lineAB, lineBC, lineCA;
-
-// var objGeom = new THREE.DodecahedronGeometry(10, 0);
-// var obj = new THREE.Mesh(objGeom, new THREE.MeshBasicMaterial({
-//   color: "green",
-//   wireframe: true
-// }));
-// // obj.rotation.z = Math.PI / 10;
-// // obj.position.set(0, 3.14, 0);
-// scene.add(obj);
 
 function cutInPlaneToGet2DVectors(){
   console.log("in get2DVectors.js: ", target3DObject);
@@ -93,35 +84,23 @@ function cutInPlaneToGet2DVectors(){
 
   var pointsRegion = new THREE.Points(pointsOfIntersectRegion, pointMaterial1);
   var pointsObject = new THREE.Points(pointsOfIntersectRegion, pointMaterial2);
-  scene.add(pointsRegion);
-  scene.add(pointsObject);
-
   var linesRegion = new THREE.LineSegments(pointsOfIntersectRegion, new THREE.LineBasicMaterial({
     color: 0xffffff
   }));
   var linesObject = new THREE.LineSegments(pointsOfIntersectObject, new THREE.LineBasicMaterial({
     color: 0x000000
   }));
+
+  scene.add(pointsRegion);
+  scene.add(pointsObject);
   scene.add(linesRegion);
   scene.add(linesObject);
-
-
-  //create json object of intersection points
-  var vectors2D = [];
-  pointsOfIntersection.vertices.forEach((point) => {
-    var point = {
-      x: point.x,
-      y: point.y,
-      z: point.z
-    }
-    vectors2D.push(point);
-  });
 
 }
 
 function setPointOfIntersection(target, line, plane){
 
-  console.log(pointsOfIntersectRegion)
+  // console.log(pointsOfIntersectRegion)
   if(target === 'region'){
     pointOfIntersectRegion = plane.intersectLine(line);
 
