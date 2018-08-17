@@ -26,7 +26,7 @@ var orientation = new THREE.Euler();
 var size = new THREE.Vector3( 10, 10, 10 );
 var up = new THREE.Vector3( 0, 1, 0 );
 
-scene.add( mouseHelper );
+// scene.add( mouseHelper );
 
 var moved = false;
 
