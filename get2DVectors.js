@@ -1,12 +1,9 @@
-//create a plane to intersect the object
-// var plane = new THREE.PlaneGeometry();
-// var mathPlane = new THREE.Plane();
+var pointsOfIntersection = new THREE.Geometry(); //it's saving 2D vectors
 
-var pointsOfIntersection = new THREE.Geometry();
 var pointOfIntersection = new THREE.Vector3();
 var pointMaterial = new THREE.PointsMaterial({
   size:.5,
-  color: "yellow"
+  color: "green"
 });
 
 var a = new THREE.Vector3()
@@ -69,6 +66,11 @@ function cutInPlaneToGet2DVectors(){
 
   var points = new THREE.Points(pointsOfIntersection, pointMaterial);
   scene.add(points);
+
+  var lines = new THREE.LineSegments(pointsOfIntersection, new THREE.LineBasicMaterial({
+    color: 0xffffff
+  }));
+  scene.add(lines);
 }
 
 function setPointOfIntersection(line, plane){
@@ -77,9 +79,4 @@ function setPointOfIntersection(line, plane){
   if(pointOfIntersection){
     pointsOfIntersection.vertices.push(pointOfIntersection.clone())
   }
-}
-
-function drawIntersectionPoints(){
-
-
 }
