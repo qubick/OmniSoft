@@ -18,7 +18,11 @@ var params = {
   },
 
   export: function(){
-    console.log("export stl")
+    console.log("export stl");
+
+    //get 2D vectors here
+    //when added region volume, add intersection plane
+    cutInPlaneToGet2DVectors();
   }
 }
 // var modelUI = panel.addFolder( 'Model Scale' );
@@ -42,20 +46,12 @@ function handleFileSelect(evt){
     objects.push(target3DObject); //add to select & translatable
     transformControlTarget.attach(target3DObject);
 
+    //once load, add UI elements
     panel.add(settings, 'modelScale', -1, 5, 0.1).onChange(function(){
       target3DObject.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
     });
-
     panel.add(params, 'export').name('Export Model');
 
-
-    // geometry.traverse (function (child) {
-    //
-    //   if (child.geometry !== undefined){
-    //     console.log (" found object.geometry")
-    //     geometry = child.geometry;
-    //   }
-    // }); //eof traverse
   });
 }
 

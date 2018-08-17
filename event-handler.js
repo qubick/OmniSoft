@@ -65,9 +65,6 @@ function ReturnRegionSelecMethod(evt){
   transformControlTarget.attach(sphereRegion);
   // objects.push(sphereRegion);
 
-  //get 2D vectors here
-  //when added region volume, add intersection plane
-  cutInPlaneToGet2DVectors();
 }
 
 function getSubtractionObject(){
