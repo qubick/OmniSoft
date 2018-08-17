@@ -28,7 +28,7 @@ var lineAB, lineBC, lineCA;
 function cutInPlaneToGet2DVectors(){
   console.log("in get2DVectors.js: ", target3DObject);
 
-  var planeGeom = new THREE.PlaneGeometry(30, 30);
+  var planeGeom = new THREE.PlaneGeometry(100, 100);
   var mathPlane = new THREE.Plane();
 
   planeGeom.rotateX(-Math.PI / 2);
@@ -41,19 +41,41 @@ function cutInPlaneToGet2DVectors(){
   }));
 
   plane.position.y = -3.14;
-  // plane.rotation.x = Math.PI / 5;
   scene.add(plane);
 
   //create plane
+
+  //face.a == index of vertex a
   plane.localToWorld(planePointA.copy(plane.geometry.vertices[plane.geometry.faces[0].a]));
   plane.localToWorld(planePointB.copy(plane.geometry.vertices[plane.geometry.faces[0].b]));
   plane.localToWorld(planePointC.copy(plane.geometry.vertices[plane.geometry.faces[0].c]));
   mathPlane.setFromCoplanarPoints(planePointA, planePointB, planePointC);
 
+  // for region selection Vector2D
   sphereRegion.geometry.faces.forEach( (face) => {
     sphereRegion.localToWorld(a.copy(sphereRegion.geometry.vertices[face.a]));
     sphereRegion.localToWorld(b.copy(sphereRegion.geometry.vertices[face.b]));
     sphereRegion.localToWorld(c.copy(sphereRegion.geometry.vertices[face.c]));
+
+    // console.log("what's a??", a)
+    lineAB = new THREE.Line3(a, b);
+    lineBC = new THREE.Line3(b, c);
+    lineCA = new THREE.Line3(c, a);
+
+    setPointOfIntersection(lineAB, mathPlane);
+    setPointOfIntersection(lineBC, mathPlane);
+    setPointOfIntersection(lineCA, mathPlane);
+  });
+
+  // for target 3D object Vector2D
+  target3DObject.geometry = new THREE.Geometry().fromBufferGeometry(target3DObject.geometry);
+  console.log("see targetGeometry: ", target3DObject);
+
+  target3DObject.geometry.faces.forEach( (face) => {
+    
+    target3DObject.localToWorld(a.copy(target3DObject.geometry.vertices[face.a]));
+    target3DObject.localToWorld(b.copy(target3DObject.geometry.vertices[face.b]));
+    target3DObject.localToWorld(c.copy(target3DObject.geometry.vertices[face.c]));
 
     lineAB = new THREE.Line3(a, b);
     lineBC = new THREE.Line3(b, c);

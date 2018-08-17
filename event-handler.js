@@ -12,7 +12,6 @@ window.addEventListener( 'keydown', function( event ){
   switch(event.keyCode) {
     case 81: // Q
       transformControlTarget.setSpace( transformControl.space === "local" ? "world" : "local" );
-
       break;
     case 17: // ctrl
 
@@ -61,27 +60,28 @@ function ReturnTypeofGradient(evt){
 function ReturnRegionSelecMethod(evt){
 
   var selectionMethod = parseInt(evt.target.value);
-  console.log("Selected region method: ", selectionMethod);
 
   scene.add(sphereRegion);
   transformControlTarget.attach(sphereRegion);
   // objects.push(sphereRegion);
 
+  //get 2D vectors here
+  //when added region volume, add intersection plane
+  cutInPlaneToGet2DVectors();
+}
+
+function getSubtractionObject(){
   // example csg operation
   var sphere_bsp = new ThreeBSP( sphereRegion );
+  // do this only if gutInPlaceToGet2DVectors() isn't called
+  // when target3DObject is just fromBufferGeometry
+  //target3DObject.geometry = new THREE.Geometry().fromBufferGeometry(target3DObject.geometry); target3DObject.geometry = new THREE.Geometry().fromBufferGeometry(target3DObject.geometry);
+
   var target_bsp = new ThreeBSP( target3DObject );
-
-  //test
-  // var cube_geometry = new THREE.CubeGeometry( 3, 3, 3 );
-  // var cube_mesh = new THREE.Mesh( cube_geometry );
-  // cube_mesh.position.x = -7;
-  // var cube_bsp = new ThreeBSP( cube_mesh );
-
-
   var subtract_bsp = target_bsp.subtract( sphere_bsp );
   var result = subtract_bsp.toMesh( lambMaterial );
 
-  result.geometry.computerVertexNormals();
+  result.geometry.computeVertexNormals();
   result.position.set(100,100,100);
   scene.add(result);
 }
