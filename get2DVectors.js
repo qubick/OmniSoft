@@ -1,9 +1,16 @@
-var pointsOfIntersection = new THREE.Geometry(); //it's saving 2D vectors
+var pointsOfIntersectRegion = new THREE.Geometry(); //it's saving 2D vectors
+var pointOfIntersectRegion = new THREE.Vector3();
 
-var pointOfIntersection = new THREE.Vector3();
-var pointMaterial = new THREE.PointsMaterial({
+var pointsOfIntersectObject = new THREE.Geometry();
+var pointOfIntersectObject = new THREE.Vector3();
+
+var pointMaterial1 = new THREE.PointsMaterial({
   size:.5,
   color: "green"
+});
+var pointMaterial2 = new THREE.PointsMaterial({
+  size:.5,
+  color: "red"
 });
 
 var a = new THREE.Vector3()
@@ -40,7 +47,9 @@ function cutInPlaneToGet2DVectors(){
     side: THREE.DoubleSide
   }));
 
-  plane.position.y = -3.14;
+  // transformControlTarget.attach(plane)
+
+  // plane.position.y = -3.14;
   scene.add(plane);
 
   plane.localToWorld(planePointA.copy(plane.geometry.vertices[plane.geometry.faces[0].a]));
@@ -60,15 +69,13 @@ function cutInPlaneToGet2DVectors(){
     lineBC = new THREE.Line3(b, c);
     lineCA = new THREE.Line3(c, a);
 
-    setPointOfIntersection(lineAB, mathPlane);
-    setPointOfIntersection(lineBC, mathPlane);
-    setPointOfIntersection(lineCA, mathPlane);
+    setPointOfIntersection('region', lineAB, mathPlane);
+    setPointOfIntersection('region', lineBC, mathPlane);
+    setPointOfIntersection('region', lineCA, mathPlane);
   });
 
   // for target 3D object Vector2D
   target3DObject.geometry = new THREE.Geometry().fromBufferGeometry(target3DObject.geometry);
-  console.log("see targetGeometry: ", target3DObject);
-
   target3DObject.geometry.faces.forEach( (face) => {
 
     target3DObject.localToWorld(a.copy(target3DObject.geometry.vertices[face.a]));
@@ -79,24 +86,54 @@ function cutInPlaneToGet2DVectors(){
     lineBC = new THREE.Line3(b, c);
     lineCA = new THREE.Line3(c, a);
 
-    setPointOfIntersection(lineAB, mathPlane);
-    setPointOfIntersection(lineBC, mathPlane);
-    setPointOfIntersection(lineCA, mathPlane);
+    setPointOfIntersection('object', lineAB, mathPlane);
+    setPointOfIntersection('object', lineBC, mathPlane);
+    setPointOfIntersection('object', lineCA, mathPlane);
   });
 
-  var points = new THREE.Points(pointsOfIntersection, pointMaterial);
-  scene.add(points);
+  var pointsRegion = new THREE.Points(pointsOfIntersectRegion, pointMaterial1);
+  var pointsObject = new THREE.Points(pointsOfIntersectRegion, pointMaterial2);
+  scene.add(pointsRegion);
+  scene.add(pointsObject);
 
-  var lines = new THREE.LineSegments(pointsOfIntersection, new THREE.LineBasicMaterial({
+  var linesRegion = new THREE.LineSegments(pointsOfIntersectRegion, new THREE.LineBasicMaterial({
     color: 0xffffff
   }));
-  scene.add(lines);
+  var linesObject = new THREE.LineSegments(pointsOfIntersectObject, new THREE.LineBasicMaterial({
+    color: 0x000000
+  }));
+  scene.add(linesRegion);
+  scene.add(linesObject);
+
+
+  //create json object of intersection points
+  var vectors2D = [];
+  pointsOfIntersection.vertices.forEach((point) => {
+    var point = {
+      x: point.x,
+      y: point.y,
+      z: point.z
+    }
+    vectors2D.push(point);
+  });
+
 }
 
-function setPointOfIntersection(line, plane){
+function setPointOfIntersection(target, line, plane){
 
-  pointOfIntersection = plane.intersectLine(line);
-  if(pointOfIntersection){
-    pointsOfIntersection.vertices.push(pointOfIntersection.clone())
+  console.log(pointsOfIntersectRegion)
+  if(target === 'region'){
+    pointOfIntersectRegion = plane.intersectLine(line);
+
+    if(pointOfIntersectRegion){
+      pointsOfIntersectRegion.vertices.push(pointOfIntersectRegion.clone())
+    }
+  }
+  else if(target === 'object'){
+    pointOfIntersectObject = plane.intersectLine(line);
+
+    if(pointOfIntersectObject){
+      pointsOfIntersectObject.vertices.push(pointOfIntersectObject.clone())
+    }
   }
 }
