@@ -10,7 +10,7 @@ window.ThreeBSP = (function() {
 
 	ThreeBSP = function( geometry ) {
 
-		console.log( "what is geometry in threebsp?: ", geometry );
+		console.log("current geometry to create three bsp: ", geometry );
 		// Convert THREE.Geometry to ThreeBSP
 		var i, _length_i,
 			face, vertex, faceVertexUvs, uvs,
@@ -31,6 +31,18 @@ window.ThreeBSP = (function() {
 			return this;
 		} else {
 			throw 'ThreeBSP: Given geometry is unsupported';
+		}
+
+		if( geometry.name.match(/.+\.stl/) ){
+
+			console.log("it's stl file: ", geometry.name )
+			geometry.traverse (function (child) {
+
+		    if (child.geometry !== undefined){
+		      console.log (" found object.geometry")
+		      geometry = child.geometry;
+		    }
+		  }); //eof traverse
 		}
 
 		for ( i = 0, _length_i = geometry.faces.length; i < _length_i; i++ ) {
