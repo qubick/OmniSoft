@@ -108,11 +108,13 @@ function createInfillWalls(){
 			infillWallArray.push(infillWall);
 		}
 
-		infillWallArray.forEach( (wall) =>{
+		// do this after union all?
+		infillWallArray.forEach( (wall, i) =>{
 			scene.add(wall);
 		})
+
 	}
 
-	// getIntersectObject( infillWall, sphereRegion );
-	getSubtractionObject( infillWall, sphereRegion );
+	getIntersectObject( infillWall, sphereRegion );
+	// getSubtractionObject( infillWall, sphereRegion );
 }

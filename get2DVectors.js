@@ -40,9 +40,12 @@ function cutInPlaneToGet2DVectors(){
 
   // transformControlTarget.attach(plane)
 
+<<<<<<< HEAD
   // plane.position.y = -3.14;
   scene.add(plane);
 
+=======
+>>>>>>> 38e2521a47f463eb812a3b82fb9b372616c1556e
   plane.localToWorld(planePointA.copy(plane.geometry.vertices[plane.geometry.faces[0].a]));
   plane.localToWorld(planePointB.copy(plane.geometry.vertices[plane.geometry.faces[0].b]));
   plane.localToWorld(planePointC.copy(plane.geometry.vertices[plane.geometry.faces[0].c]));
