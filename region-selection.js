@@ -1,6 +1,7 @@
 //all the events related to the region selection to assign soft infills
 var intervals = 1.2; //currently set to constant. Should be calculated by the model
 const INFILLWALLTHICKESS = 0.5;
+var infillWallArray = [];
 
 var controls;
 var mouse = new THREE.Vector2();
@@ -96,10 +97,22 @@ function createInfillWalls(){
 		let repeatN = infillSize / (intervals + INFILLWALLTHICKESS)
 		let geometry = new THREE.BoxGeometry(INFILLWALLTHICKESS, infillSize, infillSize);
 
+		let originX = sphereRegion.position.x - sphereRegion.geometry.boundingSphere.radius; //because of center
+		let originY = sphereRegion.position.y;
+		let originZ = sphereRegion.position.z;
+
 		for(let i=0; i<repeatN; i++){
 			var infillWall = new THREE.Mesh( geometry, wireframeMaterial );
-			infillWall.position.set((intervals + INFILLWALLTHICKESS) * i, 0, 0);
-			scene.add(infillWall);
+			infillWall.position.set(originX + (intervals + INFILLWALLTHICKESS) * i, originY, originZ);
+			infillWall.name = 'infillWall';
+			infillWallArray.push(infillWall);
 		}
+
+		infillWallArray.forEach( (wall) =>{
+			scene.add(wall);
+		})
 	}
+
+	// getIntersectObject( infillWall, sphereRegion );
+	getSubtractionObject( infillWall, sphereRegion );
 }
