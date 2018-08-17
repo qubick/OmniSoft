@@ -21,8 +21,8 @@ G1 F9000 \n\
 M117 Printing... \n'
 
 var d1='M111.568,164.302h79.83v-119h-10.936v-18.2L95.699,45.214L10.938,27.097v18.2H0v119.005h79.831 M91.732,53.209v102.217 \
-			l-72.855-15.571V53.209v-7.912v-8.395l39.263,8.395l33.586,7.179L91.732,53.209L91.732,53.209z M99.667,155.426V53.209v-0.733 \
-			l33.587-7.179l39.277-8.395v8.395v7.912v86.646L99.667,155.426z';
+l-72.855-15.571V53.209v-7.912v-8.395l39.263,8.395l33.586,7.179L91.732,53.209L91.732,53.209z M99.667,155.426V53.209v-0.733 \
+l33.587-7.179l39.277-8.395v8.395v7.912v86.646L99.667,155.426z';
 
 // var d2='M54.749,25.176c-0.19-0.324-0.551-0.515-0.992-0.525c-0.697-0.015-1.719-0.03-2.934-0.03 \
 // 		c-5.003,0-11.256,0.245-14.573,1.315c-0.827-4.362-5.541-12.502-7.682-16.036c-0.457-0.758-1.44-0.757-1.899,0 \
@@ -54,128 +54,128 @@ var flatJSON = flatten(resultingJSON);
 
 function getExtrusionLength(x1, y1, x2, y2){
 	var dist = getDistance(x1, y1, x2, y2);
-  return ( Math.pow(nozzleSize, 2) * dist) / Math.pow(filamentThickness, 2);
+	return ( Math.pow(nozzleSize, 2) * dist) / Math.pow(filamentThickness, 2);
 }
 
 function getDistance(x1, y1, x2, y2){
-  // console.log(x1, y1, x2, y2)
-  return Math.hypot(x1-x2, y1-y2);
+	// console.log(x1, y1, x2, y2)
+	return Math.hypot(x1-x2, y1-y2);
 }
 
 function traverse(jsonObj) {
-  var orinPts = {},
-      prevPts = {},
-      currPts = {};
+	var orinPts = {},
+	prevPts = {},
+	currPts = {};
 	var prevPtsSVG = {},
-			currPtsSVG = {};
+	currPtsSVG = {};
 	var ptsSequence = [];
-  var dist= 0, extrusion = 0;
-  var gcodeCmdString = gcodeInit + 'G91 \n'; //force to be relative because of extrusion
+	var dist= 0, extrusion = 0;
+	var gcodeCmdString = gcodeInit + 'G91 \n'; //force to be relative because of extrusion
 
 	let valueX, valueY;
 
-  if( typeof jsonObj == "object" ) {
-      Object.entries(jsonObj).forEach(([key, value]) => {
-          // key is either an array index or object key
-          // traverse(value); //go for flattening again << not necessary for now
+	if( typeof jsonObj == "object" ) {
+		Object.entries(jsonObj).forEach(([key, value]) => {
+			// key is either an array index or object key
+			// traverse(value); //go for flattening again << not necessary for now
 
-        // console.log("key: ", key, " value: ", value.code); //key is cmd number, value is command sets
-        var cmdCode = value.code;
+			// console.log("key: ", key, " value: ", value.code); //key is cmd number, value is command sets
+			var cmdCode = value.code;
 
-        switch(cmdCode) {
-          case 'M': //start pts
-            currPts = {
-              x: parseFloat(value.x),
-              y: parseFloat(value.y)
-            }
-            gcodeCmdString += 'G0 X' + currPts.x + ' Y' + currPts.y + '\n';
-            origPts = currPts;
-						prevPts = currPts;
-          break;
+			switch(cmdCode) {
+				case 'M': //start pts
+				currPts = {
+					x: parseFloat(value.x),
+					y: parseFloat(value.y)
+				}
+				gcodeCmdString += 'G0 X' + currPts.x + ' Y' + currPts.y + '\n';
+				origPts = currPts;
+				prevPts = currPts;
+				break;
 
-          case 'L': //absolute line to
-						currPts = {
-							x: parseFloat(value.x),
-							y: parseFloat(value.y)
-						}
-            extrusion       += getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
-            gcodeCmdString  += 'G1 X' + currPts.x.toFixed(3) + ' Y' + currPts.y.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
-						prevPts = currPts;
-          break;
-          case 'l': //relative line to
-            currPts = {
-              x: parseFloat(value.x) + prevPts.x,
-              y: parseFloat(value.y) + prevPts.y
-            }
-            extrusion       += getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
-						gcodeCmdString  += 'G1 X' + currPts.x.toFixed(3) + ' Y' + currPts.y.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
-						prevPts = currPts;
-          break;
+				case 'L': //absolute line to
+				currPts = {
+					x: parseFloat(value.x),
+					y: parseFloat(value.y)
+				}
+				extrusion       += getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
+				gcodeCmdString  += 'G1 X' + currPts.x.toFixed(3) + ' Y' + currPts.y.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
+				prevPts = currPts;
+				break;
+				case 'l': //relative line to
+				currPts = {
+					x: parseFloat(value.x) + prevPts.x,
+					y: parseFloat(value.y) + prevPts.y
+				}
+				extrusion       += getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
+				gcodeCmdString  += 'G1 X' + currPts.x.toFixed(3) + ' Y' + currPts.y.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
+				prevPts = currPts;
+				break;
 
-          case 'Z': //close path, abolute
-						extrusion       += getExtrusionLength(prevPts.x, prevPts.y, origPts.x, origPts.y);
-						gcodeCmdString  += 'G1 X' + origPts.x.toFixed(3) + ' Y' + origPts.y.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
-						origPts = {};
-						prevPts = {};
-					break;
+				case 'Z': //close path, abolute
+				extrusion       += getExtrusionLength(prevPts.x, prevPts.y, origPts.x, origPts.y);
+				gcodeCmdString  += 'G1 X' + origPts.x.toFixed(3) + ' Y' + origPts.y.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
+				origPts = {};
+				prevPts = {};
+				break;
 
-          case 'H': //absolute horizontal line to only x value
-						currPts = {
-              x: parseFloat(value.x),
-              y: prevPts.y
-            }
-						extrusion       += getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
-						gcodeCmdString  += 'G1 X' + currPts.x.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
-						prevPts = currPts;
-					break;
-          case 'h':
-            currPts = {
-              x: prevPts.x + parseFloat(value.x),
-              y: prevPts.y //no value
-            }
-						extrusion       += getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
-						gcodeCmdString  += 'G1 X' + currPts.x.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
-						prevPts = currPts;
-					break;
+				case 'H': //absolute horizontal line to only x value
+				currPts = {
+					x: parseFloat(value.x),
+					y: prevPts.y
+				}
+				extrusion       += getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
+				gcodeCmdString  += 'G1 X' + currPts.x.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
+				prevPts = currPts;
+				break;
+				case 'h':
+				currPts = {
+					x: prevPts.x + parseFloat(value.x),
+					y: prevPts.y //no value
+				}
+				extrusion       += getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
+				gcodeCmdString  += 'G1 X' + currPts.x.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
+				prevPts = currPts;
+				break;
 
-          case 'V': //absolute vertical line to. only y value
-						valueY =
-            currPts = {
-              x: prevPts.x,
-              y: parseFloat(value.y)
-            }
-						extrusion       += getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
-						gcodeCmdString  += 'G1 Y' + currPts.y.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
-						prevPts = currPts;
-					break;
-          case 'v': //relative vertical line to.
-						valueY =
-            currPts = {
-              x: prevPts.x,
-              y: prevPts.y + parseFloat(value.y)
-            }
-						extrusion       = getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
-						gcodeCmdString  += 'G1 Y' + currPts.y.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
-						prevPts = currPts;
-					break;
+				case 'V': //absolute vertical line to. only y value
+				valueY =
+				currPts = {
+					x: prevPts.x,
+					y: parseFloat(value.y)
+				}
+				extrusion       += getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
+				gcodeCmdString  += 'G1 Y' + currPts.y.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
+				prevPts = currPts;
+				break;
+				case 'v': //relative vertical line to.
+				valueY =
+				currPts = {
+					x: prevPts.x,
+					y: prevPts.y + parseFloat(value.y)
+				}
+				extrusion       = getExtrusionLength(currPts.x, currPts.y, prevPts.x, prevPts.y);
+				gcodeCmdString  += 'G1 Y' + currPts.y.toFixed(3) + ' E' + extrusion.toFixed(5) + '\n';
+				prevPts = currPts;
+				break;
 
-          default:
-            //bezier curve is not addressed yet
-					break;
-        } //end of switch-case
-				// prevPts = currPts; //renew prev pts info
+				default:
+				//bezier curve is not addressed yet
+				break;
+			} //end of switch-case
+			// prevPts = currPts; //renew prev pts info
 
-    }); //end of forEach
+		}); //end of forEach
 
-    console.log(gcodeCmdString);
-    fs.writeFile('test.gcode', gcodeCmdString, (req, res, err) => {
-      if(err) console.log(err)
-    })
-  }
-  else {
-    ; //not necessary for now
-      // console.log("else: ", jsonObj)
-  }
+		console.log(gcodeCmdString);
+		fs.writeFile('test.gcode', gcodeCmdString, (req, res, err) => {
+			if(err) console.log(err)
+		})
+	}
+	else {
+		; //not necessary for now
+		// console.log("else: ", jsonObj)
+	}
 }
 
 traverse(resultingJSON);

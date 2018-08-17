@@ -43,13 +43,11 @@ function cutInPlaneToGet2DVectors(){
   plane.position.y = -3.14;
   scene.add(plane);
 
-  //create plane
-
-  //face.a == index of vertex a
   plane.localToWorld(planePointA.copy(plane.geometry.vertices[plane.geometry.faces[0].a]));
   plane.localToWorld(planePointB.copy(plane.geometry.vertices[plane.geometry.faces[0].b]));
   plane.localToWorld(planePointC.copy(plane.geometry.vertices[plane.geometry.faces[0].c]));
   mathPlane.setFromCoplanarPoints(planePointA, planePointB, planePointC);
+
 
   // for region selection Vector2D
   sphereRegion.geometry.faces.forEach( (face) => {
@@ -72,7 +70,7 @@ function cutInPlaneToGet2DVectors(){
   console.log("see targetGeometry: ", target3DObject);
 
   target3DObject.geometry.faces.forEach( (face) => {
-    
+
     target3DObject.localToWorld(a.copy(target3DObject.geometry.vertices[face.a]));
     target3DObject.localToWorld(b.copy(target3DObject.geometry.vertices[face.b]));
     target3DObject.localToWorld(c.copy(target3DObject.geometry.vertices[face.c]));
