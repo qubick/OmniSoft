@@ -1,4 +1,7 @@
+////#################################################################
 //all the events related to the region selection to assign soft infills
+//#################################################################
+
 var intervals = 1.2; //currently set to constant. Should be calculated by the model
 const INFILLWALLTHICKESS = 0.5;
 var infillWallArray = [];
@@ -90,6 +93,12 @@ function fixPosition(){
 	sphereRegion.position.needsUpdate = false;
 }
 
+//#################################################################
+// create infill patterns into the intersectional region of soft region
+// 1. union all individual walls into walls,
+// 2. then intersect by the region shape
+//#################################################################
+
 function createInfillWalls(){
 	console.log("sphereGeometry size: ", sphereRegion);
 
@@ -109,11 +118,9 @@ function createInfillWalls(){
 			infillWallArray.push(infillWall);
 		}
 
-		// do this after union all?
 		walls = getUnionObject(infillWallArray[0], infillWallArray[1]);
 		for(var i=2; i<infillWallArray.length; i++){
 			walls = getUnionObject(walls, infillWallArray[i]);
-
 		};
 		scene.add(walls);
 

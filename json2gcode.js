@@ -1,3 +1,9 @@
+//############################################################
+// Purpose of this function is to write Gcode from 2D vectors of region + rigid objects
+// targetObject should be filled with rigid infills,
+// resultingWalls (intersection of region and infill walls) to create vectors in plane
+//############################################################
+
 var parseSVG  = require('svg-path-parser');
 var flatten   = require('flat');
 var fs        = require('fs');

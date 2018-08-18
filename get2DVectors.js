@@ -6,7 +6,7 @@ var pointOfIntersectObject = new THREE.Vector3();
 
 var pointMaterial1 = new THREE.PointsMaterial({
   size:.5,
-  color: "white"
+  color: "red"
 });
 var pointMaterial2 = new THREE.PointsMaterial({
   size:.5,
