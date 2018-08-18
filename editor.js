@@ -172,6 +172,10 @@ function LoadDesiredInteraction(selectedInterAction) {
   }
 
   loader.load( targetPath, ( geometry ) => {
+
+    //remove any existing body parts loaded previously
+    if(arrowMesh) removeEntity (arrowMesh);
+
     geometry.center()
 
     bodyMesh = new THREE.Mesh( geometry, normalMaterial );
