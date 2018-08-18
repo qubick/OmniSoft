@@ -20,20 +20,14 @@ var params = {
   createInfill: function(){
     //get softness region information frist
     createInfillWalls();
-    //get 2D vectors here
-    //when added region volume, add intersection plane
-    cutInPlaneToGet2DVectors();
+
 
   },
   export: function(){
     console.log("export stl");
 
-
-
-    removeEntity( sphereRegion );
-    infillWallArray.forEach( (wall) => {
-      removeEntity( wall );
-    });
+    //when added region volume, add intersection plane
+    cutInPlaneToGet2DVectors();
   }
 }
 // var modelUI = panel.addFolder( 'Model Scale' );
