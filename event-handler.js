@@ -72,12 +72,8 @@ function ReturnRegionSelecMethod(evt){
 }
 
 function getSubtractionObject(source, target){
-  // example csg operation
-  var source_bsp = new ThreeBSP( source );
-  // do this only if gutInPlaceToGet2DVectors() isn't called
-  // when target3DObject is just fromBufferGeometry
-  //target3DObject.geometry = new THREE.Geometry().fromBufferGeometry(target3DObject.geometry); target3DObject.geometry = new THREE.Geometry().fromBufferGeometry(target3DObject.geometry);
 
+  var source_bsp = new ThreeBSP( source );
   var target_bsp = new ThreeBSP( target );
   var subtract_bsp = target_bsp.subtract( source_bsp );
   var result = subtract_bsp.toMesh( lambMaterial );
@@ -102,6 +98,24 @@ function getIntersectObject(source, target){
   removeEntity( walls );
 
   scene.add( resultingWalls );
+}
+
+function getIntersect(source, target){
+
+  console.log("in getIntersect(), source, region ", source, target)
+  var source_bsp = new ThreeBSP( source );
+  var target_bsp = new ThreeBSP( target );
+  var intersect_bsp = target_bsp.intersect( source_bsp );
+  var result = intersect_bsp.toMesh( material );
+
+  result.geometry.computeVertexNormals();
+  // result.position.set(0,0,0); //tentative, should be the original object
+
+
+  removeEntity( sphereRegion );
+  // return source
+  scene.add( result );
+  return result
 }
 
 function getUnionObject(source, target){

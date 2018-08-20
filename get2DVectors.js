@@ -24,9 +24,8 @@ var planePointA = new THREE.Vector3()
 var lineAB, lineBC, lineCA;
 
 function cutInPlaneToGet2DVectors(){
-  console.log("in get2DVectors.js: ", target3DObject);
 
-  var planeGeom = new THREE.PlaneGeometry(100, 100);
+  var planeGeom = new THREE.PlaneGeometry(300, 300);
   var mathPlane = new THREE.Plane();
 
   planeGeom.rotateX(-Math.PI / 2);
@@ -39,14 +38,13 @@ function cutInPlaneToGet2DVectors(){
   }));
 
   // transformControlTarget.attach(plane)
-  // plane.position.y = -3.14;
+  // plane.position.y = -10;
   scene.add(plane);
 
   plane.localToWorld(planePointA.copy(plane.geometry.vertices[plane.geometry.faces[0].a]));
   plane.localToWorld(planePointB.copy(plane.geometry.vertices[plane.geometry.faces[0].b]));
   plane.localToWorld(planePointC.copy(plane.geometry.vertices[plane.geometry.faces[0].c]));
   mathPlane.setFromCoplanarPoints(planePointA, planePointB, planePointC);
-
 
   // for region selection Vector2D
   // sphereRegion.geometry.faces.forEach( (face) => {
@@ -82,7 +80,6 @@ function cutInPlaneToGet2DVectors(){
   });
 
   // for target 3D object Vector2D
-  target3DObject.geometry = new THREE.Geometry().fromBufferGeometry(target3DObject.geometry);
   target3DObject.geometry.faces.forEach( (face) => {
 
     target3DObject.localToWorld(a.copy(target3DObject.geometry.vertices[face.a]));

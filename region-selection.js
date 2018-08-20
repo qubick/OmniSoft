@@ -103,6 +103,14 @@ function createInfillWalls(){
 	console.log("sphereGeometry size: ", sphereRegion);
 
 	if(sphereRegion) {//only applied to the sphere region
+
+		//step 1. get intersection region
+		// sphere region will be modified
+		// sphereRegion = getIntersect(target3DObject, sphereRegion);
+		// console.log("after getIntersect(): ", sphereRegion)
+
+		
+		// step 2. create infill
 		let infillSize = sphereRegion.geometry.boundingSphere.radius * 2; //as big as sphere region
 		let repeatN = infillSize / (intervals + INFILLWALLTHICKESS)
 		let geometry = new THREE.BoxGeometry(INFILLWALLTHICKESS, infillSize, infillSize);

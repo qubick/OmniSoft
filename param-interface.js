@@ -2,7 +2,8 @@
 
 var modelLoaded = false;
 var settings = {
-  modelScale: 1.0
+  modelScale: 1.0,
+  movePlane: 1.0
 }
 
 //see if geometry can be kept
@@ -45,6 +46,7 @@ function handleFileSelect(evt){
     target3DObject.name = files[0].name;
     target3DObject.receiveShadow = true;
     target3DObject.castShadow = true;
+    target3DObject.geometry = new THREE.Geometry().fromBufferGeometry(target3DObject.geometry);
 
 
     scene.add(target3DObject);
