@@ -27,7 +27,7 @@ var params = {
     //when added region volume, add intersection plane
     var result = exporter.parse( resultingWalls );
     saveString (result, 'infill.stl');
-    removeEntity ( resultingWalls );
+    // removeEntity ( resultingWalls );
 
     // cutInPlaneToGet2DVectors(); //it isn't required for now
   }

@@ -105,7 +105,7 @@ function createInfillWalls(){
 
 		//step 1. get intersection region
 		// sphere region will be modified
-		var resultingRegion = getIntersect(target3DObject, sphereRegion);
+		var resultingRegion = getSoftRegion(target3DObject, sphereRegion);
 
 		// step 2. create infill
 		let infillSize = sphereRegion.geometry.boundingSphere.radius * 2; //as big as sphere region
@@ -139,5 +139,65 @@ function createInfillWalls(){
 
 	}
 
-	getIntersectObject( walls, resultingRegion );
+	getIntersectInfill( walls, resultingRegion );
+}
+
+function getSubtractionObject(source, target){
+
+  var source_bsp = new ThreeBSP( source );
+  var target_bsp = new ThreeBSP( target );
+  var subtract_bsp = target_bsp.subtract( source_bsp );
+  var result = subtract_bsp.toMesh( lambMaterial );
+
+  result.geometry.computeVertexNormals();
+  scene.add( result );
+}
+
+
+function getIntersectInfill(source, target){
+
+  var source_bsp = new ThreeBSP( source );
+  var target_bsp = new ThreeBSP( target );
+  var intersect_bsp = target_bsp.intersect( source_bsp );
+  resultingWalls = intersect_bsp.toMesh( material );
+
+  resultingWalls.geometry.computeVertexNormals();
+  // resultingWalls.position.set(resultingRegion.position.x,resultingRegion.position.y,resultingRegion.position.z); //tentative, should be the original object
+
+
+  scene.remove( source );
+  scene.remove( target );
+
+  scene.add( resultingWalls );
+}
+
+function getSoftRegion(source, target){
+
+  var source_bsp = new ThreeBSP( source );
+  var target_bsp = new ThreeBSP( target );
+  var intersect_bsp = target_bsp.intersect( source_bsp );
+  var result = intersect_bsp.toMesh( material );
+
+  result.geometry.computeVertexNormals();
+  result.geometry.computeBoundingBox();
+  result.geometry.computeBoundingSphere();
+  // result.position.set(target.position.x, target.position.y, target.position.z); //tentative, should be the original object
+
+
+  scene.remove( sphereRegion );
+  scene.add( result );
+  return result
+}
+
+function getUnionObject(source, target){
+
+  var source_bsp = new ThreeBSP( source );
+  var target_bsp = new ThreeBSP( target );
+  var subtract_bsp = target_bsp.union( source_bsp );
+  var result = subtract_bsp.toMesh( lambMaterial );
+
+  result.geometry.computeVertexNormals();
+  // result.position.set(100,100,100);
+
+  return result;
 }

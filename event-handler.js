@@ -72,66 +72,6 @@ function ReturnRegionSelecMethod(evt){
 
 }
 
-function getSubtractionObject(source, target){
-
-  var source_bsp = new ThreeBSP( source );
-  var target_bsp = new ThreeBSP( target );
-  var subtract_bsp = target_bsp.subtract( source_bsp );
-  var result = subtract_bsp.toMesh( lambMaterial );
-
-  result.geometry.computeVertexNormals();
-  result.position.set(100,100,100);
-  scene.add( result );
-}
-
-function getIntersectObject(source, target){
-
-  var source_bsp = new ThreeBSP( source );
-  var target_bsp = new ThreeBSP( target );
-  var intersect_bsp = target_bsp.intersect( source_bsp );
-  resultingWalls = intersect_bsp.toMesh( material );
-
-  resultingWalls.geometry.computeVertexNormals();
-  resultingWalls.position.set(100,100,100); //tentative, should be the original object
-
-
-  scene.remove( source );
-  scene.remove( target );
-
-  scene.add( resultingWalls );
-}
-
-function getIntersect(source, target){
-
-  var source_bsp = new ThreeBSP( source );
-  var target_bsp = new ThreeBSP( target );
-  var intersect_bsp = target_bsp.intersect( source_bsp );
-  var result = intersect_bsp.toMesh( material );
-
-  result.geometry.computeVertexNormals();
-  result.geometry.computeBoundingBox();
-  result.geometry.computeBoundingSphere();
-  result.position.set(100,100,0); //tentative, should be the original object
-
-
-  scene.remove( sphereRegion );
-  scene.add( result );
-  return result
-}
-
-function getUnionObject(source, target){
-
-  var source_bsp = new ThreeBSP( source );
-  var target_bsp = new ThreeBSP( target );
-  var subtract_bsp = target_bsp.union( source_bsp );
-  var result = subtract_bsp.toMesh( lambMaterial );
-
-  result.geometry.computeVertexNormals();
-  // result.position.set(100,100,100);
-
-  return result;
-}
-
 function saveString (text, filename ){
   save ( new Blob( [text], {type: 'text/plain'}), filename );
 }
