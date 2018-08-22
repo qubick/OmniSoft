@@ -92,11 +92,11 @@ function getIntersectObject(source, target){
   resultingWalls = intersect_bsp.toMesh( material );
 
   resultingWalls.geometry.computeVertexNormals();
-  // resultingWalls.position.set(0,0,0); //tentative, should be the original object
+  resultingWalls.position.set(100,100,100); //tentative, should be the original object
 
 
-  removeEntity( sphereRegion );
-  removeEntity( walls );
+  scene.remove( source );
+  scene.remove( target );
 
   scene.add( resultingWalls );
 }

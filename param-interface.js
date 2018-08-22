@@ -25,7 +25,7 @@ var params = {
   },
   export: function(){
     //when added region volume, add intersection plane
-    var result = exporter.parse( walls );
+    var result = exporter.parse( resultingWalls );
     saveString (result, 'infill.stl');
     removeEntity ( resultingWalls );
 

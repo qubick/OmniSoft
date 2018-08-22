@@ -139,5 +139,5 @@ function createInfillWalls(){
 
 	}
 
-	getIntersectObject( walls, sphereRegion );
+	getIntersectObject( walls, resultingRegion );
 }
