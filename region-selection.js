@@ -5,7 +5,7 @@
 var intervals = 1.2; //currently set to constant. Should be calculated by the model
 const INFILLWALLTHICKESS = 0.5;
 var infillWallArray = [];
-var walls, resultingWalls;
+var walls, resultingWalls, adjustedTarget;
 
 var controls;
 var mouse = new THREE.Vector2();
@@ -142,15 +142,29 @@ function createInfillWalls(){
 	getIntersectInfill( walls, resultingRegion );
 }
 
+function getModifiedTarget(){
+	if(sphereRegion) //when creating region is sphereShape
+		getSubtractionObject( sphereRegion, target3DObject)
+}
+
 function getSubtractionObject(source, target){
+
+	// console.log(target.size)
 
   var source_bsp = new ThreeBSP( source );
   var target_bsp = new ThreeBSP( target );
   var subtract_bsp = target_bsp.subtract( source_bsp );
-  var result = subtract_bsp.toMesh( lambMaterial );
+  adjustedTarget = subtract_bsp.toMesh( lambMaterial );
 
-  result.geometry.computeVertexNormals();
-  scene.add( result );
+  adjustedTarget.geometry.computeVertexNormals();
+	adjustedTarget.geometry.computeBoundingBox();
+	adjustedTarget.geometry.computeBoundingSphere();
+
+	//need to rescale manually as it is set by model scale slider
+	adjustedTarget.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
+
+	scene.remove( target );
+  scene.add( adjustedTarget );
 }
 
 
@@ -163,7 +177,6 @@ function getIntersectInfill(source, target){
 
   resultingWalls.geometry.computeVertexNormals();
   // resultingWalls.position.set(resultingRegion.position.x,resultingRegion.position.y,resultingRegion.position.z); //tentative, should be the original object
-
 
   scene.remove( source );
   scene.remove( target );

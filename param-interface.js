@@ -21,11 +21,12 @@ var params = {
   createInfill: function(){
     //get softness region information frist
     createInfillWalls();
-
+    getModifiedTarget();
   },
   export: function(){
     //when added region volume, add intersection plane
-    var result = exporter.parse( resultingWalls );
+    var resultObject = getUnionObject( adjustedTarget, resultingWalls );
+    var result = exporter.parse( resultObject );
     saveString (result, 'infill.stl');
     // removeEntity ( resultingWalls );
 
