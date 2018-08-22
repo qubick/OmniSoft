@@ -12,7 +12,8 @@ var shadowlight = new THREE.DirectionalLight( 0xfffff, 1, 100);
 init();
 animate();
 
-var loader = new THREE.STLLoader();
+var loader    = new THREE.STLLoader();
+var exporter  = new THREE.STLExporter();
 
 function init() {
 

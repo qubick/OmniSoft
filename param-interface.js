@@ -22,10 +22,11 @@ var params = {
     //get softness region information frist
     createInfillWalls();
 
-
   },
   export: function(){
     //when added region volume, add intersection plane
+    var result = exporter.parse( walls );
+    saveString (result, 'infill.stl');
     removeEntity ( resultingWalls );
 
     // cutInPlaneToGet2DVectors(); //it isn't required for now
