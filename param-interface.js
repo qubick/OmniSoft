@@ -25,10 +25,10 @@ var params = {
 
   },
   export: function(){
-    console.log("export stl");
-
     //when added region volume, add intersection plane
-    cutInPlaneToGet2DVectors();
+    removeEntity ( resultingWalls );
+
+    // cutInPlaneToGet2DVectors(); //it isn't required for now
   }
 }
 // var modelUI = panel.addFolder( 'Model Scale' );

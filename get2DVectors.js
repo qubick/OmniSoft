@@ -33,12 +33,13 @@ function cutInPlaneToGet2DVectors(){
   var plane = new THREE.Mesh(planeGeom, new THREE.MeshBasicMaterial({
     color: "lightgray",
     transparent: true,
-    opacity: 0.75,
+    opacity: 0.5,
     side: THREE.DoubleSide
   }));
 
   // transformControlTarget.attach(plane)
   // plane.position.y = -10;
+  // plane.position.set(sphereRegion.position.x, shpereRegion.position.y, shpereRegion.position.z)
   scene.add(plane);
 
   plane.localToWorld(planePointA.copy(plane.geometry.vertices[plane.geometry.faces[0].a]));
@@ -105,7 +106,6 @@ function cutInPlaneToGet2DVectors(){
   }));
 
   //remove infill wall objects for now to only see 2D vectors
-  removeEntity ( resultingWalls );
 
   scene.add(pointsRegion);
   scene.add(pointsObject);

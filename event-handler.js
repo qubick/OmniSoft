@@ -12,6 +12,7 @@ window.addEventListener( 'keydown', function( event ){
   switch(event.keyCode) {
     case 81: // Q
       transformControlTarget.setSpace( transformControl.space === "local" ? "world" : "local" );
+      // objects.pop(sphereRegion);
       break;
     case 17: // ctrl
 
@@ -91,7 +92,7 @@ function getIntersectObject(source, target){
   resultingWalls = intersect_bsp.toMesh( material );
 
   resultingWalls.geometry.computeVertexNormals();
-  resultingWalls.position.set(0,0,0); //tentative, should be the original object
+  // resultingWalls.position.set(0,0,0); //tentative, should be the original object
 
 
   removeEntity( sphereRegion );
@@ -102,18 +103,18 @@ function getIntersectObject(source, target){
 
 function getIntersect(source, target){
 
-  console.log("in getIntersect(), source, region ", source, target)
   var source_bsp = new ThreeBSP( source );
   var target_bsp = new ThreeBSP( target );
   var intersect_bsp = target_bsp.intersect( source_bsp );
   var result = intersect_bsp.toMesh( material );
 
   result.geometry.computeVertexNormals();
-  // result.position.set(0,0,0); //tentative, should be the original object
+  result.geometry.computeBoundingBox();
+  result.geometry.computeBoundingSphere();
+  result.position.set(100,100,0); //tentative, should be the original object
 
 
-  removeEntity( sphereRegion );
-  // return source
+  scene.remove( sphereRegion );
   scene.add( result );
   return result
 }

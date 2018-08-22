@@ -100,24 +100,29 @@ function fixPosition(){
 //#################################################################
 
 function createInfillWalls(){
-	console.log("sphereGeometry size: ", sphereRegion);
 
 	if(sphereRegion) {//only applied to the sphere region
 
 		//step 1. get intersection region
 		// sphere region will be modified
-		// sphereRegion = getIntersect(target3DObject, sphereRegion);
-		// console.log("after getIntersect(): ", sphereRegion)
+		var resultingRegion = getIntersect(target3DObject, sphereRegion);
 
-		
 		// step 2. create infill
 		let infillSize = sphereRegion.geometry.boundingSphere.radius * 2; //as big as sphere region
+		// let regionWidth		= resultingRegion.geometry.boundingBox.max.x - resultingRegion.geometry.boundingBox.min.x;
+		// let walllWidth		= resultingRegion.geometry.boundingBox.max.y - resultingRegion.geometry.boundingBox.min.y;
+		// let walllHeight		= resultingRegion.geometry.boundingBox.max.z - resultingRegion.geometry.boundingBox.min.z;
 		let repeatN = infillSize / (intervals + INFILLWALLTHICKESS)
+		// let repeatN = regionWidth / (intervals + INFILLWALLTHICKESS);
 		let geometry = new THREE.BoxGeometry(INFILLWALLTHICKESS, infillSize, infillSize);
 
-		let originX = sphereRegion.position.x - sphereRegion.geometry.boundingSphere.radius; //because of center
-		let originY = sphereRegion.position.y;
-		let originZ = sphereRegion.position.z;
+		let originX = resultingRegion.position.x - resultingRegion.geometry.boundingSphere.radius; //because of center
+		let originY = resultingRegion.position.y;
+		let originZ = resultingRegion.position.z;
+
+		// let originX = resultingRegion.geometry.boundingBox.min.x;
+		// let originY = resultingRegion.geometry.boundingBox.min.y;
+		// let originZ = resultingRegion.geometry.boundingBox.min.z;
 
 		for(let i=0; i<repeatN; i++){
 			var infillWall = new THREE.Mesh( geometry, wireframeMaterial );
