@@ -87,7 +87,7 @@ function init() {
     mouseMoved = true;
   } );
 
-  window.addEventListener( 'mousedown', function () {
+  window.addEventListener( 'mouseup', function () {
     changed = false;
     mouseMoved = false;
   }, false );
@@ -106,29 +106,28 @@ function init() {
 
   window.addEventListener( 'resize', onWindowResize, false );
 
-
-
   //see if it's different when in init()
-  window.addEventListener( 'mouseup', function() {
+  window.addEventListener( 'mousedown', function() {
 			checkIntersection();
 			// if ( ! moved && intersection.intersects ) shoot();
-		} );
-		window.addEventListener( 'mousemove', onTouchMove );
-		window.addEventListener( 'touchmove', onTouchMove );
+	} );
 
-    function onTouchMove( event ) {
-			var x, y;
-			if ( event.changedTouches ) {
-				x = event.changedTouches[ 0 ].pageX;
-				y = event.changedTouches[ 0 ].pageY;
-			} else {
-				x = event.clientX;
-				y = event.clientY;
-			}
-			mouse.x = ( x / window.innerWidth ) * 2 - 1;
-			mouse.y = - ( y / window.innerHeight ) * 2 + 1;
-			checkIntersection();
+	window.addEventListener( 'mousemove', onTouchMove );
+	window.addEventListener( 'touchmove', onTouchMove );
+
+  function onTouchMove( event ) {
+		var x, y;
+		if ( event.changedTouches ) {
+			x = event.changedTouches[ 0 ].pageX;
+			y = event.changedTouches[ 0 ].pageY;
+		} else {
+			x = event.clientX;
+			y = event.clientY;
 		}
+		mouse.x = ( x / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( y / window.innerHeight ) * 2 + 1;
+		checkIntersection();
+	}
 
 } //end of init
 

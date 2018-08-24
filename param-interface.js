@@ -23,17 +23,16 @@ var params = {
     createInfillWalls();
     getModifiedTarget();
   },
+
   export: function(){
     //when added region volume, add intersection plane
     var resultObject = getUnionObject( adjustedTarget, resultingWalls );
     var result = exporter.parse( resultObject );
     saveString (result, 'infill.stl');
-    // removeEntity ( resultingWalls );
 
     // cutInPlaneToGet2DVectors(); //it isn't required for now
   }
 }
-// var modelUI = panel.addFolder( 'Model Scale' );
 
 function handleFileSelect(evt){
   var files = evt.target.files;
@@ -52,7 +51,7 @@ function handleFileSelect(evt){
 
 
     scene.add(target3DObject);
-    objects.push(target3DObject); //add to select & translatable
+    // objects.push(target3DObject); //add to select & translatable
     transformControlTarget.attach(target3DObject);
 
     //once load, add UI elements
@@ -75,10 +74,4 @@ function createPanel(){
 function removePanel(gearType){
   topBoxUI.close();
   delete topBoxUI;
-}
-
-function showDiv() {
-  // document.getElementById('bbox_shape').style.display = "block";
-  // document.getElementById('loadSTL').style.display = "block";
-  // document.getElementById('model_rotation').style.display = "block";
 }

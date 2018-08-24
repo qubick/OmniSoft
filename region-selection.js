@@ -31,29 +31,11 @@ var orientation = new THREE.Euler();
 var size = new THREE.Vector3( 10, 10, 10 );
 var up = new THREE.Vector3( 0, 1, 0 );
 
-// scene.add( mouseHelper );
-
-var moved = false;
-
-controls.addEventListener( 'change', function() {
-	moved = true;
-} );
-
-window.addEventListener( 'mousedown', function () {
-	moved = true;
-
-	checkIntersection();
-	if ( ! moved && intersection.intersects )
-		fixPosition();
-
-}, false );
-
-window.addEventListener( 'mouseup', function() {
-	moved  = false;
-});
+scene.add( mouseHelper );
 
 function checkIntersection() {
 
+	console.log("when is checkIntersection() called?")
   if ( ! target3DObject ) return;
   raycaster.setFromCamera( mouse, camera );
 
@@ -148,8 +130,6 @@ function getModifiedTarget(){
 }
 
 function getSubtractionObject(source, target){
-
-	// console.log(target.size)
 
   var source_bsp = new ThreeBSP( source );
   var target_bsp = new ThreeBSP( target );

@@ -13,6 +13,7 @@ window.addEventListener( 'keydown', function( event ){
     case 81: // Q
       transformControlTarget.setSpace( transformControl.space === "local" ? "world" : "local" );
       // objects.pop(sphereRegion);
+      
       break;
     case 17: // ctrl
 

@@ -171,7 +171,7 @@ var reference_material = [
     name: "chewing-gum",
     text: "chewing gum",
     value: 22,
-    softness: "20",
+    softness: 20,
     selected: false,
     imageSrc: "assets/imgs/chewing-gum.jpeg"
   },
@@ -214,5 +214,13 @@ var reference_material = [
     softness: 95,
     selected: false,
     imageSrc: "assets/imgs/garden-hose.jpg"
-  }
+  }//,
+  // {
+  //   name: "wine-cork".
+  //   text: "wine cork",
+  //   value : 28,
+  //   softness: 0,
+  //   selected: false,
+  //   imageSrc: "assets/imgs/"
+  // }
 ];

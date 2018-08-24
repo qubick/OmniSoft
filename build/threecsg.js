@@ -10,7 +10,6 @@ window.ThreeBSP = (function() {
 
 	ThreeBSP = function( geometry ) {
 
-		console.log("current geometry to create three bsp: ", geometry );
 		// Convert THREE.Geometry to ThreeBSP
 		var i, _length_i,
 			face, vertex, faceVertexUvs, uvs,
