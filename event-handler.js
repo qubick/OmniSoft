@@ -10,10 +10,27 @@ $(document).click( (event) => {
 
 window.addEventListener( 'keydown', function( event ){
   switch(event.keyCode) {
+    // to change the type of volume
+    case 71: // G
+      currentSelectRegion = (currentSelectRegion === 4) ? currentSelectRegion + 1 : 0;
+      if(currentSelectRegion === 1){ //sphere
+
+      }
+      else if (currentSelectRegion === 2){ //cube
+
+      }
+      else if (currentSelectRegion === 3){ //cylinder
+
+      }
+      else if (currentSelectRegion === 4){ //torus
+
+      }
+      break;
+    // to change the type of translation
     case 81: // Q
       transformControlTarget.setSpace( transformControl.space === "local" ? "world" : "local" );
       // objects.pop(sphereRegion);
-      
+
       break;
     case 17: // ctrl
 
@@ -46,12 +63,12 @@ function ReturnTypeofGradient(evt){
 
   var gradientInput = document.createElement("input");
 
-  gradientInput.type = "range"
-  gradientInput.min = "10";
-  gradientInput.max = "50";
+  gradientInput.type  = "range"
+  gradientInput.min   = "10";
+  gradientInput.max   = "50";
   gradientInput.value = "25";
   gradientInput.class = "slider"
-  gradientInput.id = "gradientRange"
+  gradientInput.id    = "gradientRange"
   // gradientInput.onChange = "updateValue(this.value)"
 
   document.getElementById('sliderlocation').innerHTML = '<br/> Gradient stops: ';
@@ -63,10 +80,35 @@ function ReturnRegionSelecMethod(evt){
 
   var selectionMethod = parseInt(evt.target.value);
 
-  sphereRegion.name = 'sphereRegion'
-  scene.add(sphereRegion);
-  transformControlTarget.attach(sphereRegion);
+  console.log("selected Method to create the region: ", selectionMethod);
 
+  if (selectionMethod === 1){
+    // currentSelectRegion = VOLUME;
+
+    // var newPrimitiveInput = document.createElement("select");
+    // var option;
+    // var inputData = 'sphere'||'box'||'cylinder'||'torus';
+    //
+    // inputData.split('||').foreach( (item) => {
+    //   console.log("see type of shape primitive")
+    //   option = document.createElement( 'option' );
+    //   option.value = option.textContent = item;
+    //   select.appendChild(option);
+    // });
+    //
+    // newPrimitiveInput.id = 'selectRegionShape';
+    // newPrimitiveInput.onchange = 'AddPrimitiveShape(event)';
+
+    //need to create the volume primitive selection list first
+    sphereRegion.name = 'sphereRegion'
+    scene.add(sphereRegion);
+    transformControlTarget.attach(sphereRegion);
+  }
+
+  else if (selectionMethod === 2){
+
+    //create the interaction type option list here
+  }
 
   //add dat.UI panel to create infill only when region is LoadDesiredInteraction
   panel.add(params, 'createInfill').name('Create Infill');
