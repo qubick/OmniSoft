@@ -162,8 +162,6 @@
 				} // end of for
 			} //end of searchMaterial funcion
 
-			// $('#refer-material').each( (index, element) => {
-			// 	$(element).ddslick({
 			$('#refer-material').ddslick({
 					data: reference_material,
 					width: 300,
@@ -171,26 +169,18 @@
 					imagePosition: "right",
 					onSelected: function(event){
 
-						var minSoft = 100//, maxSoft = 0;
 						var softnessLevel = parseInt(event.selectedData.softness);
 						softnessArray.push(softnessLevel);
-						var softnessLowerBound = ((softnessArray[softnessIdx] - 5) > 0) ? softnessArray[softnessIdx] - 5 : 0;
-						var softnessUpperBound = softnessArray[softnessIdx] + 5;
 
 						if( !materialSelected ){
 							var input = document.createElement("input");
 
 						  input.type = "range"
-						  // input.min = ((softnessArray[softnessIdx] - 5) > 0) ? softnessArray[softnessIdx] - 5 : 0; //softnessLowerBound;
-						  // input.max = softnessArray[softnessIdx] + 5; //softnessUpperBound;
-							input.min = 0;
+						  input.min = 0;
 							input.max = 100;
 							input.value = softnessArray[softnessIdx];
 						  input.class = "slider"
 						  input.id = "softnessRange"
-
-							// minSoft = input.min;
-							// maxSoft = softnessUpperBound;
 
 						  var textInput = document.createElement("text");
 						  textInput.value = '<br/> Shore A scale: ' + softnessArray[softnessIdx];
@@ -199,7 +189,7 @@
 						  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: <div id="softnessValue"></div>'
 						  document.getElementById('sliderlocation').appendChild(input);
 							var output = document.getElementById("softnessValue")
-							output.innerHTML = softnessArray[softnessIdx] + '<br/>';
+							output.innerHTML = softnessArray[softnessIdx];
 
 							//update value should be defined when the slider is actullay created
 							var slider = document.getElementById("softnessRange");
@@ -215,16 +205,9 @@
 							var inputSlider = document.getElementById('softnessRange')
 							var outputText = document.getElementById("softnessValue")
 
-							if (minSoft > Math.min.apply(null, softnessArray) - 5)
-								minSoft = Math.min.apply(null, softnessArray) - 5
-
-							// inputSlider.min = minSoft;
-							// inputSlider.max = Math.max.apply(null, softnessArray) + 5;
 							inputSlider.value = softnessArray[softnessIdx];
-
 							outputText.innerHTML = softnessArray[softnessIdx];
 
-							console.log(softnessArray)
 						}
 						//display reference material image on the slider bar
 						var newImg = document.createElement("img");
