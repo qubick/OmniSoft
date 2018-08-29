@@ -27,16 +27,22 @@ window.addEventListener( 'keydown', function( event ){
         cubeRegion.name = 'cubeRegion'
         scene.remove( sphereRegion );
         scene.add( cubeRegion );
+
+        transformControlTarget.attach( cubeRegion )
       }
       else if (currentSelectRegion === 3){ //cylinder
         cylinderRegion.name = 'cylinderRegion'
         scene.remove( cubeRegion );
         scene.add( cylinderRegion );
+
+        transformControlTarget.attach( cylinderRegion )
       }
       else if (currentSelectRegion === 4){ //ring
         torusRegion.name = 'torusRegion'
         scene.remove( cylinderRegion );
         scene.add( torusRegion );
+
+        transformControlTarget.attach( torusRegion )
       }
       break;
     // to change the type of translation
