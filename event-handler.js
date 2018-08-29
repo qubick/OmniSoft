@@ -16,20 +16,25 @@ window.addEventListener( 'keydown', function( event ){
       currentSelectRegion = (currentSelectRegion === 4) ? 1 : currentSelectRegion + 1;
       console.log("chaning region selection volume", currentSelectRegion)
       if(currentSelectRegion === 1){ //sphere
-        //it's now existing
+        var obj = scene.getObjectByName('torusRegion');
+        if(obj){
+          scene.remove(obj);
+          scene.add(sphereRegion);
+        }
       }
       else if (currentSelectRegion === 2){ //sphere -> cube
         //size should be taken from curr region volume
+        cubeRegion.name = 'cubeRegion'
         scene.remove( sphereRegion );
         scene.add( cubeRegion );
       }
       else if (currentSelectRegion === 3){ //cylinder
-
+        cylinderRegion.name = 'cylinderRegion'
         scene.remove( cubeRegion );
         scene.add( cylinderRegion );
       }
       else if (currentSelectRegion === 4){ //ring
-
+        torusRegion.name = 'torusRegion'
         scene.remove( cylinderRegion );
         scene.add( torusRegion );
       }
@@ -93,24 +98,11 @@ function ReturnRegionSelecMethod(evt){
   if (selectionMethod === 1){
     // currentSelectRegion = VOLUME;
 
-    // var newPrimitiveInput = document.createElement("select");
-    // var option;
-    // var inputData = 'sphere'||'box'||'cylinder'||'torus';
-    //
-    // inputData.split('||').foreach( (item) => {
-    //   console.log("see type of shape primitive")
-    //   option = document.createElement( 'option' );
-    //   option.value = option.textContent = item;
-    //   select.appendChild(option);
-    // });
-    //
-    // newPrimitiveInput.id = 'selectRegionShape';
-    // newPrimitiveInput.onchange = 'AddPrimitiveShape(event)';
-
     //need to create the volume primitive selection list first
-    sphereRegion.name = 'sphereRegion'
     scene.add(sphereRegion);
     transformControlTarget.attach(sphereRegion);
+
+    currentSelectRegion = 1;
   }
 
   else if (selectionMethod === 2){

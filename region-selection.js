@@ -29,6 +29,8 @@ var intersection = {
 };
 
 //all region geometries
+var softRegion;
+
 var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
 var sphereRegion = new THREE.Mesh(spheregeometry, normalMaterial);
 
