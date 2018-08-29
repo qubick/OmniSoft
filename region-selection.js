@@ -15,14 +15,32 @@ var annotOrientation = new THREE.Euler();
 var size = new THREE.Vector3( 10, 10, 10 );
 var up = new THREE.Vector3( 0, 1, 0 );
 
+//check what's current region selection method
+var currentSelectRegion = 0;
+const SPHERE			= 1;
+const CUBE				= 2;
+const CYLINDER		= 3;
+const TORUS 			= 4;
+
 var intersection = {
 	intersects: false,
 	point: new THREE.Vector3(),
 	normal: new THREE.Vector3()
 };
 
+//all region geometries
 var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
 var sphereRegion = new THREE.Mesh(spheregeometry, normalMaterial);
+
+var cubegeometry = new THREE.BoxGeometry(30, 30, 30);
+var cubeRegion = new THREE.Mesh( cubegeometry, normalMaterial );
+
+var cylindergeometry = new THREE.CylinderGeometry( 15, 15, 20, 32 );
+var cylinderRegion = new THREE.Mesh( cylindergeometry, normalMaterial );
+
+var torusgeometry = new THREE.TorusGeometry( 15, 3, 16, 100 );
+var torusRegion = new THREE.Mesh( torusgeometry, normalMaterial );
+
 
 
 mouseHelper = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), normalMaterial );
@@ -35,8 +53,7 @@ scene.add( mouseHelper );
 
 function checkIntersection() {
 
-	console.log("when is checkIntersection() called?")
-  if ( ! target3DObject ) return;
+	if ( ! target3DObject ) return;
   raycaster.setFromCamera( mouse, camera );
 
   var intersects = raycaster.intersectObjects( [ target3DObject ] );

@@ -9,21 +9,29 @@ $(document).click( (event) => {
 });
 
 window.addEventListener( 'keydown', function( event ){
+
   switch(event.keyCode) {
     // to change the type of volume
     case 71: // G
-      currentSelectRegion = (currentSelectRegion === 4) ? currentSelectRegion + 1 : 0;
+      currentSelectRegion = (currentSelectRegion === 4) ? 1 : currentSelectRegion + 1;
+      console.log("chaning region selection volume", currentSelectRegion)
       if(currentSelectRegion === 1){ //sphere
-
+        //it's now existing
       }
-      else if (currentSelectRegion === 2){ //cube
-
+      else if (currentSelectRegion === 2){ //sphere -> cube
+        //size should be taken from curr region volume
+        scene.remove( sphereRegion );
+        scene.add( cubeRegion );
       }
       else if (currentSelectRegion === 3){ //cylinder
 
+        scene.remove( cubeRegion );
+        scene.add( cylinderRegion );
       }
-      else if (currentSelectRegion === 4){ //torus
+      else if (currentSelectRegion === 4){ //ring
 
+        scene.remove( cylinderRegion );
+        scene.add( torusRegion );
       }
       break;
     // to change the type of translation
