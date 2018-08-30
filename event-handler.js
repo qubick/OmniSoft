@@ -12,11 +12,16 @@ window.addEventListener( 'keyup', ( event ) => {
     case 68:
       drawingKeyPressed = false;
       // console.log(regionPtsArray)
+
+      //add the last point to close the loop
+      pointsOfDrawing.vertices.push(pointsOfDrawing.vertices[0]);
       regionArray[regionCnt] = pointsOfDrawing;
-      var lines = new THREE.LineSegments(regionArray[regionCnt++], lineMaterial);
+      var lines = new THREE.LineSegments(regionArray[regionCnt], lineMaterial);
 
       pointsOfDrawing = new THREE.Geometry();
       scene.add(lines);
+
+      regionCnt++
       break;
   }
 });

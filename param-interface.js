@@ -19,7 +19,6 @@ var params = {
   },
 
   createInfill: function(){
-    //get softness region information frist
     createInfillWalls();
     getModifiedTarget();
   },

@@ -17,7 +17,7 @@ var up = new THREE.Vector3( 0, 1, 0 );
 
 //check what's current region selection method
 var currRegionSelectMethod = 0; // 1:volume, 2: interaction type 3:free drawing, 4: level
-
+var currentSelectRegion = 0; //	1:sphere, 2:cube, 3:cylinder, 4:torus
 var intersection = {
 	intersects: false,
 	point: new THREE.Vector3(),
@@ -105,7 +105,7 @@ function fixPosition(){
 
 function createInfillWalls(){
 
-	if(sphereRegion) {//only applied to the sphere region
+	if(currRegionSelectMethod === 1) {// currentlyonly applied to the sphere region
 
 		//step 1. get intersection region
 		// sphere region will be modified
@@ -141,6 +141,14 @@ function createInfillWalls(){
 		};
 		scene.add(walls);
 
+	}
+
+	else if ( currRegionSelectMethod === 2 ) {
+
+	}
+	else if ( currRegionSelectMethod === 3 ) {
+
+			//create STL first then create intersections by Booleans
 	}
 
 	getIntersectInfill( walls, resultingRegion );
