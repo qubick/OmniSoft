@@ -7,8 +7,20 @@ $(document).click( (event) => {
     //   var newRot = sphereRegion.rotation;
     // }
 });
+window.addEventListener( 'keyup', ( event ) => {
+  switch(event.keyCode) {
+    case 68:
+      drawingKeyPressed = false;
+      console.log(regionPtsArray)
 
-window.addEventListener( 'keydown', function( event ){
+      var lines = new THREE.LineSegments(pointsOfDrawing, lineMaterial);
+
+      scene.add(lines);
+      break;
+  }
+});
+
+window.addEventListener( 'keydown', ( event ) => {
 
   switch(event.keyCode) {
     // to change the type of volume
@@ -44,6 +56,11 @@ window.addEventListener( 'keydown', function( event ){
 
         transformControlTarget.attach( torusRegion )
       }
+      break;
+
+    case 68: //for drawing
+      console.log("drawing key pressed")
+      drawingKeyPressed = true;
       break;
     // to change the type of translation
     case 81: // Q
@@ -97,25 +114,27 @@ function ReturnTypeofGradient(evt){
 
 function ReturnRegionSelecMethod(evt){
 
-  var selectionMethod = parseInt(evt.target.value);
+  currRegionSelectMethod = parseInt(evt.target.value);
 
-  console.log("selected Method to create the region: ", selectionMethod);
+  console.log("selected Method to create the region: ", currRegionSelectMethod);
 
-  if (selectionMethod === 1){
+  if (currRegionSelectMethod === 1){
     // currentSelectRegion = VOLUME;
 
     //need to create the volume primitive selection list first
-    scene.add(sphereRegion);
+    scene.add( sphereRegion );
     transformControlTarget.attach(sphereRegion);
 
-    currentSelectRegion = 1;
   }
 
-  else if (selectionMethod === 2){
+  else if (currRegionSelectMethod === 2){
 
     //create the interaction type option list here
   }
 
+  else if (currRegionSelectMethod === 3){ // free drawing
+    scene.add( mouseHelper );
+  }
   //add dat.UI panel to create infill only when region is LoadDesiredInteraction
   panel.add(params, 'createInfill').name('Create Infill');
 

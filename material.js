@@ -1,4 +1,4 @@
-
+//materials
 var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 200, opacity:0.5 } );
 material.transparent = true
 
@@ -11,6 +11,8 @@ var normalMaterial = new THREE.MeshNormalMaterial({opacity:0.3 });
 normalMaterial.transparent = true;
 // var gradmaterial = new THREE.MeshBasicMaterial( { map: texture, transparent: true } );
 var regionMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 1, wireframe: true } );
+
+var lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
 
 
 var texture = new THREE.Texture( generateRadialGradient() );

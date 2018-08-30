@@ -7,13 +7,16 @@ var originObj, originPoint;
 var target3DObject, decal, targetPath, arrowPath, arrowMesh, bodyMesh, arrowMesh;
 
 
-var shadowlight = new THREE.DirectionalLight( 0xfffff, 1, 100);
-
-init();
-animate();
+var drawingKeyPressed = false;
 
 var loader    = new THREE.STLLoader();
 var exporter  = new THREE.STLExporter();
+var shadowlight = new THREE.DirectionalLight( 0xfffff, 1, 100);
+
+
+
+init();
+animate();
 
 function init() {
 
@@ -79,15 +82,15 @@ function init() {
 
   raycaster = new THREE.Raycaster();
 
-  var changed = false;
-  var mouseMoved = false;
+  // var changed = false;
+  // var mouseMoved = false;
   controls.addEventListener( 'change', function() {
-    mouseMoved = true;
+    // mouseMoved = true;
   } );
 
   window.addEventListener( 'mouseup', function () {
-    changed = false;
-    mouseMoved = false;
+    // changed = false;
+    // mouseMoved = false;
   }, false );
 
 
@@ -106,6 +109,8 @@ function init() {
 
   //see if it's different when in init()
   window.addEventListener( 'mousedown', function() {
+      // mouseMoved = true;
+      mouseDonwed = true;
 			checkIntersection();
 			// if ( ! moved && intersection.intersects ) shoot();
 	} );

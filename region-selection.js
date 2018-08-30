@@ -16,11 +16,7 @@ var size = new THREE.Vector3( 10, 10, 10 );
 var up = new THREE.Vector3( 0, 1, 0 );
 
 //check what's current region selection method
-var currentSelectRegion = 0;
-const SPHERE			= 1;
-const CUBE				= 2;
-const CYLINDER		= 3;
-const TORUS 			= 4;
+var currRegionSelectMethod = 0; // 1:volume, 2: interaction type 3:free drawing, 4: level
 
 var intersection = {
 	intersects: false,
@@ -29,7 +25,8 @@ var intersection = {
 };
 
 //all region geometries
-var softRegion;
+var softRegion; //three js volume
+var regionPtsArray = [], pointsOfDrawing = new THREE.Geometry();
 
 var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
 var sphereRegion = new THREE.Mesh(spheregeometry, normalMaterial);
@@ -51,7 +48,7 @@ var orientation = new THREE.Euler();
 var size = new THREE.Vector3( 10, 10, 10 );
 var up = new THREE.Vector3( 0, 1, 0 );
 
-scene.add( mouseHelper );
+
 
 function checkIntersection() {
 
@@ -76,15 +73,21 @@ function checkIntersection() {
 
 
     position.set(p.x, p.y, p.z);
-    // setting normal is skiped for now
     position.needsUpdate = true;
     intersection.intersects = true;
 
-		//to access clicked object
-		// intersects[ 0 ].object.callback;
+		console.log('mouse status: ', mouseDonwed)
+		if( currRegionSelectMethod === 3 && drawingKeyPressed ) { //in case of free drawing
+			//create the intersection points array
+
+			// console.log(intersection.point)
+			regionPtsArray.push(intersection.point);
+			pointsOfDrawing.vertices.push(intersection.point.clone());
+		}
   } else {
     intersection.intersects = false;
   }
+
 }
 
 function fixPosition(){
