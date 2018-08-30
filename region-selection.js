@@ -26,7 +26,7 @@ var intersection = {
 
 //all region geometries
 var softRegion; //three js volume
-var regionPtsArray = [], pointsOfDrawing = new THREE.Geometry();
+var regionArray = [], pointsOfDrawing = new THREE.Geometry(), regionCnt = 0;
 
 var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
 var sphereRegion = new THREE.Mesh(spheregeometry, normalMaterial);
@@ -81,8 +81,8 @@ function checkIntersection() {
 			//create the intersection points array
 
 			// console.log(intersection.point)
-			regionPtsArray.push(intersection.point);
-			pointsOfDrawing.vertices.push(intersection.point.clone());
+			// regionPtsArray.push(intersection.point);
+			pointsOfDrawing.vertices.push(intersection.point.clone())
 		}
   } else {
     intersection.intersects = false;

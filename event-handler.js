@@ -11,10 +11,11 @@ window.addEventListener( 'keyup', ( event ) => {
   switch(event.keyCode) {
     case 68:
       drawingKeyPressed = false;
-      console.log(regionPtsArray)
+      // console.log(regionPtsArray)
+      regionArray[regionCnt] = pointsOfDrawing;
+      var lines = new THREE.LineSegments(regionArray[regionCnt++], lineMaterial);
 
-      var lines = new THREE.LineSegments(pointsOfDrawing, lineMaterial);
-
+      pointsOfDrawing = new THREE.Geometry();
       scene.add(lines);
       break;
   }
