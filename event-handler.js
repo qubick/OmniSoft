@@ -7,6 +7,16 @@ $(document).click( (event) => {
     //   var newRot = sphereRegion.rotation;
     // }
 });
+
+var extrudeSettings = {
+	steps: 2,
+	depth: 16,
+	bevelEnabled: true,
+	bevelThickness: 1,
+	bevelSize: 1,
+	bevelSegments: 1
+};
+
 window.addEventListener( 'keyup', ( event ) => {
   switch(event.keyCode) {
     case 68:
@@ -17,10 +27,23 @@ window.addEventListener( 'keyup', ( event ) => {
       pointsOfDrawing.vertices.push(pointsOfDrawing.vertices[0]);
       regionArray[regionCnt] = pointsOfDrawing;
       var lines = new THREE.LineSegments(regionArray[regionCnt], lineMaterial);
-
-      pointsOfDrawing = new THREE.Geometry();
       scene.add(lines);
 
+      //create lines by 2D informations
+      var extrudeShape = [];
+      pointsOfDrawing.vertices.forEach( (pts) => {
+        let pts2D = new THREE.Vector2(pts.x, pts.z);
+        extrudeShape.push(pts2D);
+      });
+
+      var shape = new THREE.Shape(extrudeShape)
+      var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+      var mesh = new THREE.Mesh( geometry, material );
+      mesh.rotation.set(-Math.PI/2, 0, 0);
+      scene.add(mesh);
+
+      //reset for the next selection of drawings
+      pointsOfDrawing = new THREE.Geometry();
       regionCnt++
       break;
   }
