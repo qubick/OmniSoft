@@ -104,43 +104,13 @@ function fixPosition(){
 //#################################################################
 
 function createInfillWalls(){
+	var resultingRegion;
 
 	if(currRegionSelectMethod === 1) {// currentlyonly applied to the sphere region
 
 		//step 1. get intersection region
 		// sphere region will be modified
-		var resultingRegion = getSoftRegion(target3DObject, sphereRegion);
-
-		// step 2. create infill
-		let infillSize = sphereRegion.geometry.boundingSphere.radius * 2; //as big as sphere region
-		// let regionWidth		= resultingRegion.geometry.boundingBox.max.x - resultingRegion.geometry.boundingBox.min.x;
-		// let walllWidth		= resultingRegion.geometry.boundingBox.max.y - resultingRegion.geometry.boundingBox.min.y;
-		// let walllHeight		= resultingRegion.geometry.boundingBox.max.z - resultingRegion.geometry.boundingBox.min.z;
-		let repeatN = infillSize / (intervals + INFILLWALLTHICKESS)
-		// let repeatN = regionWidth / (intervals + INFILLWALLTHICKESS);
-		let geometry = new THREE.BoxGeometry(INFILLWALLTHICKESS, infillSize, infillSize);
-
-		let originX = resultingRegion.position.x - resultingRegion.geometry.boundingSphere.radius; //because of center
-		let originY = resultingRegion.position.y;
-		let originZ = resultingRegion.position.z;
-
-		// let originX = resultingRegion.geometry.boundingBox.min.x;
-		// let originY = resultingRegion.geometry.boundingBox.min.y;
-		// let originZ = resultingRegion.geometry.boundingBox.min.z;
-
-		for(let i=0; i<repeatN; i++){
-			var infillWall = new THREE.Mesh( geometry, wireframeMaterial );
-			infillWall.position.set(originX + (intervals + INFILLWALLTHICKESS) * i, originY, originZ);
-			infillWall.name = 'infillWall';
-			infillWallArray.push(infillWall);
-		}
-
-		walls = getUnionObject(infillWallArray[0], infillWallArray[1]);
-		for(var i=2; i<infillWallArray.length; i++){
-			walls = getUnionObject(walls, infillWallArray[i]);
-		};
-		scene.add(walls);
-
+		resultingRegion = getSoftRegion(target3DObject, sphereRegion);
 	}
 
 	else if ( currRegionSelectMethod === 2 ) {
@@ -148,15 +118,44 @@ function createInfillWalls(){
 	}
 	else if ( currRegionSelectMethod === 3 ) {
 
-			//create STL first then create intersections by Booleans
+		resultingRegion = getSoftRegion(target3DObject, freeDrawnRegion);
+	} // end of if
+
+	// step 2. create infill
+	let infillSize = resultingRegion.geometry.boundingSphere.radius * 2; //as big as sphere region
+	let repeatN = infillSize / (intervals + INFILLWALLTHICKESS);
+	let geometry = new THREE.BoxGeometry(INFILLWALLTHICKESS, infillSize, infillSize);
+
+	let originX = resultingRegion.position.x - resultingRegion.geometry.boundingSphere.radius; //because of center
+	let originY = resultingRegion.position.y;
+	let originZ = resultingRegion.position.z;
+
+	for(let i=0; i<repeatN; i++){
+		var infillWall = new THREE.Mesh( geometry, wireframeMaterial );
+		infillWall.position.set(originX + (intervals + INFILLWALLTHICKESS) * i, originY, originZ);
+		infillWall.name = 'infillWall';
+		infillWallArray.push(infillWall);
 	}
+
+	walls = getUnionObject(infillWallArray[0], infillWallArray[1]);
+	for(var i=2; i<infillWallArray.length; i++){
+		walls = getUnionObject(walls, infillWallArray[i]);
+	};
+	scene.add(walls);
 
 	getIntersectInfill( walls, resultingRegion );
 }
 
 function getModifiedTarget(){
-	if(sphereRegion) //when creating region is sphereShape
+	if( currRegionSelectMethod === 1) //when creating region is sphereShape
+		// if(sphereRegion)
 		getSubtractionObject( sphereRegion, target3DObject)
+	else if ( currRegionSelectMethod === 2){
+
+	}
+	else if(currRegionSelectMethod === 3){
+		getSubtractionObject( freeDrawnRegion, target3DObject );
+	}
 }
 
 function getSubtractionObject(source, target){
@@ -207,7 +206,15 @@ function getSoftRegion(source, target){
   // result.position.set(target.position.x, target.position.y, target.position.z); //tentative, should be the original object
 
 
-  scene.remove( sphereRegion );
+	if( currRegionSelectMethod === 1){
+		scene.remove( sphereRegion );
+	}
+	else if ( currRegionSelectMethod === 2){
+
+	}
+	else if( currRegionSelectMethod === 3){
+		scene.remove( freeDrawnRegion );
+	}
   scene.add( result );
   return result
 }

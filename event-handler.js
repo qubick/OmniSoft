@@ -10,7 +10,7 @@ $(document).click( (event) => {
 
 var extrudeSettings = {
 	steps: 2,
-	depth: 16,
+	depth: 5,
 	bevelEnabled: true,
 	bevelThickness: 1,
 	bevelSize: 1,
@@ -39,12 +39,12 @@ window.addEventListener( 'keyup', ( event ) => {
       // let regionHeight = regionArray[regionCnt].vertices[0].y;
       let shape = new THREE.Shape(extrudeShape);
       let geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-      var mesh = new THREE.Mesh( geometry, normalMaterial );
-      mesh.rotation.set(Math.PI/2, 0, 0);
-      // freeDrawnRegion.translateZ(regionHeight);
-      mesh.name = "freeDrawnRegion"
+      freeDrawnRegion = new THREE.Mesh( geometry, normalMaterial );
+      freeDrawnRegion.rotation.set(Math.PI/2, 0, 0);
+      // mesh.translateZ(-regionHeight);
+      freeDrawnRegion.name = "freeDrawnRegion"
 
-      scene.add( mesh );
+      scene.add( freeDrawnRegion );
       transformControlTarget.attach( freeDrawnRegion );
 
       //reset for the next selection of drawings
