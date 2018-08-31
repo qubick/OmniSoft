@@ -24,27 +24,33 @@ window.addEventListener( 'keyup', ( event ) => {
       // console.log(regionPtsArray)
 
       //add the last point to close the loop
-      pointsOfDrawing.vertices.push(pointsOfDrawing.vertices[0]);
+      // pointsOfDrawing.vertices.push(pointsOfDrawing.vertices[0]);
       regionArray[regionCnt] = pointsOfDrawing;
       var lines = new THREE.LineSegments(regionArray[regionCnt], lineMaterial);
       scene.add(lines);
 
-      //create lines by 2D informations
+      // create lines by 2D informations
       var extrudeShape = [];
-      pointsOfDrawing.vertices.forEach( (pts) => {
+      regionArray[regionCnt].vertices.forEach( (pts) => {
         let pts2D = new THREE.Vector2(pts.x, pts.z);
-        extrudeShape.push(pts2D);
+        extrudeShape.push( pts2D );
       });
 
-      var shape = new THREE.Shape(extrudeShape)
-      var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-      var mesh = new THREE.Mesh( geometry, material );
-      mesh.rotation.set(-Math.PI/2, 0, 0);
-      scene.add(mesh);
+      // let regionHeight = regionArray[regionCnt].vertices[0].y;
+      let shape = new THREE.Shape(extrudeShape);
+      let geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+      var mesh = new THREE.Mesh( geometry, normalMaterial );
+      mesh.rotation.set(Math.PI/2, 0, 0);
+      // freeDrawnRegion.translateZ(regionHeight);
+      mesh.name = "freeDrawnRegion"
+
+      scene.add( mesh );
+      transformControlTarget.attach( freeDrawnRegion );
 
       //reset for the next selection of drawings
       pointsOfDrawing = new THREE.Geometry();
-      regionCnt++
+      regionCnt++;
+
       break;
   }
 });
@@ -69,26 +75,25 @@ window.addEventListener( 'keydown', ( event ) => {
         scene.remove( sphereRegion );
         scene.add( cubeRegion );
 
-        transformControlTarget.attach( cubeRegion )
+        transformControlTarget.attach( cubeRegion );
       }
       else if (currentSelectRegion === 3){ //cylinder
         cylinderRegion.name = 'cylinderRegion'
         scene.remove( cubeRegion );
         scene.add( cylinderRegion );
 
-        transformControlTarget.attach( cylinderRegion )
+        transformControlTarget.attach( cylinderRegion );
       }
       else if (currentSelectRegion === 4){ //ring
         torusRegion.name = 'torusRegion'
         scene.remove( cylinderRegion );
         scene.add( torusRegion );
 
-        transformControlTarget.attach( torusRegion )
+        transformControlTarget.attach( torusRegion );
       }
       break;
 
     case 68: //for drawing
-      console.log("drawing key pressed")
       drawingKeyPressed = true;
       break;
     // to change the type of translation

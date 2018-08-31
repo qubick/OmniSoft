@@ -25,7 +25,7 @@ var intersection = {
 };
 
 //all region geometries
-var softRegion; //three js volume
+var freeDrawnRegion;
 var regionArray = [], pointsOfDrawing = new THREE.Geometry(), regionCnt = 0;
 
 var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
@@ -76,13 +76,13 @@ function checkIntersection() {
     position.needsUpdate = true;
     intersection.intersects = true;
 
-		console.log('mouse status: ', mouseDonwed)
 		if( currRegionSelectMethod === 3 && drawingKeyPressed ) { //in case of free drawing
 			//create the intersection points array
 
 			// console.log(intersection.point)
 			// regionPtsArray.push(intersection.point);
 			pointsOfDrawing.vertices.push(intersection.point.clone())
+
 		}
   } else {
     intersection.intersects = false;
