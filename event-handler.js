@@ -123,12 +123,10 @@ window.addEventListener( 'keydown', ( event ) => {
 });
 
 
-function ReturnTypeofGradient(evt){
+function ReturnTypeofGradient(value){
   //change gradient type
-  var regtionSelection = parseInt(evt.target.value);
+  var regtionSelection = value; //parseInt(evt.target.value);
 
-  // var selectObject= scene.getObjectByName("foot_step_volume");
-  // selectObject.material = normalMaterial;
   sphereRegion.material = gradientMaterial;
 
   var gradientInput = document.createElement("input");

@@ -3,17 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Softness Design UI</title>
-
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
-
-		<!-- jQuery library -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-		<!-- material search box -->
 		<script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
 
-		<script type="javascript/text" src="server.js"></script>
+		<!-- <script type="javascript/text" src="server.js"></script> -->
 	</head>
 
 	<style>
@@ -44,15 +39,8 @@
 			    transition: opacity .2s;
 			}
 			.custom-select {
-			  position: relative;
-			  font-family: Arial;
-				width:300px;
-				height:50px;
 				opacity: 0.7;
 				background-color: transparent;
-			}
-			/* .select-selected {
-			  background-color: lightgray; */
 			}
 				#loadSTL {
 					position: fixed;
@@ -104,21 +92,16 @@
 				<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
 
 				<br/><br/>
-				<div id="region-type"></div>
-				<div id="interaction-type"></div>
+				<div id="region-type" class="custom-select"></div>
+				<div id="interaction-type" class="custom-select"></div>
 				<!-- <input type="text" id="searchBox" width="300px" onclick="clickMaterials()" onkeyup="searchMaterial()" placeholder="Search for material"> -->
+				<br/>
 				<input type="text" id="searchBox" width="300px" onkeyup="searchMaterial()" placeholder="Search for material">
-				<div id="refer-material"></div>
+				<div id="refer-material" class="custom-select"></div>
 				<div id="sliderlocation"></div>
 				<div id="selectedMaterialImglocation"></div>
-
 				<br/><br/>
-				<select onchange="ReturnTypeofGradient(event)" class="custom-select">
-					<option value="0">Select Gradient Type</option>
-					<option value="1">Binary</option>
-			    <option value="2">Linear</option>
-			    <option value="3">Radial</option>
-				</select>
+				<div id="gradient-type"></div>
 
 				<div id="gradientlocation"></div>
 		</div>
@@ -237,6 +220,16 @@
 					}
 				}); //eof ddslick
 			// }); //eof foreach
+
+			$('#gradient-type').ddslick({
+				data: gradient_type,
+				width: 300,
+				selectText: "Select Gradient Type",
+				imagePosition: "right",
+				onSelected: function(event) {
+					ReturnTypeofGradient(event.selectedData.value)
+				}
+			});
 
 			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 

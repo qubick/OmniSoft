@@ -287,3 +287,28 @@ var region_type = [
     imageSrc: "assets/imgs/hair-roll.png"
   }
 ]
+
+var gradient_type = [
+
+  {
+    name: "Binary",
+    text: "Binary",
+    value: 1,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  },
+  {
+    name: "Linear",
+    text: "Linear",
+    value: 2,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  },
+  {
+    name: "Radial",
+    text: "Radial",
+    value: 3,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  }
+]
