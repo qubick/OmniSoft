@@ -229,31 +229,38 @@ var reference_material = [
 var interaction_type = [
   {
     name: "foot-step",
-    text: "Foot step ",
+    text: "Step",
     value: 1,
     selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    imageSrc: "assets/imgs/interaction-step.png"
   },
   {
     name: "finger-press",
-    text: "Finger press ",
+    text: "Press",
     value: 2,
     selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    imageSrc: "assets/imgs/interaction-press.png"
   },
   {
     name: "Sit",
     text: "Sit",
     value: 3,
     selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    imageSrc: "assets/imgs/interaction-sit.png"
   },
   {
     name: "palm-grasp",
-    text: "Palm grasp",
+    text: "Grasp",
     value: 4,
     selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    imageSrc: "assets/imgs/interaction-grasp.png"
+  },
+  {
+    name: "squeeze",
+    text: "Squeeze",
+    value: 5,
+    selected: false,
+    imageSrc: "assets/imgs/interaction-squeeze.png"
   }
 ]
 
@@ -263,28 +270,28 @@ var region_type = [
     text: "By Volume Primitives",
     value: 1,
     selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    imageSrc: "assets/imgs/region_volume.png"
   },
   {
     name: "interaction",
     text: "By Interaction Type",
     value: 2,
     selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    imageSrc: "assets/imgs/region_interaction.png"
   },
   {
     name: "drawing",
     text: "By Free Drawing",
     value: 3,
     selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    imageSrc: "assets/imgs/region_drawing.png"
   },
   {
     name: "slicing",
     text: "By Slicing plane",
     value: 4,
     selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    imageSrc: "assets/imgs/region_slicing.png"
   }
 ]
 
@@ -293,22 +300,25 @@ var gradient_type = [
   {
     name: "Binary",
     text: "Binary",
-    value: 1,
-    selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    value: 1
+    // ,
+    // selected: false,
+    // imageSrc: "assets/imgs/hair-roll.png"
   },
   {
     name: "Linear",
     text: "Linear",
-    value: 2,
-    selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    value: 2
+    // ,
+    // selected: false,
+    // imageSrc: "assets/imgs/hair-roll.png"
   },
   {
     name: "Radial",
     text: "Radial",
-    value: 3,
-    selected: false,
-    imageSrc: "assets/imgs/hair-roll.png"
+    value: 3
+    // ,
+    // selected: false,
+    // imageSrc: "assets/imgs/hair-roll.png"
   }
 ]
