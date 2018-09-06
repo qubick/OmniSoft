@@ -104,28 +104,11 @@
 				<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
 
 				<br/><br/>
-				<select onchange="ReturnRegionSelecMethod(event)" class="custom-select">
-					<option value="0">Select Region</option>
-					<option value="1">By Volume</option>
-					<option value="2">By Type of Interaction</option>
-					<option value="3">By Free Drawing</option>
-					<option value="4">By Slicing in plane</option>
-				</select>
-
-				<br/><br/>
-				<!-- <select onchange="ReturnDesiredInteraction(event)" class="custom-select">
-					<option value="0">Select Interaction</option>
-					<option value="1">Foot Press</option>
-			    <option value="2">Finger Press</option>
-			    <option value="3">Sit</option>
-			    <option value="4">Palm Grasp</option>
-			    <option value="5">Finger Squeeze</option>
-				</select> -->
+				<div id="region-type"></div>
 				<div id="interaction-type"></div>
-				<br/><br/>
-				<input type="text" id="searchBox" onclick="clickMaterials()" onkeyup="searchMaterial()" placeholder="Search for material">
+				<!-- <input type="text" id="searchBox" width="300px" onclick="clickMaterials()" onkeyup="searchMaterial()" placeholder="Search for material"> -->
+				<input type="text" id="searchBox" width="300px" onkeyup="searchMaterial()" placeholder="Search for material">
 				<div id="refer-material"></div>
-
 				<div id="sliderlocation"></div>
 				<div id="selectedMaterialImglocation"></div>
 
@@ -145,13 +128,13 @@
 			var materialSelected = false;
 			var softnessIdx = 0;
 
-			function clickMaterials(){
-				console.log("click material")
-
-				var span = document.getElementsByTagName('span')[0].click()
-				$('#refer-material').ddslick('open')
-				// span.addClass('dd-pointer-up')
-			}
+			// function clickMaterials(){
+			// 	console.log("click material")
+			//
+			// 	var span = document.getElementsByTagName('span')[0].click()
+			// 	$('#refer-material').ddslick('open')
+			// 	// span.addClass('dd-pointer-up')
+			// }
 
 
 			// enable search box
@@ -174,6 +157,16 @@
 					}
 				} // end of for
 			} //end of searchMaterial funcion
+
+			$('#region-type').ddslick({
+				data: region_type,
+				width: 300,
+				selectText: "Select Region Specification Method",
+				imagePosition: "right",
+				onSelected: function(event) {
+					ReturnRegionSelecMethod(event.selectedData.value)
+				}
+			});
 
 			$('#interaction-type').ddslick({
 				data: interaction_type,

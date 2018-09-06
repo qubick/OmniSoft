@@ -146,9 +146,9 @@ function ReturnTypeofGradient(evt){
 
 }
 
-function ReturnRegionSelecMethod(evt){
+function ReturnRegionSelecMethod(value){
 
-  currRegionSelectMethod = parseInt(evt.target.value);
+  currRegionSelectMethod = value; //parseInt(evt.target.value);
 
   console.log("selected Method to create the region: ", currRegionSelectMethod);
 

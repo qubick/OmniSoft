@@ -256,3 +256,34 @@ var interaction_type = [
     imageSrc: "assets/imgs/hair-roll.png"
   }
 ]
+
+var region_type = [
+  {
+    name: "volume",
+    text: "By Volume Primitives",
+    value: 1,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  },
+  {
+    name: "interaction",
+    text: "By Interaction Type",
+    value: 2,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  },
+  {
+    name: "drawing",
+    text: "By Free Drawing",
+    value: 3,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  },
+  {
+    name: "slicing",
+    text: "By Slicing plane",
+    value: 4,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  }
+]
