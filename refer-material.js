@@ -224,3 +224,35 @@ var reference_material = [
   //   imageSrc: "assets/imgs/"
   // }
 ];
+
+
+var interaction_type = [
+  {
+    name: "foot-step",
+    text: "Foot step ",
+    value: 1,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  },
+  {
+    name: "finger-press",
+    text: "Finger press ",
+    value: 2,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  },
+  {
+    name: "Sit",
+    text: "Sit",
+    value: 3,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  },
+  {
+    name: "palm-grasp",
+    text: "Palm grasp",
+    value: 4,
+    selected: false,
+    imageSrc: "assets/imgs/hair-roll.png"
+  }
+]

@@ -43,7 +43,6 @@ function init() {
   //for shadow Light
   shadowlight.position.set(0,1000,0);
   shadowlight.castShadow = true;
-  console.log("shadow light rotation, init: ", shadowlight.rotation);
 
   shadowlight.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 50, 1, 200, 2500 ) );
   shadowlight.shadow.mapSize.width = 2048 ;
@@ -141,11 +140,11 @@ function onWindowResize() {
   renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-function ReturnDesiredInteraction(event){
+function ReturnDesiredInteraction(value){
 
-  selectedInterAction = parseInt(event.target.value);
+  selectedInterAction = value;
   console.log("selected Action: ", selectedInterAction);
-  LoadDesiredInteraction(parseInt(selectedInterAction));
+  LoadDesiredInteraction( value ); // parseInt(selectedInterAction));
 
   // showDiv();
 }

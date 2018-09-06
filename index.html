@@ -43,6 +43,17 @@
 			    -webkit-transition: .2s;
 			    transition: opacity .2s;
 			}
+			.custom-select {
+			  position: relative;
+			  font-family: Arial;
+				width:300px;
+				height:50px;
+				opacity: 0.7;
+				background-color: transparent;
+			}
+			/* .select-selected {
+			  background-color: lightgray; */
+			}
 				#loadSTL {
 					position: fixed;
 					top: 105px;
@@ -93,7 +104,7 @@
 				<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
 
 				<br/><br/>
-				<select onchange="ReturnRegionSelecMethod(event)">
+				<select onchange="ReturnRegionSelecMethod(event)" class="custom-select">
 					<option value="0">Select Region</option>
 					<option value="1">By Volume</option>
 					<option value="2">By Type of Interaction</option>
@@ -102,15 +113,15 @@
 				</select>
 
 				<br/><br/>
-				<select onchange="ReturnDesiredInteraction(event)">
+				<!-- <select onchange="ReturnDesiredInteraction(event)" class="custom-select">
 					<option value="0">Select Interaction</option>
 					<option value="1">Foot Press</option>
 			    <option value="2">Finger Press</option>
 			    <option value="3">Sit</option>
 			    <option value="4">Palm Grasp</option>
 			    <option value="5">Finger Squeeze</option>
-				</select>
-
+				</select> -->
+				<div id="interaction-type"></div>
 				<br/><br/>
 				<input type="text" id="searchBox" onclick="clickMaterials()" onkeyup="searchMaterial()" placeholder="Search for material">
 				<div id="refer-material"></div>
@@ -119,7 +130,7 @@
 				<div id="selectedMaterialImglocation"></div>
 
 				<br/><br/>
-				<select onchange="ReturnTypeofGradient(event)">
+				<select onchange="ReturnTypeofGradient(event)" class="custom-select">
 					<option value="0">Select Gradient Type</option>
 					<option value="1">Binary</option>
 			    <option value="2">Linear</option>
@@ -142,6 +153,7 @@
 				// span.addClass('dd-pointer-up')
 			}
 
+
 			// enable search box
 			function searchMaterial(){
 				var input, filter, ul, li, a, i;
@@ -162,6 +174,16 @@
 					}
 				} // end of for
 			} //end of searchMaterial funcion
+
+			$('#interaction-type').ddslick({
+				data: interaction_type,
+				width: 300,
+				selectText: "Select Interaction Type",
+				imagePosition: "right",
+				onSelected: function(event) {
+					ReturnDesiredInteraction(event.selectedData.value)
+				}
+			});
 
 			$('#refer-material').ddslick({
 					data: reference_material,
