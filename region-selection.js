@@ -2,7 +2,7 @@
 //all the events related to the region selection to assign soft infills
 //#################################################################
 
-var intervals = 1.2; //currently set to constant. Should be calculated by the model
+var interval = 3; //currently set to constant. Should be calculated by the model
 const INFILLWALLTHICKESS = 0.5;
 var infillWallArray = [];
 var walls, resultingWalls, adjustedTarget;
@@ -102,19 +102,18 @@ function fixPosition(){
 // 1. union all individual walls into walls,
 // 2. then intersect by the region shape
 //#################################################################
-
 function createInfillWalls(){
 	var resultingRegion;
 
+	//step 1. get intersection region
+
 	if(currRegionSelectMethod === 1) {// currentlyonly applied to the sphere region
 
-		//step 1. get intersection region
-		// sphere region will be modified
 		resultingRegion = getSoftRegion(target3DObject, sphereRegion);
 	}
 
 	else if ( currRegionSelectMethod === 2 ) {
-
+		// resultingRegion = //
 	}
 	else if ( currRegionSelectMethod === 3 ) {
 
@@ -123,8 +122,11 @@ function createInfillWalls(){
 
 	// step 2. create infill
 	let infillSize = resultingRegion.geometry.boundingSphere.radius * 2; //as big as sphere region
-	let repeatN = infillSize / (intervals + INFILLWALLTHICKESS);
+	let ld = parseFloat(interval);
+	let repeatN = parseInt(infillSize / (ld + INFILLWALLTHICKESS));
 	let geometry = new THREE.BoxGeometry(INFILLWALLTHICKESS, infillSize, infillSize);
+
+	console.log("interval in infillcreation(): ", interval, " repeatN: ", repeatN, "infillSize: ", infillSize );
 
 	let originX = resultingRegion.position.x - resultingRegion.geometry.boundingSphere.radius; //because of center
 	let originY = resultingRegion.position.y;
@@ -132,7 +134,7 @@ function createInfillWalls(){
 
 	for(let i=0; i<repeatN; i++){
 		var infillWall = new THREE.Mesh( geometry, wireframeMaterial );
-		infillWall.position.set(originX + (intervals + INFILLWALLTHICKESS) * i, originY, originZ);
+		infillWall.position.set(originX + (ld + INFILLWALLTHICKESS) * i, originY, originZ);
 		infillWall.name = 'infillWall';
 		infillWallArray.push(infillWall);
 	}

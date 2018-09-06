@@ -9,7 +9,6 @@ var settings = {
 //see if geometry can be kept
 var targetGeometry;
 
-
 var panel = new dat.GUI();
 
 var params = {
@@ -19,6 +18,8 @@ var params = {
   },
 
   createInfill: function(){
+    //compute intervals to create infill
+    getIntervalbySoftnessInput();
     createInfillWalls();
     getModifiedTarget();
   },
@@ -34,6 +35,7 @@ var params = {
 }
 
 function handleFileSelect(evt){
+
   var files = evt.target.files;
   let targetSTLFile = './assets/' + files[0].name;
 

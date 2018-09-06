@@ -65,8 +65,10 @@ window.addEventListener( 'keydown', ( event ) => {
       if(currentSelectRegion === 1){ //sphere
         var obj = scene.getObjectByName('torusRegion');
         if(obj){
-          scene.remove(obj);
-          scene.add(sphereRegion);
+          scene.remove( obj );
+          scene.add( sphereRegion );
+
+          transformControlTarget.attach( sphereRegion );
         }
       }
       else if (currentSelectRegion === 2){ //sphere -> cube
@@ -100,7 +102,6 @@ window.addEventListener( 'keydown', ( event ) => {
     case 81: // Q
       transformControlTarget.setSpace( transformControl.space === "local" ? "world" : "local" );
       // objects.pop(sphereRegion);
-
       break;
     case 17: // ctrl
 
@@ -149,8 +150,6 @@ function ReturnRegionSelecMethod(value){
 
   currRegionSelectMethod = value; //parseInt(evt.target.value);
 
-  console.log("selected Method to create the region: ", currRegionSelectMethod);
-
   if (currRegionSelectMethod === 1){
     // currentSelectRegion = VOLUME;
 
@@ -159,7 +158,6 @@ function ReturnRegionSelecMethod(value){
     transformControlTarget.attach(sphereRegion);
 
   }
-
   else if (currRegionSelectMethod === 2){
 
     //create the interaction type option list here
@@ -192,11 +190,22 @@ function saveString (text, filename ){
 }
 
 var link = document.createElement( 'a' );
-			link.style.display = 'none';
-			document.body.appendChild( link );
+link.style.display = 'none';
+document.body.appendChild( link );
 
 function save (blob, filename){
   link.href = URL.createObjectURL( blob );
   link.download = filename;
   link.click();
+}
+
+function getIntervalbySoftnessInput(){
+
+  var S = document.getElementById('softnessRange').value;
+  var ld = Math.exp(-1/0.408 * (Math.log(S) -Math.log(38.2)));
+
+  interval = ld.toFixed(4);
+
+  console.log("S: ", S, " interval: ", interval);
+
 }
