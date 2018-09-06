@@ -37,6 +37,16 @@
 			    -webkit-transition: .2s;
 			    transition: opacity .2s;
 			}
+			.slider-square {
+			    -webkit-appearance: none;
+			    width: 100%;
+			    height: 24px;
+			    background: #d3d3d3;
+			    outline: none;
+			    opacity: 0.7;
+			    -webkit-transition: opacity .15s ease-in-out;
+			    transition: opacity .15s ease-in-out;
+			}
 			.custom-select {
 				opacity: 0.7;
 				background-color: transparent;
@@ -91,14 +101,14 @@
 				<div id="region-type" class="custom-select"></div>
 				<div id="interactionSelectorLocation"></div>
 				<br/>
-				<input type="text" id="searchBox" width="300px" onkeyup="searchMaterial()" placeholder="Search for material">
+				<input type="text" id="searchBox" onkeyup="searchMaterial()" placeholder="Search for Material">
 				<div id="refer-material" class="custom-select"></div>
 				<div id="sliderlocation"></div>
 				<div id="selectedMaterialImglocation"></div>
-				<br/><br/>
+				<br/><br/><br/>
 				<div id="gradient-type"></div>
 
-				<div id="gradientlocation"></div>
+				<!-- <div id="gradientlocation"></div> -->
 		</div>
 
 		<script type="text/javascript">
@@ -106,21 +116,13 @@
 			var materialSelected = false;
 			var softnessIdx = 0;
 
-			// function clickMaterials(){
-			// 	console.log("click material")
-			//
-			// 	var span = document.getElementsByTagName('span')[0].click()
-			// 	$('#refer-material').ddslick('open')
-			// 	// span.addClass('dd-pointer-up')
-			// }
-
-
 			// enable search box
 			function searchMaterial(){
+
 				var input, filter, ul, li, a, i;
 				input		= document.getElementById('searchBox');
 				filter	= input.value.toUpperCase();
-				ul = document.getElementsByClassName('dd-options')[0];
+				ul = document.getElementsByClassName('dd-options')[1];
 				li = ul.getElementsByTagName('li');
 
 				for(i = 0; i < li.length; i++){
@@ -133,7 +135,7 @@
 						li[i].style.display = "none";
 					}
 				} // end of for
-			} //end of searchMaterial funcion
+			} //end of funcion
 
 			$('#region-type').ddslick({
 				data: region_type,
@@ -162,7 +164,7 @@
 						  input.min = 0;
 							input.max = 100;
 							input.value = softnessArray[softnessIdx];
-						  input.class = "slider"
+						  // input.class = "slider-square"
 						  input.id = "softnessRange"
 
 						  var textInput = document.createElement("text");
@@ -171,6 +173,9 @@
 
 						  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: <div id="softnessValue"></div>'
 						  document.getElementById('sliderlocation').appendChild(input);
+							document.getElementById('softnessRange').classList.add('slider');
+
+
 							var output = document.getElementById("softnessValue")
 							output.innerHTML = softnessArray[softnessIdx];
 
@@ -192,6 +197,7 @@
 							outputText.innerHTML = softnessArray[softnessIdx];
 
 						}
+
 						//display reference material image on the slider bar
 						var newImg = document.createElement("img");
 						newImg.setAttribute("src", event.selectedData.imageSrc);
@@ -199,7 +205,6 @@
 						newImg.setAttribute("style", "position:absolute; left:" + softnessLevel * 10 + "px");
 						document.getElementById("selectedMaterialImglocation").appendChild(newImg);
 
-						console.log(newImg)
 						softnessIdx++;
 					}
 				}); //eof ddslick
