@@ -129,18 +129,19 @@ function ReturnTypeofGradient(value){
 
   sphereRegion.material = gradientMaterial;
 
-  var gradientInput = document.createElement("input");
-
-  gradientInput.type  = "range"
-  gradientInput.min   = "10";
-  gradientInput.max   = "50";
-  gradientInput.value = "25";
-  gradientInput.class = "slider"
-  gradientInput.id    = "gradientRange"
-  // gradientInput.onChange = "updateValue(this.value)"
-
-  document.getElementById('sliderlocation').innerHTML = '<br/> Gradient stops: ';
-  document.getElementById('gradientlocation').appendChild(gradientInput);
+  //don't add gradient change slider
+  // var gradientInput = document.createElement("input");
+  //
+  // gradientInput.type  = "range"
+  // gradientInput.min   = "10";
+  // gradientInput.max   = "50";
+  // gradientInput.value = "25";
+  // gradientInput.class = "slider"
+  // gradientInput.id    = "gradientRange"
+  // // gradientInput.onChange = "updateValue(this.value)"
+  //
+  // document.getElementById('sliderlocation').innerHTML = '<br/> Gradient stops: ';
+  // document.getElementById('gradientlocation').appendChild(gradientInput);
 
 }
 
