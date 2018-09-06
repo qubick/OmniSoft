@@ -162,6 +162,20 @@ function ReturnRegionSelecMethod(value){
   else if (currRegionSelectMethod === 2){
 
     //create the interaction type option list here
+    var newDiv = document.createElement('div');
+    newDiv.id = "interaction_type"
+
+    document.getElementById('interactionSelectorLocation').appendChild(newDiv)
+
+    $('#interaction_type').ddslick({
+      data: interaction_type,
+      width: 300,
+      selectText: "Select Interaction Type",
+      imagePosition: "right",
+      onSelected: function(event) {
+        ReturnDesiredInteraction(event.selectedData.value)
+      }
+    });
   }
 
   else if (currRegionSelectMethod === 3){ // free drawing

@@ -8,7 +8,6 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
 
-		<!-- <script type="javascript/text" src="server.js"></script> -->
 	</head>
 
 	<style>
@@ -51,9 +50,6 @@
 					background-color: grey;
 					display: none;
 				}
-				.draggable{
-					width: 150px
-				}
 			</style>
 
 	<body>
@@ -93,7 +89,7 @@
 
 				<br/><br/>
 				<div id="region-type" class="custom-select"></div>
-				<div id="interaction-type" class="custom-select"></div>
+				<div id="interactionSelectorLocation"></div>
 				<!-- <input type="text" id="searchBox" width="300px" onclick="clickMaterials()" onkeyup="searchMaterial()" placeholder="Search for material"> -->
 				<br/>
 				<input type="text" id="searchBox" width="300px" onkeyup="searchMaterial()" placeholder="Search for material">
@@ -128,7 +124,6 @@
 				ul = document.getElementsByClassName('dd-options')[0];
 				li = ul.getElementsByTagName('li');
 
-
 				for(i = 0; i < li.length; i++){
 					a = li[i].getElementsByTagName("a")[0];
 
@@ -148,16 +143,6 @@
 				imagePosition: "right",
 				onSelected: function(event) {
 					ReturnRegionSelecMethod(event.selectedData.value)
-				}
-			});
-
-			$('#interaction-type').ddslick({
-				data: interaction_type,
-				width: 300,
-				selectText: "Select Interaction Type",
-				imagePosition: "right",
-				onSelected: function(event) {
-					ReturnDesiredInteraction(event.selectedData.value)
 				}
 			});
 
