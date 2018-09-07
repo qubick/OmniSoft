@@ -185,6 +185,8 @@ function ReturnRegionSelecMethod(value){
 
 }
 
+
+//to enable export buttons
 function saveString (text, filename ){
   save ( new Blob( [text], {type: 'text/plain'}), filename );
 }
@@ -199,6 +201,8 @@ function save (blob, filename){
   link.click();
 }
 
+
+// compute intervals for infill walls
 function getIntervalbySoftnessInput(){
 
   var S = document.getElementById('softnessRange').value;
@@ -206,6 +210,26 @@ function getIntervalbySoftnessInput(){
 
   interval = ld.toFixed(4);
 
-  console.log("S: ", S, " interval: ", interval);
+  console.log("retrieved Softness: ", S, " interval: ", interval);
 
+}
+
+//attach event listeners when material is selected
+function attachSliderEvents(){
+
+  let slider = document.getElementById("softnessRange")
+
+  slider.oninput = function(){
+
+    let output = document.getElementById("softnessValue")
+    output.innerHTML = this.value;
+
+    };
+
+  slider.addEventListener('change', () => {
+    console.log("slider value is changed")
+    recalculateInfill();
+    //here create infill wall meshes ~ change gaps
+
+  });
 }

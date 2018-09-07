@@ -103,7 +103,7 @@
 				<div id="sliderlocation"></div>
 				<div id="selectedMaterialImglocation"></div>
 				<br/><br/><br/>
-				<div id="gradient-type"></div>
+				<div id="softness-type"></div>
 
 				<!-- <div id="gradientlocation"></div> -->
 		</div>
@@ -145,72 +145,66 @@
 			});
 
 			$('#refer-material').ddslick({
-					data: reference_material,
-					width: 300,
-					selectText: "Select preferred soft/hard materials",
-					imagePosition: "right",
-					onSelected: function(event){
+				data: reference_material,
+				width: 300,
+				selectText: "Select preferred soft/hard materials",
+				imagePosition: "right",
+				onSelected: function(event){
 
-						var softnessLevel = parseInt(event.selectedData.softness);
-						softnessArray.push(softnessLevel);
+					var softnessLevel = parseInt(event.selectedData.softness);
+					softnessArray.push(softnessLevel);
 
-						if( !materialSelected ){
-							var input = document.createElement("input");
+					if( !materialSelected ){
+						var input = document.createElement("input");
 
-						  input.type = "range"
-						  input.min = 0;
-							input.max = 100;
-							input.value = softnessArray[softnessIdx];
-						  // input.class = "slider-square"
-						  input.id = "softnessRange"
+					  input.type = "range"
+					  input.min = 0;
+						input.max = 100;
+						input.value = softnessArray[softnessIdx];
+					  input.id = "softnessRange"
 
-						  var textInput = document.createElement("text");
-						  textInput.value = '<br/> Shore A scale: ' + softnessArray[softnessIdx];
-						  textInput.id = "shoreAScaleValue"
+					  var textInput = document.createElement("text");
+					  textInput.value = '<br/> Shore A scale: ' + softnessArray[softnessIdx];
+					  textInput.id = "shoreAScaleValue"
 
-						  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: <div id="softnessValue"></div>'
-						  document.getElementById('sliderlocation').appendChild(input);
-							document.getElementById('softnessRange').classList.add('slider');
+					  document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: <div id="softnessValue"></div>'
+					  document.getElementById('sliderlocation').appendChild(input);
+						document.getElementById('softnessRange').classList.add('slider');
 
 
-							var output = document.getElementById("softnessValue")
-							output.innerHTML = softnessArray[softnessIdx];
+						var output = document.getElementById("softnessValue")
+						output.innerHTML = softnessArray[softnessIdx];
 
-							//update value should be defined when the slider is actullay created
-							var slider = document.getElementById("softnessRange");
-							slider.oninput = function(){
-								output = document.getElementById("softnessValue")
-								output.innerHTML = this.value;
-							}
+						//update value should be defined when the slider is actullay created
+						attachSliderEvents();
 
-							materialSelected = true;
-						}
-						else { // already input created and slider exists
-
-							var inputSlider = document.getElementById('softnessRange')
-							var outputText = document.getElementById("softnessValue")
-
-							inputSlider.value = softnessArray[softnessIdx];
-							outputText.innerHTML = softnessArray[softnessIdx];
-
-						}
-
-						//display reference material image on the slider bar
-						var newImg = document.createElement("img");
-						newImg.setAttribute("src", event.selectedData.imageSrc);
-						newImg.setAttribute("class", "thumbnail");
-						newImg.setAttribute("style", "position:absolute; left:" + softnessLevel * 10 + "px");
-						document.getElementById("selectedMaterialImglocation").appendChild(newImg);
-
-						softnessIdx++;
+						materialSelected = true;
 					}
-				}); //eof ddslick
-			// }); //eof foreach
+					else { // already input created and slider exists
 
-			$('#gradient-type').ddslick({
+						var inputSlider = document.getElementById('softnessRange')
+						var outputText = document.getElementById("softnessValue")
+
+						inputSlider.value = softnessArray[softnessIdx];
+						outputText.innerHTML = softnessArray[softnessIdx];
+
+					}
+
+					//display reference material image on the slider bar
+					var newImg = document.createElement("img");
+					newImg.setAttribute("src", event.selectedData.imageSrc);
+					newImg.setAttribute("class", "thumbnail");
+					newImg.setAttribute("style", "position:absolute; left:" + softnessLevel * 10 + "px");
+					document.getElementById("selectedMaterialImglocation").appendChild(newImg);
+
+					softnessIdx++;
+				}
+			}); //eof ddslick
+
+			$('#softness-type').ddslick({
 				data: gradient_type,
 				width: 300,
-				selectText: "Select Gradient Type",
+				selectText: "Select Softness Type",
 				imagePosition: "right",
 				onSelected: function(event) {
 					ReturnTypeofGradient(event.selectedData.value)
