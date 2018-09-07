@@ -5,7 +5,7 @@
 var interval = 3; //currently set to constant. Should be calculated by the model
 const INFILLWALLTHICKESS = 0.5;
 var infillWallArray = [];
-var walls, resultingWalls, adjustedTarget;
+var walls, resultingWalls, adjustedTarget, resultingRegion;
 
 var controls;
 var mouse = new THREE.Vector2();
@@ -23,6 +23,8 @@ var intersection = {
 	point: new THREE.Vector3(),
 	normal: new THREE.Vector3()
 };
+
+var infillCreated = false;
 
 //all region geometries
 var freeDrawnRegion;
@@ -103,23 +105,22 @@ function fixPosition(){
 // 2. then intersect by the region shape
 //#################################################################
 function createInfillWalls(){
-	var resultingRegion;
 
 	//step 1. get intersection region
+	if(!infillCreated){ //otherwise, keep the original
+		if(currRegionSelectMethod === 1) {// currentlyonly applied to the sphere region
 
-	if(currRegionSelectMethod === 1) {// currentlyonly applied to the sphere region
+			resultingRegion = getSoftRegion(target3DObject, sphereRegion);
+		}
 
-		resultingRegion = getSoftRegion(target3DObject, sphereRegion);
+		else if ( currRegionSelectMethod === 2 ) {
+			// resultingRegion = //
+		}
+		else if ( currRegionSelectMethod === 3 ) {
+
+			resultingRegion = getSoftRegion(target3DObject, freeDrawnRegion);
+		} // end of if
 	}
-
-	else if ( currRegionSelectMethod === 2 ) {
-		// resultingRegion = //
-	}
-	else if ( currRegionSelectMethod === 3 ) {
-
-		resultingRegion = getSoftRegion(target3DObject, freeDrawnRegion);
-	} // end of if
-
 	// step 2. create infill
 	let infillSize = resultingRegion.geometry.boundingSphere.radius * 2; //as big as sphere region
 	let ld = parseFloat(interval);
@@ -143,7 +144,6 @@ function createInfillWalls(){
 	for(var i=2; i<infillWallArray.length; i++){
 		walls = getUnionObject(walls, infillWallArray[i]);
 	};
-	scene.add(walls);
 
 	getIntersectInfill( walls, resultingRegion );
 }
@@ -178,6 +178,13 @@ function getSubtractionObject(source, target){
   scene.add( adjustedTarget );
 }
 
+function recalculateInfill(){
+
+	getIntervalbySoftnessInput(); //reset interval
+	scene.remove( resultingWalls );
+
+	createInfillWalls();
+}
 
 function getIntersectInfill(source, target){
 
@@ -187,12 +194,10 @@ function getIntersectInfill(source, target){
   resultingWalls = intersect_bsp.toMesh( material );
 
   resultingWalls.geometry.computeVertexNormals();
-  // resultingWalls.position.set(resultingRegion.position.x,resultingRegion.position.y,resultingRegion.position.z); //tentative, should be the original object
-
-  scene.remove( source );
-  scene.remove( target );
 
   scene.add( resultingWalls );
+	infillCreated = true;
+
 }
 
 function getSoftRegion(source, target){
@@ -217,7 +222,7 @@ function getSoftRegion(source, target){
 	else if( currRegionSelectMethod === 3){
 		scene.remove( freeDrawnRegion );
 	}
-  scene.add( result );
+
   return result
 }
 
