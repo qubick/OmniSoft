@@ -33,10 +33,10 @@ var regionArray = [], pointsOfDrawing = new THREE.Geometry(), regionCnt = 0;
 var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
 var sphereRegion = new THREE.Mesh(spheregeometry, normalMaterial);
 
-var cubegeometry = new THREE.BoxGeometry(30, 30, 30);
+var cubegeometry = new THREE.BoxGeometry(60, 60, 60);
 var cubeRegion = new THREE.Mesh( cubegeometry, normalMaterial );
 
-var cylindergeometry = new THREE.CylinderGeometry( 15, 15, 20, 32 );
+var cylindergeometry = new THREE.CylinderGeometry( 50, 50, 50, 32 );
 var cylinderRegion = new THREE.Mesh( cylindergeometry, normalMaterial );
 
 var torusgeometry = new THREE.TorusGeometry( 15, 3, 16, 100 );
@@ -110,7 +110,19 @@ function createInfillWalls(){
 	if(!infillCreated){ //otherwise, keep the original
 		if(currRegionSelectMethod === 1) {// currentlyonly applied to the sphere region
 
-			resultingRegion = getSoftRegion(target3DObject, sphereRegion);
+			switch(currentSelectRegion) {
+				case 1: //sphere
+					resultingRegion = getSoftRegion(target3DObject, sphereRegion);
+					break;
+				case 2: //cube
+					resultingRegion = getSoftRegion(target3DObject, cubeRegion);
+					break;
+				case 3: //cylinder
+					resultingRegion = getSoftRegion(target3DObject, cylinderRegion);
+					break;
+				case 4: //torus
+					break;
+				} //switch
 		}
 
 		else if ( currRegionSelectMethod === 2 ) { //by interaction type
@@ -121,7 +133,15 @@ function createInfillWalls(){
 			resultingRegion = getSoftRegion(target3DObject, freeDrawnRegion);
 		} // end of if
 		else if ( currRegionSelectMethod === 4){ //slicing plane
-			 cutInPlaneToGet2DVectors(target3DObject); //get the 2D cut first
+			 // cutInPlaneToGet2DVectors(target3DObject); //get the 2D cut first
+			 let regionSize = target3DObject.geometry.boundingSphere.radius*2;
+			 var planeCutGeometry = new THREE.BoxGeometry(regionSize, regionSize/2, regionSize);
+			 var planeCutRegion = new THREE.Mesh( planeCutGeometry, normalMaterial );
+
+			 planeCutRegion.position.set(plane.position.x, plane.position.y, plane.position.z);
+			 scene.add(planeCutRegion);
+			 scene.remove(plane);
+
 			 resultingRegion = getSoftRegion(target3DObject, planeCutRegion);
 		}
 	}
@@ -154,13 +174,28 @@ function createInfillWalls(){
 
 function getModifiedTarget(){
 	if( currRegionSelectMethod === 1) //when creating region is sphereShape
-		// if(sphereRegion)
-		getSubtractionObject( sphereRegion, target3DObject)
-	else if ( currRegionSelectMethod === 2){
+		switch( currentSelectRegion ){
+			case 1: //sphere
+				getSubtractionObject( sphereRegion, target3DObject)
+				break;
+			case 2: //cube
+				getSubtractionObject( cubeRegion, target3DObject)
+				break;
+			case 3: //cylinder
+				getSubtractionObject( cylinderRegion, target3DObject)
+				break;
+			case 4:
+				getSubtractionObject( torusRegion, target3DObject);
+				break;
+			} //switch
+	else if ( currRegionSelectMethod === 2){ //interaction type
 
 	}
 	else if(currRegionSelectMethod === 3){
 		getSubtractionObject( freeDrawnRegion, target3DObject );
+	}
+	else if(currRegionSelectMethod === 4){ //by cut plane
+		getSubtractionObject( planeCutRegion, target3DObject );
 	}
 }
 
@@ -178,6 +213,7 @@ function getSubtractionObject(source, target){
 	//need to rescale manually as it is set by model scale slider
 	adjustedTarget.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
 
+	scene.remove( source );
 	scene.remove( target );
   scene.add( adjustedTarget );
 }
