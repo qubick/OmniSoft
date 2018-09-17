@@ -3,7 +3,7 @@
 //#################################################################
 
 var interval = 3; //currently set to constant. Should be calculated by the model
-const INFILLWALLTHICKESS = 0.5;
+const INFILLWALLTHICKESS = 0.6;
 var infillWallArray = [];
 var walls, resultingWalls, adjustedTarget, resultingRegion;
 
@@ -113,13 +113,17 @@ function createInfillWalls(){
 			resultingRegion = getSoftRegion(target3DObject, sphereRegion);
 		}
 
-		else if ( currRegionSelectMethod === 2 ) {
+		else if ( currRegionSelectMethod === 2 ) { //by interaction type
 			// resultingRegion = //
 		}
-		else if ( currRegionSelectMethod === 3 ) {
+		else if ( currRegionSelectMethod === 3 ) { //by free drawing
 
 			resultingRegion = getSoftRegion(target3DObject, freeDrawnRegion);
 		} // end of if
+		else if ( currRegionSelectMethod === 4){ //slicing plane
+			 cutInPlaneToGet2DVectors(target3DObject); //get the 2D cut first
+			 resultingRegion = getSoftRegion(target3DObject, planeCutRegion);
+		}
 	}
 	// step 2. create infill
 	let infillSize = resultingRegion.geometry.boundingSphere.radius * 2; //as big as sphere region

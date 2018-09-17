@@ -61,7 +61,6 @@ window.addEventListener( 'keydown', ( event ) => {
     // to change the type of volume
     case 71: // G
       currentSelectRegion = (currentSelectRegion === 4) ? 1 : currentSelectRegion + 1;
-      console.log("chaning region selection volume", currentSelectRegion)
       if(currentSelectRegion === 1){ //sphere
         var obj = scene.getObjectByName('torusRegion');
         if(obj){
@@ -158,7 +157,7 @@ function ReturnRegionSelecMethod(value){
     transformControlTarget.attach(sphereRegion);
 
   }
-  else if (currRegionSelectMethod === 2){
+  else if (currRegionSelectMethod === 2){ //interaction type
 
     //create the interaction type option list here
     var newDiv = document.createElement('div');
@@ -179,6 +178,12 @@ function ReturnRegionSelecMethod(value){
 
   else if (currRegionSelectMethod === 3){ // free drawing
     scene.add( mouseHelper );
+  }
+
+  else if (currRegionSelectMethod === 4){ // by slicing plane
+    scene.add(plane);
+    transformControlTarget.attach(plane);
+    // cutInPlaneToGet2DVectors(target3DObject);
   }
   //add dat.UI panel to create infill only when region is LoadDesiredInteraction
   panel.add(params, 'createInfill').name('Create Infill');

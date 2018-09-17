@@ -227,8 +227,9 @@ function LoadDesiredInteraction(selectedInterAction) {
         default:
           break;
       }
-      arrowMesh.add(bodyMesh)
-      scene.add(arrowMesh)
+      arrowMesh.add(bodyMesh);
+      scene.add(arrowMesh);
+      transformControlTarget(arrowMesh);
     });
 
     sphereRegion.castShadow = true;
