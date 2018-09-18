@@ -60,8 +60,8 @@ window.addEventListener( 'keydown', ( event ) => {
   switch(event.keyCode) {
     // to change the type of volume
     case 71: // G
-      currentSelectRegion = (currentSelectRegion === 4) ? 1 : currentSelectRegion + 1;
-      if(currentSelectRegion === 1){ //sphere
+      currentSelectRegion = (currentSelectRegion === 3) ? 0 : currentSelectRegion + 1;
+      if(currentSelectRegion === 0){ //sphere
         var obj = scene.getObjectByName('torusRegion');
         if(obj){
           scene.remove( obj );
@@ -70,7 +70,7 @@ window.addEventListener( 'keydown', ( event ) => {
           transformControlTarget.attach( sphereRegion );
         }
       }
-      else if (currentSelectRegion === 2){ //sphere -> cube
+      else if (currentSelectRegion === 1){ //sphere -> cube
         //size should be taken from curr region volume
         cubeRegion.name = 'cubeRegion'
         scene.remove( sphereRegion );
@@ -78,14 +78,14 @@ window.addEventListener( 'keydown', ( event ) => {
 
         transformControlTarget.attach( cubeRegion );
       }
-      else if (currentSelectRegion === 3){ //cylinder
+      else if (currentSelectRegion === 2){ //cylinder
         cylinderRegion.name = 'cylinderRegion'
         scene.remove( cubeRegion );
         scene.add( cylinderRegion );
 
         transformControlTarget.attach( cylinderRegion );
       }
-      else if (currentSelectRegion === 4){ //ring
+      else if (currentSelectRegion === 3){ //ring
         torusRegion.name = 'torusRegion'
         scene.remove( cylinderRegion );
         scene.add( torusRegion );

@@ -17,7 +17,7 @@ var up = new THREE.Vector3( 0, 1, 0 );
 
 //check what's current region selection method
 var currRegionSelectMethod = 0; // 1:volume, 2: interaction type 3:free drawing, 4: level
-var currentSelectRegion = 0; //	1:sphere, 2:cube, 3:cylinder, 4:torus
+var currentSelectRegion = 0; //	0:sphere, 1:cube, 2:cylinder, 3:torus
 var intersection = {
 	intersects: false,
 	point: new THREE.Vector3(),
@@ -106,45 +106,47 @@ function fixPosition(){
 //#################################################################
 function createInfillWalls(){
 
+	console.log("current selection region", currentSelectRegion)
 	//step 1. get intersection region
 	if(!infillCreated){ //otherwise, keep the original
 		if(currRegionSelectMethod === 1) {// currentlyonly applied to the sphere region
 
 			switch(currentSelectRegion) {
-				case 1: //sphere
+				case 0: //sphere
 					resultingRegion = getSoftRegion(target3DObject, sphereRegion);
 					break;
-				case 2: //cube
+				case 1: //cube
 					resultingRegion = getSoftRegion(target3DObject, cubeRegion);
 					break;
-				case 3: //cylinder
+				case 2: //cylinder
 					resultingRegion = getSoftRegion(target3DObject, cylinderRegion);
 					break;
-				case 4: //torus
+				case 3: //torus
+					resultingRegion = getSoftRegion(target3DObject, torusRegion);
 					break;
 				} //switch
-		}
+			}
+			else if ( currRegionSelectMethod === 2 ) { //by interaction type
+				// resultingRegion = //
+			}
+			else if ( currRegionSelectMethod === 3 ) { //by free drawing
 
-		else if ( currRegionSelectMethod === 2 ) { //by interaction type
-			// resultingRegion = //
-		}
-		else if ( currRegionSelectMethod === 3 ) { //by free drawing
+				resultingRegion = getSoftRegion(target3DObject, freeDrawnRegion);
+			} // end of if
+			else if ( currRegionSelectMethod === 4){ //slicing plane
+				 // cutInPlaneToGet2DVectors(target3DObject); //get the 2D cut first
+				 let regionSize = target3DObject.geometry.boundingSphere.radius*2;
+				 var planeCutGeometry = new THREE.BoxGeometry(regionSize, regionSize/2, regionSize);
+				 var planeCutRegion = new THREE.Mesh( planeCutGeometry, normalMaterial );
 
-			resultingRegion = getSoftRegion(target3DObject, freeDrawnRegion);
-		} // end of if
-		else if ( currRegionSelectMethod === 4){ //slicing plane
-			 // cutInPlaneToGet2DVectors(target3DObject); //get the 2D cut first
-			 let regionSize = target3DObject.geometry.boundingSphere.radius*2;
-			 var planeCutGeometry = new THREE.BoxGeometry(regionSize, regionSize/2, regionSize);
-			 var planeCutRegion = new THREE.Mesh( planeCutGeometry, normalMaterial );
+				 planeCutRegion.position.set(plane.position.x, plane.position.y, plane.position.z);
+				 scene.add(planeCutRegion);
+				 scene.remove(plane);
 
-			 planeCutRegion.position.set(plane.position.x, plane.position.y, plane.position.z);
-			 scene.add(planeCutRegion);
-			 scene.remove(plane);
-
-			 resultingRegion = getSoftRegion(target3DObject, planeCutRegion);
-		}
+				 resultingRegion = getSoftRegion(target3DObject, planeCutRegion);
+			}
 	}
+
 	// step 2. create infill
 	let infillSize = resultingRegion.geometry.boundingSphere.radius * 2; //as big as sphere region
 	let ld = parseFloat(interval);
@@ -169,22 +171,23 @@ function createInfillWalls(){
 		walls = getUnionObject(walls, infillWallArray[i]);
 	};
 
+	console.log("union walls:", walls)
 	getIntersectInfill( walls, resultingRegion );
 }
 
 function getModifiedTarget(){
 	if( currRegionSelectMethod === 1) //when creating region is sphereShape
 		switch( currentSelectRegion ){
-			case 1: //sphere
+			case 0: //sphere
 				getSubtractionObject( sphereRegion, target3DObject)
 				break;
-			case 2: //cube
+			case 1: //cube
 				getSubtractionObject( cubeRegion, target3DObject)
 				break;
-			case 3: //cylinder
+			case 2: //cylinder
 				getSubtractionObject( cylinderRegion, target3DObject)
 				break;
-			case 4:
+			case 3:
 				getSubtractionObject( torusRegion, target3DObject);
 				break;
 			} //switch
