@@ -112,15 +112,19 @@ function createInfillWalls(){
 
 			switch(currentSelectRegion) {
 				case 0: //sphere
+					sphereRegion.scale.needsUpdate = true;
 					resultingRegion = getSoftRegion(target3DObject, sphereRegion); //intersecting selected region from the target3Dobject
 					break;
 				case 1: //cube
+					cubeRegion.scale.needsUpdate = true;
 					resultingRegion = getSoftRegion(target3DObject, cubeRegion);
 					break;
 				case 2: //cylinder
+					cylinderRegion.scale.needsUpdate = true;
 					resultingRegion = getSoftRegion(target3DObject, cylinderRegion);
 					break;
 				case 3: //torus
+					torusRegion.scale.needsUpdate = true;
 					resultingRegion = getSoftRegion(target3DObject, torusRegion);
 					break;
 				} //switch
@@ -233,6 +237,7 @@ function recalculateInfill(){
 
 function getIntersectInfill(source, target){ //source: walls, resultingRegion
 
+console.log("in getIntersectInfill(): resulting Region size:", target)
   var source_bsp = new ThreeBSP( source );
   var target_bsp = new ThreeBSP( target );
   var intersect_bsp = target_bsp.intersect( source_bsp );
