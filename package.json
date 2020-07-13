@@ -56,7 +56,7 @@
     "rollup": "^0.41.4",
     "rollup-watch": "^3.2.2",
     "uglify-js": "^2.6.0",
-    "electron": "^1.6.1"
+    "electron": "^7.2.4"
   },
   "dependencies": {
     "craftml": "^2.0.0-alpha",
