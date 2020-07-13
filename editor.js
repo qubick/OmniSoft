@@ -13,8 +13,6 @@ var loader    = new THREE.STLLoader();
 var exporter  = new THREE.STLExporter();
 var shadowlight = new THREE.DirectionalLight( 0xfffff, 1, 100);
 
-
-
 init();
 animate();
 
@@ -26,8 +24,8 @@ function init() {
   container = document.createElement( 'div' );
   document.body.appendChild( container );
   camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
-  camera.position.z = 500;
-  // camera.position.y = 100;
+  camera.position.z = 300;
+  camera.position.y = 100;
 
   scene = new THREE.Scene();
   scene.add( new THREE.AmbientLight( 0x505050, 0.2 ) );
@@ -50,7 +48,7 @@ function init() {
   scene.add(shadowlight);
 
   var grid = new THREE.GridHelper( 1000, 100, 0x888888, 0xcccccc );
-  grid.position.set(0, -100, 0);
+  grid.position.set(0, 0, 0);
   scene.add( grid );
 
 

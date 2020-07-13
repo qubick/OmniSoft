@@ -30,18 +30,23 @@ var infillCreated = false;
 var freeDrawnRegion;
 var regionArray = [], pointsOfDrawing = new THREE.Geometry(), regionCnt = 0;
 
-var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
-var sphereRegion = new THREE.Mesh(spheregeometry, normalMaterial);
+var cylindergeometry = new THREE.CylinderGeometry( 50, 50, 50, 32 );
+var cylinderRegion = new THREE.Mesh( cylindergeometry, normalMaterial );
+cylinderRegion.name = 'cylinder';
 
 var cubegeometry = new THREE.BoxGeometry(60, 60, 60);
 var cubeRegion = new THREE.Mesh( cubegeometry, normalMaterial );
+cubeRegion.name = 'cube';
 
-var cylindergeometry = new THREE.CylinderGeometry( 50, 50, 50, 32 );
-var cylinderRegion = new THREE.Mesh( cylindergeometry, normalMaterial );
+var spheregeometry = new THREE.SphereGeometry(30, 30, 30, 0, Math.PI * 2, 0, Math.PI * 2);
+var sphereRegion = new THREE.Mesh(spheregeometry, normalMaterial);
+sphereRegion.name = 'sphere';
 
 var torusgeometry = new THREE.TorusGeometry( 15, 3, 16, 100 );
 var torusRegion = new THREE.Mesh( torusgeometry, normalMaterial );
+torusRegion.name = 'torus';
 
+var currPrimitiveId, currPrimitiveName, prevPrimitiveName;
 
 
 mouseHelper = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), normalMaterial );
@@ -120,7 +125,7 @@ function createInfillWalls(){
 					resultingRegion = getSoftRegion(target3DObject, cubeRegion);
 					break;
 				case 2: //cylinder
-					cylinderRegion.scale.needsUpdate = true;
+					// cylinderRegion.scale.needsUpdate = true;
 					resultingRegion = getSoftRegion(target3DObject, cylinderRegion);
 					break;
 				case 3: //torus
@@ -179,48 +184,47 @@ function createInfillWalls(){
 	getIntersectInfill( walls, resultingRegion );
 }
 
+function getIntersectRegion(){}
+
 function getModifiedTarget(){
-	if( currRegionSelectMethod === 1) //when creating region is sphereShape
-		switch( currentSelectRegion ){
-			case 0: //sphere
-				getSubtractionObject( sphereRegion, target3DObject)
-				break;
-			case 1: //cube
-				getSubtractionObject( cubeRegion, target3DObject)
-				break;
-			case 2: //cylinder
+	// if( currRegionSelectMethod === 1) //when creating region is sphereShape
+	console.log("in geTMPdifiedTarget, currPrimitiveId = ", currPrimitiveId)
+		switch( currPrimitiveId ){
+			case 1: //cylinder
 				getSubtractionObject( cylinderRegion, target3DObject)
 				break;
-			case 3:
+			case 2: //cube
+				getSubtractionObject( cubeRegion, target3DObject)
+				break;
+			case 3: //shphere
+				getSubtractionObject( sphereRegion, target3DObject)
+				break;
+			case 4: //torus
 				getSubtractionObject( torusRegion, target3DObject);
 				break;
 			} //switch
-	else if ( currRegionSelectMethod === 2){ //interaction type
-
-	}
-	else if(currRegionSelectMethod === 3){
-		getSubtractionObject( freeDrawnRegion, target3DObject );
-	}
-	else if(currRegionSelectMethod === 4){ //by cut plane
-		getSubtractionObject( planeCutRegion, target3DObject );
-	}
 }
 
-function getSubtractionObject(source, target){
+function getSubtractionObject(source, target){ //selected region, target 3d object
 
   target.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
+
+// ***************** this scaling factor needs to be updated to length-1
+  // source.scale.set(source.scale.x, source.scale.y*0.95, source.scale.z*0.95)
+	source.scale.set(source.scale.x, source.scale.y, source.scale.z)
 
   var source_bsp = new ThreeBSP( source );
   var target_bsp = new ThreeBSP( target );
   var subtract_bsp = target_bsp.subtract( source_bsp );
   adjustedTarget = subtract_bsp.toMesh( lambMaterial );
 
+  //need to rescale manually as it is set by model scale slider
+  adjustedTarget.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
+
   adjustedTarget.geometry.computeVertexNormals();
   adjustedTarget.geometry.computeBoundingBox();
   adjustedTarget.geometry.computeBoundingSphere();
 
-  //need to rescale manually as it is set by model scale slider
-  adjustedTarget.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
 
   scene.remove( source );
   scene.remove( target );
@@ -237,7 +241,6 @@ function recalculateInfill(){
 
 function getIntersectInfill(source, target){ //source: walls, resultingRegion
 
-console.log("in getIntersectInfill(): resulting Region size:", target)
   var source_bsp = new ThreeBSP( source );
   var target_bsp = new ThreeBSP( target );
   var intersect_bsp = target_bsp.intersect( source_bsp );
