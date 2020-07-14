@@ -51,7 +51,7 @@ var reference_material = [
     name: "dish-scrubber",
     text: "dish scrubber",
     value: 7,
-    softness: 11,
+    softness: 21,
     selected: false,
     imageSrc: "assets/imgs/dish-scrubber.png"
   },
@@ -59,7 +59,7 @@ var reference_material = [
     name: "art-eraser",
     text: "art eraser",
     value: 8,
-    softness: 15,
+    softness: 25,
     selected: false,
     imageSrc: "assets/imgs/art-eraser.jpg"
   },
@@ -83,7 +83,7 @@ var reference_material = [
     name: "flipflop-platform",
     text: "flip-flop platform",
     value: 11,
-    softness: 25,
+    softness: 40,
     selected: false,
     imageSrc: "assets/imgs/flipflop.jpg"
   },
@@ -107,7 +107,7 @@ var reference_material = [
     name: "pencil-eraser",
     text: "pencil eraser",
     value: 14,
-    softness: 40,
+    softness: 73,
     selected: false,
     imageSrc: "assets/imgs/pencil-eraser.jpg"
   },
@@ -264,34 +264,34 @@ var interaction_type = [
   }
 ]
 
-var region_type = [
+var primitive_type = [
   {
-    name: "volume",
-    text: "By Volume Primitives",
+    name: "cylinder",
+    text: "Cylinder",
     value: 1,
     selected: false,
-    imageSrc: "assets/imgs/region_volume.png"
+    imageSrc: "assets/imgs/primitive_cylinder.png"
   },
   {
-    name: "interaction",
-    text: "By Interaction Type",
+    name: "cube",
+    text: "Cube",
     value: 2,
     selected: false,
-    imageSrc: "assets/imgs/region_interaction.png"
+    imageSrc: "assets/imgs/primitive_cube.png"
   },
   {
-    name: "drawing",
-    text: "By Free Drawing",
+    name: "sphere",
+    text: "Sphere",
     value: 3,
     selected: false,
-    imageSrc: "assets/imgs/region_drawing.png"
+    imageSrc: "assets/imgs/primitive_sphere.png"
   },
   {
-    name: "slicing",
-    text: "By Slicing plane",
+    name: "torus",
+    text: "Torus",
     value: 4,
     selected: false,
-    imageSrc: "assets/imgs/region_slicing.png"
+    imageSrc: "assets/imgs/primitive_torus.png"
   }
 ]
 

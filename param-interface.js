@@ -17,10 +17,9 @@ var params = {
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
   },
 
-  createInfill: function(){
+  cutPouch: function(){
     //compute intervals to create infill
-    getIntervalbySoftnessInput();
-    createInfillWalls();
+    // getIntervalbySoftnessInput();
     getModifiedTarget();
   },
 

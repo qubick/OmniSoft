@@ -14,8 +14,8 @@ app.get("/test", (req, res) => {
 	res.sendfile('test.html')
 });
 
-app.listen(5000, () => {
-	console.log("example app listening on port 5000")
+app.listen(5001, () => {
+	console.log("example app listening on port 5001")
 });
 
 app.post("/user/add", function(req, res){
